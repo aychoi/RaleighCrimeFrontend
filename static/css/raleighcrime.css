@@ -1,0 +1,94 @@
+/*
+	Raleigh Crime Styleguide
+	By: Nabil Enayet 2/12/2015
+	http://anylytics.io
+*/
+
+
+#map {
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	position:fixed;
+	background-color:skyblue;
+	z-index:-1;
+}
+
+.floatBox {
+	box-shadow:0 2px 6px rgba(0,0,0,0.3),0 4px 15px -5px rgba(0,0,0,0.3);
+	border-radius:2px;
+	background-color:white;
+}
+
+#searchAddresses {
+	margin:0px;
+	margin-top:20px;
+	border-style:none;
+	margin-left:20px;
+	padding:5px;
+	border-color:#456942;
+}
+
+#searchContainer {
+	display:inline-block;
+}
+
+#searchBtn {
+	background-color:#456942;
+	color:white;
+	height:100%;
+	cursor:pointer;
+	text-align:center;
+}
+
+.rightBox {
+	margin-top:20px;
+	margin-right:20px;
+	padding:10px;
+	position:absolute;
+	min-width:200px;
+	text-align:center;
+	right:0px;
+	width:20%;
+}
+
+#crimeIndex {
+	z-index:10;
+	height:150px;
+}
+
+#filterCrimes {
+	margin-top:158px;
+	z-index:5;
+	height:50px;
+}
+
+#filterDates {
+	margin-top:196px;
+	z-index:4;
+	height:50px;
+}
+
+#addresses {
+	margin-top:280px;
+	z-index:4;
+	height:100px;
+	text-align:left;
+}
+
+div#crimeIndex > p {
+	font-size:3em;
+}
+
+div#crimeIndex > span {
+	font-size:.8em;
+	position:absolute;
+	left:5px;
+	bottom:5px;
+}
+
+#crimes, #dates {
+	color:skyblue;
+	cursor:pointer;
+}
