@@ -11,52 +11,145 @@
     <link rel="stylesheet" href="./static/css/animate.css"/>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="icon" type="image/x-icon" href="./static/img/favicon.png">
+    <script src="//cdn.jsdelivr.net/velocity/1.2.1/velocity.min.js"></script>
 
 </head>
 <body>
     
 
-    <div id='crimeIndex' class='rightBox floatBox'>
-        <h3>CRIME INDEX</h3>
+    <div id='crimeIndex' class='rightBox floatBox shadow'>
+        <div class='boxTitle sourceSansBold'>Crime Index</div>
         <p>38</p>
-        <span>FILTER: &nbsp; &nbsp; &nbsp; <span id='crimes'>CRIMES</span>  &nbsp; &nbsp; &nbsp;   <span id='dates'>DATE RANGE</span></span>
+        <span class='boxTitle sourceSansBold'>FILTER: &nbsp; &nbsp; &nbsp; <span id='crimes' onclick="bringDownCrime()">CRIMES</span>  &nbsp; &nbsp; &nbsp;   <span id='dates' onclick="bringDownDate()">DATE RANGE</span></span>
     </div>
     
-    <div id='filterCrimes' class='rightBox floatBox'>
-        FILTER CRIMES HERE
+    <div id='filterCrimes' class='rightBox floatBox shadow-down'>
+        <input type="checkbox" name="filterCrime" value="homicide" checked>Homicide &nbsp;&nbsp;
+        <input type="checkbox" name="filterCrime" value="driving">Driving &nbsp;&nbsp;
+        <input type="checkbox" name="filterCrime" value="larceny" checked>Larceny &nbsp;&nbsp;
+        <input type="checkbox" name="filterCrime" value="assault">Assault &nbsp;&nbsp;<br>
+        <input type="checkbox" name="filterCrime" value="assault">Drugs &nbsp;&nbsp;
+        <input type="checkbox" name="filterCrime" value="assault">Sex Offense &nbsp;&nbsp;
+        <input type="checkbox" name="filterCrime" value="assault">Disorderly Conduct &nbsp;&nbsp;<br>
+        <input type="checkbox" name="filterCrime" value="assault">Property Damage &nbsp;&nbsp;
     </div>
-    <div id='filterDates' class='rightBox floatBox'>
-        FILTER DATES HERE
+    <div id='filterDates' class='rightBox floatBox boxTitle sourceSansBold shadow-down'>
+        <select id="dateDropDown">   
+            <option value="thisWeek">This Week</option>
+            <option value="lastWeek">Last Week</option>
+            <option value="thisMonth">This Month</option>
+            <option value="lastMonth">Last Month</option>
+            <option value="thisYear">This Year</option>
+            <option value="lastYear">Last Year</option>
+        </select>
     </div>
 
-    <div id='addresses' class='rightBox floatBox'>
+    <div id='addresses' class='rightBox floatBox shadow'>
         <div>
-            <div class='card'>
-                106 Jersey Ridge Road</br>
-                Cary, NC 27518
-                <div class='cardIndex' style='background-color:orange;'>38</div>
-            </div>
-            <div class='card'>
-                7330 Dartford Drive Apt 3</br>
-                McLean, VA 22102
-                <div class='cardIndex' style='background-color:lightgreen;'>21</div>
+            <div class='boxTitle sourceSansBold'>Recent Searches</div>
+            <div class='cardHolder'>
+                <div class='card'>
+                    106 Jersey Ridge Road</br>
+                    Cary, NC 27518
+                    <div class='cardIndex' style='background-color:orange;'>38</div>
+                </div>
+                <div class='card'>
+                    7330 Dartford Drive Apt 3</br>
+                    McLean, VA 22102
+                    <div class='cardIndex' style='background-color:lightgreen;'>21</div>
+                </div>
+                <div class='card'>
+                    7330 Dartford Drive Apt 3</br>
+                    McLean, VA 22102
+                    <div class='cardIndex' style='background-color:lightgreen;'>21</div>
+                </div>
+                <div class='card'>
+                    7330 Dartford Drive Apt 3</br>
+                    McLean, VA 22102
+                    <div class='cardIndex' style='background-color:lightgreen;'>21</div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id='map'></div>
 
-    <div id='searchContainer'>
-        <input id="searchAddresses" class='floatBox' type="text" name="fname">
-        <div id="searchBtn" class="fa fa-search"></div>
+    <div id='summary' class='rightBox floatBox boxTitle sourceSansBold shadow'>
+        SUMMARY GOES HERE
     </div>
 
+    <div id='map'></div>
 
+    <!--<div id='searchContainer'>
+        <input id="searchAddresses" class='floatBox shadow' type="text" name="fname">
+        <div id="searchBtn" class="fa fa-search"></div>
+    </div>-->
+
+    <div class="searchContainer">
+        <div class="input-group" id="searchAddresses">
+              <input type="text" class="form-control shadow" placeholder="Search for...">
+                  <span class="input-group-btn">
+                        <button class="btn btn-default shadow" type="button"><div class="fa fa-search"></div></button>
+                  </span>
+        </div>
+    </div>
 
 
      <!-- RequireJS means we use this plugin to load everything else! -->
      <!-- See main.js -->
     <script data-main="./static/js/main" src="./static/js/lib/require.js"></script>
+
+    <script>
+
+
+    var datePlacement = 0;
+    var crimePlacement = 0;
+    var datedivs = document.querySelectorAll("#filterDates");
+    var crimedivs = document.querySelectorAll("#filterCrimes");
+
+    function bringDownDate() {
+
+        /* Animate all divs at once. */
+        if (datePlacement==0) {
+            if (crimePlacement==1) {
+                crimePlacement=0;
+                Velocity(crimedivs, { translateY: "-=80" }, 300); // Velocity
+                document.getElementById('crimes').style.color="skyblue";
+                document.getElementById('crimes').style.backgroundColor="white";
+            }
+                datePlacement = 1;
+                Velocity(datedivs, { translateY: "+=51" }, 300); // Velocity
+                document.getElementById('dates').style.color="white";
+                document.getElementById('dates').style.backgroundColor="skyblue";
+            } else if (datePlacement==1) {
+                Velocity(datedivs, { translateY: "-=51" }, 300); // Velocity
+                datePlacement = 0;
+                document.getElementById('dates').style.color="skyblue";
+                document.getElementById('dates').style.backgroundColor="white";
+            }
+        }
+
+    function bringDownCrime() {
+
+        /* Animate all divs at once. */
+        if (crimePlacement==0) {
+            if (datePlacement==1) {
+                datePlacement=0;
+                Velocity(datedivs, { translateY: "-=51" }, 300); // Velocity
+                document.getElementById('dates').style.color="skyblue";
+                document.getElementById('dates').style.backgroundColor="white";
+            }
+                crimePlacement = 1;
+                Velocity(crimedivs, { translateY: "+=80" }, 300); // Velocity
+                document.getElementById('crimes').style.color="white";
+                document.getElementById('crimes').style.backgroundColor="skyblue";
+            } else if (crimePlacement==1) {
+                Velocity(crimedivs, { translateY: "-=80" }, 300); // Velocity
+                crimePlacement = 0;
+                document.getElementById('crimes').style.color="skyblue";
+                document.getElementById('crimes').style.backgroundColor="white";
+            }
+        }
+    </script>
 
 </body>
 </html>

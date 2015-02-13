@@ -4,6 +4,21 @@
 	http://anylytics.io
 */
 
+.andadaItalic {
+	font-family: 'Andada-Italic';
+}
+
+.andadaRegular {
+	font-family: 'Andada-Regular';
+}
+
+.andadaBold {
+	font-family: 'Andada-Bold';
+}
+
+.sourceSansBold {
+	font-family: 'SourceSans';
+}
 
 #map {
 	top:0;
@@ -16,9 +31,16 @@
 }
 
 .floatBox {
-	box-shadow:0 2px 6px rgba(0,0,0,0.3),0 4px 15px -5px rgba(0,0,0,0.3);
 	border-radius:2px;
 	background-color:white;
+}
+
+.shadow, .shadow:focus {
+	box-shadow:0 2px 6px rgba(0,0,0,0.3),0 4px 15px -5px rgba(0,0,0,0.3);
+}
+
+.shadow-down {
+	box-shadow:0 2px 3px rgba(0,0,0,0.3);
 }
 
 #searchAddresses {
@@ -26,6 +48,7 @@
 	margin-top:20px;
 	border-style:none;
 	margin-left:20px;
+	width:400px;
 	padding:5px;
 	border-color:#456942;
 }
@@ -43,6 +66,112 @@
 	text-align:center;
 }
 
+.btn:hover {
+	background-color:#54A148;
+	color:white;
+}
+
+
+.rightBox {
+	margin-top:20px;
+	margin-right:20px;
+	padding:10px;
+	position:absolute;
+	min-width:350px;
+	text-align:center;
+	right:0px;
+	width:20%;
+}
+
+#dateDropDown {
+	width:100%;
+	margin-top:3px;
+}
+
+#crimeIndex {
+	z-index:10;
+	height:150px;
+}
+
+#filterCrimes {
+	margin-top:90px;
+	z-index:5;
+	height:90px;
+}
+
+#filterDates {
+	margin-top:130px;
+	z-index:4;
+	height:60px;
+}
+
+#addresses {
+	margin-top:280px;
+	z-index:3;
+	height:200px;
+	text-align:left;
+}
+
+.card {
+	padding:10px;
+	position:relative;
+	border-top-style:solid;
+	border-top-color:whitesmoke;
+}
+
+.card:hover {
+	background-color:whitesmoke;
+}
+
+.cardHolder {
+	overflow-y:scroll;
+	overflow-x:hidden;
+	height:150px;
+}
+
+.cardIndex {
+	position:absolute;
+	right:10px;
+	top:10px;
+	padding:5px;
+}
+
+#summary {
+	margin-top:550px;
+	z-index:4;
+	height:250px;
+}
+
+div#crimeIndex > p {
+	font-size:3em;
+}
+
+div#crimeIndex > span {
+	font-size:1em;
+	position:absolute;
+	left:5px;
+	bottom:5px;
+}
+
+
+#crimes, #dates {
+	color:skyblue;
+	cursor:pointer;
+	padding:5px;
+}
+
+
+#crimes:hover, #dates:hover {
+	color:#456942;
+}
+
+.boxTitle {
+	text-align: center;
+	font-size:1.5em;
+	color:#54A148;
+}
+
+/***** MOBILE SPECIFIC CSS *******/
 @media screen and (max-width: 768px) {   
     #searchAddresses {
     	margin-left:0px;
@@ -57,69 +186,3 @@
     	width:30px;
 	}
 } 
-
-.rightBox {
-	margin-top:20px;
-	margin-right:20px;
-	padding:10px;
-	position:absolute;
-	min-width:200px;
-	text-align:center;
-	right:0px;
-	width:20%;
-}
-
-#crimeIndex {
-	z-index:10;
-	height:150px;
-}
-
-#filterCrimes {
-	margin-top:158px;
-	z-index:5;
-	height:50px;
-}
-
-#filterDates {
-	margin-top:196px;
-	z-index:4;
-	height:50px;
-}
-
-#addresses {
-	margin-top:280px;
-	z-index:4;
-	height:200px;
-	text-align:left;
-	overflow:auto;
-}
-
-.card {
-	background-color:whitesmoke;
-	padding:10px;
-	margin:5px;
-	position:relative;
-}
-
-.cardIndex {
-	position:absolute;
-	right:10px;
-	top:10px;
-	padding:5px;
-}
-
-div#crimeIndex > p {
-	font-size:3em;
-}
-
-div#crimeIndex > span {
-	font-size:.8em;
-	position:absolute;
-	left:5px;
-	bottom:5px;
-}
-
-#crimes, #dates {
-	color:skyblue;
-	cursor:pointer;
-}
