@@ -45,12 +45,13 @@
 
 #searchAddresses {
 	margin:0px;
-	margin-top:20px;
+	margin-top:15px;
 	border-style:none;
-	margin-left:20px;
+	margin-left:45px;
 	width:400px;
 	padding:5px;
 	border-color:#456942;
+	z-index:1;
 }
 
 #searchContainer {
