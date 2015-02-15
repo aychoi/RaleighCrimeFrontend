@@ -18,7 +18,7 @@
     
 
     <div id='crimeIndex' class='rightBox floatBox shadow'>
-        <div class='boxTitle sourceSansBold'>Crime Index</div>
+        <div class='boxTitle sourceSansBold'>Crime Index<div class="fa fa-question questionIcon" data-toggle="tooltip" data-placement="left" title="This number is a calculated representation of the relative rate of crime in this area as compared to the greater Raleigh area"></div></div>
         <p>38</p>
         <span class='boxTitle sourceSansBold'>FILTER: &nbsp; &nbsp; &nbsp; <span id='crimes' onclick="bringDownCrime()">CRIMES</span>  &nbsp; &nbsp; &nbsp;   <span id='dates' onclick="bringDownDate()">DATE RANGE</span></span>
     </div>
@@ -149,6 +149,7 @@
                 document.getElementById('crimes').style.backgroundColor="white";
             }
         }
+
     </script>
 
 </body>

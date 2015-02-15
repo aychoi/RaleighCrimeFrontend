@@ -60,16 +60,6 @@ html, body {
 	overflow:hidden;
 }
 
-a {
-	color:#9B4D28;
-	text-decoration: underline;
-}
-
-a:hover {
-	color: #E2B197;
-	text-decoration: none;
-	cursor: pointer;
-}
 
 /******* TOP MENU ********/
 
