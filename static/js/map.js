@@ -13,10 +13,9 @@ define(
 	  "maxzoom": 18
 	}
 
-	L.mapbox.accessToken = 'pk.eyJ1IjoiZ3VpbHR5c3BhcmsiLCJhIjoibEdBOVI3MCJ9.LpdbBjrh1L30CC5kiRQvIw';
-	var map = L.mapbox.map('map', 'guiltyspark.kl48ij2n', {
-	zoomControl: true })
+	L.mapbox.accessToken = 'pk.eyJ1IjoiZ3VpbHR5c3BhcmsiLCJhIjoiSHFCN3dORSJ9.FEKH5Kb6J5aK7ezNtn9BeQ';
+	var map = L.mapbox.map('map', 'guiltyspark.kl48ij2n')
 	.setView([35.786090, -78.663556], 13);
 
-	return map;
+	return "hello world";
 });

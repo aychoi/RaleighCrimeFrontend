@@ -12,4 +12,4 @@ require.config({
 });
 
 
-require(["map", "animate"]);
+require(["map", "searchbar", "animate"]);

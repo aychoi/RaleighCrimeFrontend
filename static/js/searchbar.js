@@ -1,7 +1,5 @@
 // Now we've configured RequireJS, we can load our dependencies and start
-define([ 'ractive', 'rv!../ractive/template'], function ( Ractive, html) {
-
-
+define([ 'ractive', 'rv!../ractive/searchbarTemplate'], function ( Ractive, html) {
 
     var searchRactive = new Ractive({
       el: 'searchContainer',
@@ -11,6 +9,6 @@ define([ 'ractive', 'rv!../ractive/template'], function ( Ractive, html) {
       }
     });
 
-    return sampleRactive;
+    return searchRactive;
 
 });
