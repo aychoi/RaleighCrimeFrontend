@@ -1,6 +1,6 @@
 <div class="input-group" id="searchAddresses">
-      <input type="text" class="form-control shadow" placeholder="Search for..." value='{{searchquery}}'> 
+      <input type="text" class="form-control shadow" placeholder="Search for..." value='{{searchquery}}' on-enter-change='submit:{{searchquery}}'> 
           <span class="input-group-btn">
-                <button class="btn btn-default shadow" type="button"><div class="fa fa-search"></div></button>
+                <button class="btn btn-default shadow" type="button" on-click="submit:{{searchquery}}"><div class="fa fa-search"></div></button>
           </span>
 </div>

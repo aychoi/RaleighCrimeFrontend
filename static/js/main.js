@@ -7,7 +7,9 @@ require.config({
         mapbox: 'lib/mapbox',
         jquery: 'lib/jquery-1.11',
         jqueryui: 'lib/jquery_ui',
-        velocity: 'lib/velocity.min'
+        velocity: 'lib/velocity.min',
+        ractive_events_keys: 'lib/ractive-events-keys.min',
+        async: 'lib/async'
     }
 });
 
