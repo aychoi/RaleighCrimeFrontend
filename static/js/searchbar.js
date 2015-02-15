@@ -5,8 +5,12 @@ define([ 'ractive', 'rv!../ractive/searchbarTemplate'], function ( Ractive, html
       el: 'searchContainer',
       template: html,
       data: {
-        greeting: "Hello, World"
+        searchquery: ""
       }
+    });
+
+    searchRactive.observe('searchquery', function(newValue, oldValue, keypath) {
+    	console.log(newValue);
     });
 
     return searchRactive;
