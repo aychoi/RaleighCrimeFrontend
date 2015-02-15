@@ -12,4 +12,4 @@ require.config({
 });
 
 
-require(["template"], ["animate"]);
+require(["map"], ["animate"]);
