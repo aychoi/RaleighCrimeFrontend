@@ -93,6 +93,18 @@
 	height:150px;
 }
 
+.questionIcon {
+	background-color:#54A148;
+	border-radius:50%;
+	height:22px;
+	width:22px;
+	color:white;
+	position:absolute;
+	top:0;
+	right:0;
+	margin:5px;
+}
+
 #filterCrimes {
 	margin-top:90px;
 	z-index:5;
