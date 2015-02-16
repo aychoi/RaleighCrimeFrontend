@@ -1,8 +1,9 @@
 // Now we've configured RequireJS, we can load our dependencies and start
-define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'geocoder', 'map', 'recentSearches'], function ( Ractive, events, html, geocoder, map, recentSearchesRactive) {
+define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'geocoder', 'map', 'recentSearches', 'crimeIndex'], function ( Ractive, events, html, geocoder, map, recentSearchesRactive, crimeIndexRactive) {
 
 	animationID = 0;
 	locations = L.mapbox.featureLayer().addTo(map);
+	circleLayer = L.mapbox.featureLayer().addTo(map);
 
     var searchRactive = new Ractive({
       el: 'searchContainer',
@@ -20,9 +21,15 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     	var main_name = address.split("Raleigh")[0].split(",");
     	main_name.pop();
     	var object = {'name': main_name, 'geo': newlatlng};
-    	map.setView(newlatlng, 16);
+    	recentSearchesRactive.unshift('searches', object);
+    	updateMap(object);
+    }
 
-	    var circle = L.circle([newlatlng["lat"], newlatlng["lng"]], 5, {
+    function updateMap(object)
+    {
+    	map.setView(object["geo"], 16);
+
+	    var circle = L.circle([object["geo"]["lat"], object["geo"]["lng"]], 5, {
 		    color: 'red',
 		    fillColor: '#f03',
 		    fillOpacity: 0.1
@@ -36,21 +43,31 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 		    	window.clearInterval(animationID);
 		}, 5);
 	    locations.clearLayers();
-
-		circle.addTo(locations);
+	    circleLayer.clearLayers();
+	    circle.addTo(circleLayer);
+		
 
 		$.ajax({
 	        dataType: "json",
-	        url: "./crimes/"+newlatlng["lat"]+","+newlatlng["lng"],
+	        url: "./crimes/"+object["geo"]["lat"]+","+object["geo"]["lng"],
 	        success: function(json) {
 	            geojson = json["geojson"]
 	            
 	            locations.setGeoJSON(geojson);
+	            
+	        }
+	    });
+
+	    $.ajax({
+	        url: "./crimeIndex/"+object["geo"]["lat"]+","+object["geo"]["lng"],
+	        success: function(result) {
+	            console.log(result);
+	            crimeIndexRactive.set("crimeIndex", result);	            
 	        }
 	    });
 
 
-    	recentSearchesRactive.unshift('searches', object);
+    	
     }
 
 	searchRactive.on( 'submit', function( event, address )  {
@@ -81,6 +98,10 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	      //alert('Geocode was not successful for the following reason: ' + status);
 	    }
 	  });
+	});
+
+	recentSearchesRactive.on( 'select', function( event, object )  {
+		updateMap(object);
 	});
 
 	

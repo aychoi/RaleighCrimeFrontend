@@ -10,8 +10,13 @@ require.config({
         velocity: 'lib/velocity.min',
         ractive_events_keys: 'lib/ractive-events-keys.min',
         async: 'lib/async'
+    },
+    shim: {
+        "velocity": {
+            deps: [ "jquery" ]
+        }
     }
 });
 
 
-require(["map", "searchbar", "recentSearches",  "animate"]);
+require(["map", "searchbar", "recentSearches", "crimeIndex"]);

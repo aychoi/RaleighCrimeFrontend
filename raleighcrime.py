@@ -1,7 +1,10 @@
 from flask import Flask, render_template, abort, request, jsonify, g
 import sqlite3
+import rpy2.robjects as robjects
+import math
 
 DATABASE = 'PoliceIncidents.sqlite'
+R_LOCATION = "../backend/"
 METERS_PER_DEGREE = 111000
 DEGREES_PER_METER = 0.000009009
 HALF_SIDE = 250
@@ -38,7 +41,7 @@ def find_crimes(lat, lng):
 
 	c = get_db().cursor()
 	features = []
-	for row in c.execute('SELECT * FROM Police where ( (latitude > ? AND latitude < ?) AND (longitude > ? AND longitude < ?) AND (year>=2014))', [min_lat, max_lat, min_long, max_long]):
+	for row in c.execute('SELECT * FROM PoliceIncidents where ( (latitude > ? AND latitude < ?) AND (longitude > ? AND longitude < ?) AND (year>=2014))', [min_lat, max_lat, min_long, max_long]):
 		geometry = { "type": "Point", "coordinates": [row[8], row[7]] }
 		feature = {"type": "Feature", "geometry": geometry, "properties": {"nothing" : "nothing"}}
 		features.append(feature)
@@ -47,6 +50,17 @@ def find_crimes(lat, lng):
 	#print counter
 	#print lat + " " + long
 	return jsonify(geojson = geojson)
+
+@app.route('/crimeIndex/<lat>,<lng>')
+def find_index(lat, lng):
+	#do python stuff 
+	r=robjects.r
+	r.source(R_LOCATION+"CrimeIndexSummary.R")
+	result = str(r.CrimeIndex("{\"latitude\": \""+lat+"\", \"longitude\": \""+lng+"\"}")).split(" ")[1]
+	result_num = float(result)
+	rounded = int(math.ceil((result_num*100)/100))
+	return str(rounded)
+
 
 
 if __name__ == '__main__':
