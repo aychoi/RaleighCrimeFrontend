@@ -14,4 +14,4 @@ require.config({
 });
 
 
-require(["map", "searchbar", "animate"]);
+require(["map", "searchbar", "recentSearches",  "animate"]);
