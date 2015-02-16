@@ -185,6 +185,35 @@ div#crimeIndex > span {
 	color:#54A148;
 }
 
+.crimeIndexMonthContainer {
+    position:relative;
+    width:25px;
+    padding:2px;
+}
+
+.crimeIndexMonth {
+    background-color:#54A148;
+    width:24px;
+    position:absolute;
+    bottom:0px;
+    color:white;
+    font-size:0.8em;
+}
+
+.crimeIndexMonth:hover {
+    background-color:#456942;
+}
+
+#crimeIndexHistory {
+    margin-top:105px;   
+    margin-left:10px;   
+}
+
+#crimeIndexLabels {
+    height:75px;
+    margin-right:8px;
+}
+
 /***** MOBILE SPECIFIC CSS *******/
 @media screen and (max-width: 768px) {   
     #searchAddresses {
