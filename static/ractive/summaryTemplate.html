@@ -1,0 +1,16 @@
+{{#hasSummary(summary)}}
+    <div id='summary' class='rightBox floatBox boxTitle sourceSansBold shadow animated fadeIn'> 
+    SUMMARY
+    <div id='crimeIndexHistory'>
+        <table class="tg">
+          <tr>
+            <th><img id='crimeIndexLabels' src='/static/img/graphlabel.png'/></th>
+            {{#summary}}
+                <th class='crimeIndexMonthContainer'><div class='crimeIndexMonth' style='height:{{this}}px;'></div></th>
+            {{/summary}}
+          </tr>
+        </table>
+    </div>
+    LAST TWELVE MONTHS
+    </div>
+{{/hasSummary}}

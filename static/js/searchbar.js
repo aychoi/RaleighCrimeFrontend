@@ -1,5 +1,5 @@
 // Now we've configured RequireJS, we can load our dependencies and start
-define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'geocoder', 'map', 'recentSearches', 'crimeIndex'], function ( Ractive, events, html, geocoder, map, recentSearchesRactive, crimeIndexRactive) {
+define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'geocoder', 'map', 'recentSearches', 'crimeIndex', 'summary'], function ( Ractive, events, html, geocoder, map, recentSearchesRactive, crimeIndexRactive, summaryRactive) {
 
 	animationID = 0;
 	locations = L.mapbox.featureLayer().addTo(map);
@@ -21,7 +21,6 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     	var main_name = address.split("Raleigh")[0].split(",");
     	main_name.pop();
     	var object = {'name': main_name, 'geo': newlatlng};
-    	recentSearchesRactive.unshift('searches', object);
     	updateMap(object);
     }
 
@@ -60,9 +59,15 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 
 	    $.ajax({
 	        url: "./crimeIndex/"+object["geo"]["lat"]+","+object["geo"]["lng"],
-	        success: function(result) {
-	            console.log(result);
-	            crimeIndexRactive.set("crimeIndex", result);	            
+	        dataTye: "json",
+	        success: function(json) {
+	            console.log(json);
+	            crimeIndexRactive.set("crimeIndex", json["index"]);
+	            summaryRactive.set("summary", json["history"]);
+
+	            object["index"] = json["index"];
+	            recentSearchesRactive.unshift('searches', object);
+
 	        }
 	    });
 

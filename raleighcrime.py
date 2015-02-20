@@ -2,6 +2,7 @@ from flask import Flask, render_template, abort, request, jsonify, g
 import sqlite3
 import rpy2.robjects as robjects
 import math
+import json
 
 DATABASE = 'PoliceIncidents.sqlite'
 R_LOCATION = "../backend/"
@@ -45,21 +46,47 @@ def find_crimes(lat, lng):
 		geometry = { "type": "Point", "coordinates": [row[8], row[7]] }
 		feature = {"type": "Feature", "geometry": geometry, "properties": {"nothing" : "nothing"}}
 		features.append(feature)
+		#print row[20]
 		#crimes.append({'geo': {'lat': , 'lng': row[8]}})
 	geojson = {"type": "FeatureCollection", "features": features}
-	#print counter
-	#print lat + " " + long
+
+	
 	return jsonify(geojson = geojson)
+
+@app.route('/crimeHistory/<lat>,<lng>')
+def crime_history(lat, lng):
+	max_lat = float(lat) + MODULATION_LAT
+	min_lat = float(lat) - MODULATION_LAT
+	max_long = float(lng) + MODULATION_LNG
+	min_long = float(lng) - MODULATION_LNG
+
+	crimes = {}
+	c = get_db().cursor()
+	for row in c.execute('SELECT year, count(*) FROM PoliceIncidents where ( (latitude > ? AND latitude < ?) AND (longitude > ? AND longitude < ?) ) group by year', [min_lat, max_lat, min_long, max_long]):
+		print row
+		crimes[row[0]] = row[1]
+	print crimes
+	return jsonify(crimes = crimes)	
 
 @app.route('/crimeIndex/<lat>,<lng>')
 def find_index(lat, lng):
 	#do python stuff 
 	r=robjects.r
-	r.source(R_LOCATION+"CrimeIndexSummary.R")
-	result = str(r.CrimeIndex("{\"latitude\": \""+lat+"\", \"longitude\": \""+lng+"\"}")).split(" ")[1]
-	result_num = float(result)
+	r.source("./CrimeIndexSummary.R")
+	full_result = str(r.CrimeIndex("{\"latitude\": \""+lat+"\", \"longitude\": \""+lng+"\"}"))
+	json_data = full_result.split(" ")[1]
+	crime_data = json.loads(json_data)
+	crime_data = json.loads(crime_data)
+	output = {}
+	result_num = crime_data["crimeRating"][0]
 	rounded = int(math.ceil((result_num*100)/100))
-	return str(rounded)
+	output["index"] = rounded
+	history = {}
+	for i in range(2009, 2015):
+		history[i] = crime_data["crimeRatingYear"][i-2009]
+	output["history"] = crime_data["crimeRatingYear"]
+	return jsonify(output)
+	
 
 
 

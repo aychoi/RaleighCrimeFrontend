@@ -7,7 +7,14 @@ define([ 'ractive', 'rv!../ractive/recentSearchesTemplate'], function ( Ractive,
       el: 'addresses',
       template: html,
       data: {
-        searches: []
+        searches: [],
+        findColor: function(index) {
+        	if (index >=85)
+        		return "red";
+        	if (index <= 35)
+        		return "green";
+        	return "orange";
+        }
       }
     });
 
