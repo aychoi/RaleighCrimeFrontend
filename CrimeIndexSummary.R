@@ -76,6 +76,10 @@ cat(crimeRating)
 
 
 #5. Making the score timeline ----
+latDiff = 0.0149;
+lonDiff = 0.0038;
+upperBoundLat = latitude + latDiff; lowerBoundLat = latitude - latDiff;
+upperBoundLon = longitude + lonDiff; lowerBoundLon = longitude - lonDiff;
 con <- dbConnect(dbDriver("SQLite"), dbname = "PoliceIncidents.sqlite")
 sqlcmd <- paste("Select * from PoliceIncidents where latitude > ", lowerBoundLat,
                 " and latitude < ",upperBoundLat,
@@ -86,9 +90,8 @@ sqlcmd <- paste("Select * from PoliceIncidents where latitude > ", lowerBoundLat
 localDataAllYears = dbGetQuery(con, sqlcmd)
 nothing = dbDisconnect(con)
 
-b = Sys.time();
-upperBoundLat = latitude + latDiff; lowerBoundLat = latitude - latDiff;
-upperBoundLon = longitude + lonDiff; lowerBoundLon = longitude - lonDiff;
+
+
 years = 2010:2015
 crimeRatingYear = 0
 setwd("crimeIndexFiles")
@@ -122,7 +125,7 @@ for (i in years){
   
   
 }
-elapse = Sys.time() - b;
+
 
 outputJ = data.frame(crimeRating,crimeRatingYear)
 
