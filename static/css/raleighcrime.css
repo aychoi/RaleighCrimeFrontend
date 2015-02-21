@@ -214,6 +214,11 @@ div#crimeIndex > span {
     margin-right:8px;
 }
 
+#yearsRow {
+    font-size:0.7em;
+    text-align:center;
+}
+
 /***** MOBILE SPECIFIC CSS *******/
 @media screen and (max-width: 768px) {   
     #searchAddresses {
