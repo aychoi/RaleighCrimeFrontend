@@ -6,7 +6,11 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity'], f
       el: 'crimeIndexDiv',
       template: html,
       data: {
-        crimeIndex: " "
+        crimeIndex: " ",
+        formattedCrimeIndex: function (crimeIndex) {
+            //return (crimeIndex).toFixed(2);
+            return Math.round(crimeIndex);
+        }
       }
     });
 

@@ -1,7 +1,7 @@
     <div id='crimeIndex' class='rightBox floatBox shadow'>
         <div class='boxTitle sourceSansBold'>Crime Index<div class="fa fa-question questionIcon" data-toggle="tooltip" data-placement="left" title="This number is a calculated representation of the relative rate of crime in this area as compared to the greater Raleigh area"></div></div>
-        <p>{{crimeIndex}}</p>
-        <span class='boxTitle sourceSansBold'>FILTER: &nbsp; &nbsp; &nbsp; <span id='crimes' on-click="bringDownCrime">CRIMES</span>  &nbsp; &nbsp; &nbsp;   <span id='dates' on-click="bringDownDate">DATE RANGE</span></span>
+        <p>{{formattedCrimeIndex(crimeIndex)}}</p>
+        <span class='boxTitle sourceSansBold'>FILTER: &nbsp; &nbsp; &nbsp; <span id='crimes' on-click="bringDownCrime">CRIMES</span>  &nbsp; &nbsp; &nbsp;  </span>
     </div>
     
     <div id='filterCrimes' class='rightBox floatBox shadow-down'>
@@ -13,14 +13,4 @@
         <input type="checkbox" name="filterCrime" value="assault">Sex Offense &nbsp;&nbsp;
         <input type="checkbox" name="filterCrime" value="assault">Disorderly Conduct &nbsp;&nbsp;<br>
         <input type="checkbox" name="filterCrime" value="assault">Property Damage &nbsp;&nbsp;
-    </div>
-    <div id='filterDates' class='rightBox floatBox boxTitle sourceSansBold shadow-down'>
-        <select id="dateDropDown">   
-            <option value="thisWeek">This Week</option>
-            <option value="lastWeek">Last Week</option>
-            <option value="thisMonth">This Month</option>
-            <option value="lastMonth">Last Month</option>
-            <option value="thisYear">This Year</option>
-            <option value="lastYear">Last Year</option>
-        </select>
     </div>

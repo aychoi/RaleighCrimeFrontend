@@ -33,7 +33,7 @@ latitude = as.numeric(locationData$latitude)
 point = c(longitude, latitude);
 
 #2. Querying neccessary rows from PoliceIncidents.sqlite into localData ----
-firstDate = "2014-10-31"
+firstDate = "2014-01-01"
 lastDate = "2014-12-31"
 
 firstDateN = as.numeric(paste(substr(firstDate,1,4),substr(firstDate,6,7),substr(firstDate,9,10),sep=""));
@@ -94,9 +94,9 @@ nothing = dbDisconnect(con)
 
 years = 2010:2015
 crimeRatingYear = 0
-setwd("crimeIndexFiles")
+#setwd("crimeIndexFiles")
 for (i in years){
-  fname = paste("crimeIndexUniform",i,".csv",sep="")
+  fname = paste("./crimeIndexFiles/crimeIndexUniform",i,".csv",sep="")
   
   crimeIndex <- read.table(fname,sep=",",header=TRUE)
   crimeIndex <- crimeIndex$x

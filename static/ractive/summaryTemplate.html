@@ -5,8 +5,8 @@
         <table class="tg">
           <tr>
             <th><img id='crimeIndexLabels' src='/static/img/graphlabel.png'/></th>
-            {{#summary}}
-                <th class='crimeIndexMonthContainer'><div class='crimeIndexMonth' style='height:{{this}}px;'></div></th>
+            {{#summary:i}}
+                <th class='crimeIndexMonthContainer'><div class='crimeIndexMonth' style='height:{{ summary[i] }}px;' on-click="changeYear:{{i}}"></div></th>
             {{/summary}}
           </tr>
         </table>

@@ -3,6 +3,7 @@ import sqlite3
 import rpy2.robjects as robjects
 import math
 import json
+from crimemap import crime_map
 
 DATABASE = 'PoliceIncidents.sqlite'
 R_LOCATION = "../backend/"
@@ -33,8 +34,8 @@ def connect_db():
 def home_page():
     return render_template('index.html')
 
-@app.route('/crimes/<lat>,<lng>')
-def find_crimes(lat, lng):
+@app.route('/crimes/<lat>,<lng>,<startDate>,<endDate>')
+def find_crimes(lat, lng, startDate, endDate):
 	max_lat = float(lat) + MODULATION_LAT
 	min_lat = float(lat) - MODULATION_LAT
 	max_long = float(lng) + MODULATION_LNG
@@ -42,9 +43,11 @@ def find_crimes(lat, lng):
 
 	c = get_db().cursor()
 	features = []
-	for row in c.execute('SELECT * FROM PoliceIncidents where ( (latitude > ? AND latitude < ?) AND (longitude > ? AND longitude < ?) AND (year>=2014))', [min_lat, max_lat, min_long, max_long]):
+	for row in c.execute('SELECT * FROM PoliceIncidents where ( (latitude > ? AND latitude < ?) AND (longitude > ? AND longitude < ?) AND (dates > ? and dates < ?))', [min_lat, max_lat, min_long, max_long, startDate, endDate]):
 		geometry = { "type": "Point", "coordinates": [row[8], row[7]] }
-		feature = {"type": "Feature", "geometry": geometry, "properties": {"nothing" : "nothing"}}
+		minutes = "%02d" % (row[16],)
+		description = row[2]+"<br>"+row[12]+"-"+str(row[11])+"-"+str(row[14]) + " " + str(row[15]%12)+":"+ minutes + " " + row[17]
+		feature = {"type": "Feature", "geometry": geometry, "properties": {"desc": description, "icon" : crime_map[row[20]] }}
 		features.append(feature)
 		#print row[20]
 		#crimes.append({'geo': {'lat': , 'lng': row[8]}})
@@ -53,20 +56,6 @@ def find_crimes(lat, lng):
 	
 	return jsonify(geojson = geojson)
 
-@app.route('/crimeHistory/<lat>,<lng>')
-def crime_history(lat, lng):
-	max_lat = float(lat) + MODULATION_LAT
-	min_lat = float(lat) - MODULATION_LAT
-	max_long = float(lng) + MODULATION_LNG
-	min_long = float(lng) - MODULATION_LNG
-
-	crimes = {}
-	c = get_db().cursor()
-	for row in c.execute('SELECT year, count(*) FROM PoliceIncidents where ( (latitude > ? AND latitude < ?) AND (longitude > ? AND longitude < ?) ) group by year', [min_lat, max_lat, min_long, max_long]):
-		print row
-		crimes[row[0]] = row[1]
-	print crimes
-	return jsonify(crimes = crimes)	
 
 @app.route('/crimeIndex/<lat>,<lng>')
 def find_index(lat, lng):
@@ -78,9 +67,7 @@ def find_index(lat, lng):
 	crime_data = json.loads(json_data)
 	crime_data = json.loads(crime_data)
 	output = {}
-	result_num = crime_data["crimeRating"][0]
-	rounded = int(math.ceil((result_num*100)/100))
-	output["index"] = rounded
+	output["index"] = crime_data["crimeRating"][0]
 	history = {}
 	for i in range(2009, 2015):
 		history[i] = crime_data["crimeRatingYear"][i-2009]
