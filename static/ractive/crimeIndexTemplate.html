@@ -5,12 +5,14 @@
     </div>
     
     <div id='filterCrimes' class='rightBox floatBox shadow-down'>
-        <input type="checkbox" name="filterCrime" value="homicide" checked>Homicide &nbsp;&nbsp;
-        <input type="checkbox" name="filterCrime" value="driving">Driving &nbsp;&nbsp;
+        {{#filters:i}}
+            <input type="checkbox" name="{{selectedFilters}}" value="{{.}}" checked> {{.}} &nbsp;&nbsp; {{#isNextLine(i)}}<br> {{/isNextLine}}
+        {{/filters}}
+        <!--<input type="checkbox" name="filterCrime" value="driving">Driving &nbsp;&nbsp;
         <input type="checkbox" name="filterCrime" value="larceny" checked>Larceny &nbsp;&nbsp;
         <input type="checkbox" name="filterCrime" value="assault">Assault &nbsp;&nbsp;<br>
         <input type="checkbox" name="filterCrime" value="assault">Drugs &nbsp;&nbsp;
         <input type="checkbox" name="filterCrime" value="assault">Sex Offense &nbsp;&nbsp;
         <input type="checkbox" name="filterCrime" value="assault">Disorderly Conduct &nbsp;&nbsp;<br>
-        <input type="checkbox" name="filterCrime" value="assault">Property Damage &nbsp;&nbsp;
+        <input type="checkbox" name="filterCrime" value="assault">Property Damage &nbsp;&nbsp; -->
     </div>
