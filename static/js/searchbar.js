@@ -83,10 +83,10 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	        dataTye: "json",
 	        success: function(json) {
 	            console.log(json);
-	            crimeIndexRactive.set("crimeIndex", json["index"]);
+	            crimeIndexRactive.set("crimeIndex", json["history"][5]);
 	            summaryRactive.set("summary", json["history"]);
 
-	            object["index"] = json["index"];
+	            object["index"] = json["history"][5];
 	            recentSearchesRactive.unshift('searches', object);
 
 	        }

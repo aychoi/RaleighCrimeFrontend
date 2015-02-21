@@ -59,7 +59,7 @@ crimeRadius = 0.3*1609.344
 
 #First I need to import the scale.
 days = as.Date(lastDate) - as.Date(firstDate)
-crimeIndex <- read.table("crimeIndex.csv",sep=",",header=TRUE)
+crimeIndex <- read.table("crimeIndexFiles/crimeIndexUniform2014.csv",sep=",",header=TRUE)
 crimeIndex$X <- NULL
 locations <- data.frame(localData$longitude,localData$latitude);
 locationMatrix <- data.matrix(locations,rownames.force = FALSE)
@@ -67,7 +67,7 @@ locationMatrix <- data.matrix(locations,rownames.force = FALSE)
 distancetoPoint = distHaversine(point,locationMatrix);
 crimes = length(which(distancetoPoint < crimeRadius))
 crimesPerDay = crimes/as.numeric(days)
-crimeRating = ecdf(crimeIndex$x)(crimesPerDay) * 100;
+crimeRating = ecdf(crimeIndex$x)(crimes) * 100;
 
 cat(crimeRating)
 
