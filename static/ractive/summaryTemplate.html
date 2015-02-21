@@ -6,7 +6,7 @@
           <tr>
             <th><img id='crimeIndexLabels' src='./static/img/graphlabel.png'/></th>
             {{#summary:i}}
-                <th class='crimeIndexMonthContainer'><div class='crimeIndexMonth' style='height:{{ summary[i] }}px;' on-click="changeYear:{{i}}"></div></th>
+                <th class='crimeIndexMonthContainer'><div class="crimeIndexMonth {{ i === selectedYear ? 'crimeIndexMonthActive' : '' }}" style='height:{{ summary[i] }}px;' on-click="changeYear:{{i}}"></div></th>
             {{/summary}}
           </tr>
           <tr id='yearsRow'>
