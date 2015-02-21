@@ -3,6 +3,8 @@
 #By querying PoliceIncidents.sqlite, this scripts inputs relevant crime data and 
 #outputs in a string a crime index and a summary of the crime in that area.
 
+#As of now (Feb 20 3:00), crimeIndex will be based on radius 
+
 #Some comments will be for Nitin's local computer testings
 
 #Loading required packages
@@ -67,20 +69,35 @@ crimes = length(which(distancetoPoint < crimeRadius))
 crimesPerDay = crimes/as.numeric(days)
 crimeRating = ecdf(crimeIndex$x)(crimesPerDay) * 100;
 
-#cat(crimeRating)
+cat(crimeRating)
+
+#4. Creating the summary 
 
 
-#4. Making the score timeline ----
-crimeIndex2013 <- read.table("crimeIndex2013.csv",sep=",",header=TRUE)
-crimeIndex2013$X <- NULL
 
+#5. Making the score timeline ----
+con <- dbConnect(dbDriver("SQLite"), dbname = "PoliceIncidents.sqlite")
+sqlcmd <- paste("Select * from PoliceIncidents where latitude > ", lowerBoundLat,
+                " and latitude < ",upperBoundLat,
+                " and longitude > ",lowerBoundLon,
+                " and longitude < ",upperBoundLon
+                ,sep="") 
+
+localDataAllYears = dbGetQuery(con, sqlcmd)
+nothing = dbDisconnect(con)
+
+b = Sys.time();
+upperBoundLat = latitude + latDiff; lowerBoundLat = latitude - latDiff;
+upperBoundLon = longitude + lonDiff; lowerBoundLon = longitude - lonDiff;
 years = 2010:2015
 crimeRatingYear = 0
+setwd("crimeIndexFiles")
 for (i in years){
-  con <- dbConnect(dbDriver("SQLite"), dbname = "PoliceIncidents.sqlite")
-  sqlcmd <- paste("Select * from PoliceIncidents where year = ",i,sep="")  
-  localData = dbGetQuery(con, sqlcmd)  
-  dbDisconnect(con)
+  fname = paste("crimeIndexUniform",i,".csv",sep="")
+  
+  crimeIndex <- read.table(fname,sep=",",header=TRUE)
+  crimeIndex <- crimeIndex$x
+  localData <- localDataAllYears[which(localDataAllYears$year==i),]
   
   days = 365
   if (i%%4 == 0){
@@ -98,16 +115,17 @@ for (i in years){
   crimes = length(which(distancetoPoint < crimeRadius));
   
   crimesPerDay = crimes/as.numeric(days)  
-  if (i!=2013){
-    crimeRatingYear[i-2009] = ecdf(crimeIndex$x)(crimesPerDay) * 100;
-  }
-  else{
-    crimeRatingYear[i-2009] = ecdf(crimeIndex2013$x)(crimesPerDay) * 100;
-  }
+  
+  crimeIndex = (crimeIndex[which(crimeIndex<quantile(crimeIndex,0.9))])
+  
+  crimeRatingYear[i-2009] = ecdf(crimeIndex)(crimes) * 100;
+  
+  
 }
-
+elapse = Sys.time() - b;
 
 outputJ = data.frame(crimeRating,crimeRatingYear)
+
 return(toJSON(outputJ))
 
 }
