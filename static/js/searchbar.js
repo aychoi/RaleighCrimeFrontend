@@ -1,9 +1,10 @@
 // Now we've configured RequireJS, we can load our dependencies and start
-define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'geocoder', 'map', 'recentSearches', 'crimeIndex', 'summary'], function ( Ractive, events, html, geocoder, map, recentSearchesRactive, crimeIndexRactive, summaryRactive) {
+define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'geocoder', 'map', 'recentSearches', 'crimeIndex', 'summary', 'jquery', 'velocity'], function ( Ractive, events, html, geocoder, map, recentSearchesRactive, crimeIndexRactive, summaryRactive, $, Velocity) {
 
 	animationID = 0;
 	locations = L.mapbox.featureLayer().addTo(map);
 	circleLayer = L.mapbox.featureLayer().addTo(map);
+	lastSearch = undefined;
 
     var searchRactive = new Ractive({
       el: 'searchContainer',
@@ -22,6 +23,33 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     	main_name.pop();
     	var object = {'name': main_name, 'geo': newlatlng};
     	updateMap(object);
+    }
+
+    function populateMap(object, startDate, endDate)
+    {
+    	$.ajax({
+	        dataType: "json",
+	        url: "./crimes/"+object["geo"]["lat"]+","+object["geo"]["lng"]+","+startDate+","+endDate,
+	        success: function(json) {
+	            geojson = json["geojson"]
+	            console.log(geojson);
+	            locations.setGeoJSON(geojson);
+	            locations.eachLayer(function(locale) {
+			        // Iterate over each marker.
+			        var prop = locale.feature.properties;
+			        //console.log(locale);
+
+			        locale.setIcon(L.icon({
+					  iconUrl: './static/img/'+prop.icon,
+					  iconSize: [50, 50],
+					  iconAnchor: [25, 25],
+					  popupAnchor: [0, -34]
+					}));
+					$(locale._icon).addClass('animated fadeIn');
+			        locale.bindPopup(prop.desc);
+			    });
+	        }
+	    });
     }
 
     function updateMap(object)
@@ -45,35 +73,29 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	    circleLayer.clearLayers();
 	    circle.addTo(circleLayer);
 		
-
-		$.ajax({
-	        dataType: "json",
-	        url: "./crimes/"+object["geo"]["lat"]+","+object["geo"]["lng"],
-	        success: function(json) {
-	            geojson = json["geojson"]
-	            
-	            locations.setGeoJSON(geojson);
-	            
-	        }
-	    });
+	    var startDate = "20150101";
+	    var endDate = "20151231";
+	    lastSearch = object;
+		populateMap(object, startDate, endDate);
 
 	    $.ajax({
 	        url: "./crimeIndex/"+object["geo"]["lat"]+","+object["geo"]["lng"],
 	        dataTye: "json",
 	        success: function(json) {
 	            console.log(json);
-	            crimeIndexRactive.set("crimeIndex", json["index"]);
+	            crimeIndexRactive.set("crimeIndex", json["history"][5]);
 	            summaryRactive.set("summary", json["history"]);
 
-	            object["index"] = json["index"];
+	            object["index"] = json["history"][5];
 	            recentSearchesRactive.unshift('searches', object);
 
 	        }
 	    });
-
-
-    	
     }
+
+    searchRactive.on( 'repopulateMap', function(event, startDate, endDate) {
+    	populateMap(lastSearch, startDate, endDate);
+    });
 
 	searchRactive.on( 'submit', function( event, address )  {
 	  	geocoder.geocode( { 'address': address, 'componentRestrictions': {'country': 'United States', 'locality': 'Raleigh'}}, function(results, status) {
@@ -108,6 +130,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	recentSearchesRactive.on( 'select', function( event, object )  {
 		updateMap(object);
 	});
+
 
 	
 

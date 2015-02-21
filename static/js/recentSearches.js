@@ -14,6 +14,10 @@ define([ 'ractive', 'rv!../ractive/recentSearchesTemplate'], function ( Ractive,
         	if (index <= 35)
         		return "green";
         	return "orange";
+        },
+        formattedCrimeIndex: function (crimeIndex) {
+            //return (crimeIndex).toFixed(2);
+            return Math.round(crimeIndex);
         }
       }
     });
