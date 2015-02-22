@@ -1,6 +1,6 @@
 from flask import Flask, render_template, abort, request, jsonify, g
 import sqlite3
-#import rpy2.robjects as robjects
+import rpy2.robjects as robjects
 import math
 import json
 from crimemap import crime_map
@@ -64,21 +64,19 @@ def find_crimes(lat, lng, startDate, endDate):
 @app.route('/crimeIndex/<lat>,<lng>')
 def find_index(lat, lng):
 	#do python stuff 
-	#r=robjects.r
-	#r.source("./CrimeIndexSummary.R")
-	#full_result = str(r.CrimeIndex("{\"latitude\": \""+lat+"\", \"longitude\": \""+lng+"\"}"))
-	#json_data = full_result.split(" ")[1]
-	#crime_data = json.loads(json_data)
-	#crime_data = json.loads(crime_data)
-	#output = {}
+	r=robjects.r
+	r.source("./CrimeIndexSummary.R")
+	full_result = str(r.CrimeIndex("{\"latitude\": \""+lat+"\", \"longitude\": \""+lng+"\"}"))
+	json_data = full_result.split(" ")[1]
+	crime_data = json.loads(json_data)
+	crime_data = json.loads(crime_data)
+	output = {}
 	#output["index"] = crime_data["crimeRating"][0]
 	#history = {}
 	#for i in range(2009, 2015):
 		#history[i] = crime_data["crimeRatingYear"][i-2009]
 	#output["history"] = crime_data["crimeRatingYear"]
-	#return jsonify(crime_data)
-	data = {"crimeRating": [98.48, 98.48, 98.48, 98.48, 98.48, 98.48], "crimeRatingYear": [99.46, 99.3, 99.36, 99.32, 98.48, 99.38], "crimeRatingYear_driving": [98.64, 98.74, 98.7, 98.84, 98.28, 99.38], "crimeRatingYear_drugs": [99.32, 97.08, 97.34, 97.52, 96.06, 96.58], "crimeRatingYear_misc": [98.9, 99.1, 99.22, 98.84, 98.6, 99.3], "crimeRatingYear_property": [99.36, 99.3, 99.38, 99.4, 91.92, 99.86], "crimeRatingYear_sexual": [98.5, 96.42, 98.64, 99.3, 93.4, 99.98], "crimeRatingYear_theft": [99.28, 99.3, 99, 99.38, 97.06, 98.96], "crimeRatingYear_violent": [99.28, 99.44, 99.08, 99.28, 96.28, 99.44]}
-	return jsonify(data)
+	return jsonify(crime_data)
 	
 
 
