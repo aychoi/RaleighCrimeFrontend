@@ -29,7 +29,9 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity'], f
     var crimedivs = document.querySelectorAll("#filterCrimes");
 
     crimeIndexRactive.on( 'moveLegend', function( event, object )  {
-        Velocity(legenddivs, { translateX: "+=80" }, 3090);
+        if (crimePlacement == 0) {
+            Velocity(document.querySelectorAll("#addresses"), { translateX: "+=10" }, 300);
+        }
     });
 
     crimeIndexRactive.on( 'bringDownDate', function( event, object )  {

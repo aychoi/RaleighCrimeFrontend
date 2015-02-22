@@ -1,6 +1,6 @@
 from flask import Flask, render_template, abort, request, jsonify, g
 import sqlite3
-import rpy2.robjects as robjects
+#import rpy2.robjects as robjects
 import math
 import json
 from crimemap import crime_map
@@ -33,6 +33,10 @@ def connect_db():
 @app.route('/')
 def home_page():
     return render_template('index.html')
+
+@app.route('/export')
+def export_page():
+    return render_template('export.html')
 
 @app.route('/crimes/<lat>,<lng>,<startDate>,<endDate>')
 def find_crimes(lat, lng, startDate, endDate):
