@@ -10,14 +10,37 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity'], f
         formattedCrimeIndex: function (crimeIndex) {
             //return (crimeIndex).toFixed(2);
             return Math.round(crimeIndex);
-        }
+        },
+        isNextLine: function (i) {
+            if (i==2 || i==4) return true
+            return false
+        },
+        filters: ["Driving", "Drugs/Alcohol", "Theft/Burglary", "Property Damage", "Violent Crimes", "Sexual Offense", "Miscellaneous"]
       }
     });
 
+    crimeIndexRactive.set('selectedFilters', crimeIndexRactive.get('filters'));
+
     var datePlacement = 0;
     var crimePlacement = 0;
+    var legendPlacement = 1;
+    var legenddivs = document.querySelectorAll("#legend");
     var datedivs = document.querySelectorAll("#filterDates");
     var crimedivs = document.querySelectorAll("#filterCrimes");
+
+    crimeIndexRactive.on( 'moveLegend', function( event, object )  {
+        if (crimePlacement == 0) {
+            Velocity(document.querySelectorAll("#legend"), { translateX: "+=235" }, 300);
+            document.getElementById('closeFilterLegend').style.visibility="visible";
+            document.getElementById('openFilterLegend').style.visibility="hidden";
+            crimePlacement = 1;
+        } else if (crimePlacement == 1) {
+            Velocity(document.querySelectorAll("#legend"), { translateX: "-=235" }, 300);
+            document.getElementById('closeFilterLegend').style.visibility="hidden";
+            document.getElementById('openFilterLegend').style.visibility="visible";
+            crimePlacement = 0;
+        }
+    });
 
     crimeIndexRactive.on( 'bringDownDate', function( event, object )  {
     	    /* Animate all divs at once. */
@@ -51,12 +74,12 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity'], f
                 document.getElementById('dates').style.backgroundColor="white";
             }
             crimePlacement = 1;
-            Velocity(crimedivs, { translateY: "+=80" }, 300); // Velocity
+            Velocity(crimedivs, { translateY: "+=450" }, 300); // Velocity
             document.getElementById('crimes').style.color="white";
             document.getElementById('crimes').style.backgroundColor="skyblue";
         } 
         else if (crimePlacement==1) {
-	        Velocity(crimedivs, { translateY: "-=80" }, 300); // Velocity
+	        Velocity(crimedivs, { translateY: "-=450" }, 300); // Velocity
 	        crimePlacement = 0;
 	        document.getElementById('crimes').style.color="skyblue";
 	        document.getElementById('crimes').style.backgroundColor="white";

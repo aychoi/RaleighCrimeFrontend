@@ -3,14 +3,61 @@
         <p>{{formattedCrimeIndex(crimeIndex)}}</p>
         <span class='boxTitle sourceSansBold'>FILTER: &nbsp; &nbsp; &nbsp; <span id='crimes' on-click="bringDownCrime">CRIMES</span>  &nbsp; &nbsp; &nbsp;  </span>
     </div>
+
+
+            <div id='legend'  class="floatBox shadow">
+                <img src="./static/img/legend.png"/>
+                <div id='closeFilterLegend' on-click="moveLegend" class='fa fa-angle-left' style='visibility:hidden;'></div>
+                <div id='openFilterLegend' on-click="moveLegend" class='fa fa-angle-right'  style='visibility:visible;'></div>
+            </div> 
     
-    <div id='filterCrimes' class='rightBox floatBox shadow-down'>
-        <input type="checkbox" name="filterCrime" value="homicide" checked>Homicide &nbsp;&nbsp;
-        <input type="checkbox" name="filterCrime" value="driving">Driving &nbsp;&nbsp;
-        <input type="checkbox" name="filterCrime" value="larceny" checked>Larceny &nbsp;&nbsp;
-        <input type="checkbox" name="filterCrime" value="assault">Assault &nbsp;&nbsp;<br>
-        <input type="checkbox" name="filterCrime" value="assault">Drugs &nbsp;&nbsp;
-        <input type="checkbox" name="filterCrime" value="assault">Sex Offense &nbsp;&nbsp;
-        <input type="checkbox" name="filterCrime" value="assault">Disorderly Conduct &nbsp;&nbsp;<br>
-        <input type="checkbox" name="filterCrime" value="assault">Property Damage &nbsp;&nbsp;
+    <div id='filterCrimes' class='hoverBox floatBox shadow-down'>
+    <div id='closeFilter' on-click="bringDownCrime" class='fa fa-times'></div>
+    <table id='filterTable'>
+        <tr>
+            <th class='indexVal'>Display</th>
+            <th class='categoryCol'>Category</th>
+            <th class='indexVal'>Crime Index</th>
+        </tr>
+        <tr>
+            <td class='indexVal'><input type="checkbox" name="filterCrime" value="violent" checked></td>
+            <td class='categoryCol'>Violent Crime</td>
+            <td class='indexVal'>48</td>
+        </tr>
+        <tr>
+            <td class='indexVal'><input type="checkbox" name="filterCrime" value="drugs" checked></td>
+            <td class='categoryCol'>Drugs/Alcohol</td>
+            <td class='indexVal'>48</td>
+        </tr>
+        <tr>
+            <td class='indexVal'><input type="checkbox" name="filterCrime" value="theft" checked></td>
+            <td class='categoryCol'>Theft/Burglary</td>
+            <td class='indexVal'>48</td>
+        </tr>
+        <tr>
+            <td class='indexVal'><input type="checkbox" name="filterCrime" value="property" checked></td>
+            <td class='categoryCol'>Property Damage</td>
+            <td class='indexVal'>48</td>
+        </tr>
+        <tr>
+            <td class='indexVal'><input type="checkbox" name="filterCrime" value="drive" checked></td>
+            <td class='categoryCol'>Vehicular</td>
+            <td class='indexVal'>48</td>
+        </tr>
+        <tr>
+            <td class='indexVal'><input type="checkbox" name="filterCrime" value="sex" checked></td>
+            <td class='categoryCol'>Sexual Offense</td>
+            <td class='indexVal'>48</td>
+        </tr>
+        <tr>
+            <td class='indexVal'><input type="checkbox" name="filterCrime" value="misc" checked></td>
+            <td class='categoryCol'>Miscellaneous</td>
+            <td class='indexVal'>48</td>
+        </tr>
+    </table>
+    <!--<div id='filterCrimes' class='rightBox floatBox shadow-down'>
+        {{#filters:i}}
+            <input type="checkbox" name="{{selectedFilters}}" value="{{.}}" checked> {{.}} &nbsp;&nbsp; {{#isNextLine(i)}}<br> {{/isNextLine}}
+        {{/filters}}-->
     </div>
+

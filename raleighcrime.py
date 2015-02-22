@@ -34,6 +34,10 @@ def connect_db():
 def home_page():
     return render_template('index.html')
 
+@app.route('/export')
+def export_page():
+    return render_template('export.html')
+
 @app.route('/crimes/<lat>,<lng>,<startDate>,<endDate>')
 def find_crimes(lat, lng, startDate, endDate):
 	max_lat = float(lat) + MODULATION_LAT
@@ -67,12 +71,12 @@ def find_index(lat, lng):
 	crime_data = json.loads(json_data)
 	crime_data = json.loads(crime_data)
 	output = {}
-	output["index"] = crime_data["crimeRating"][0]
-	history = {}
-	for i in range(2009, 2015):
-		history[i] = crime_data["crimeRatingYear"][i-2009]
-	output["history"] = crime_data["crimeRatingYear"]
-	return jsonify(output)
+	#output["index"] = crime_data["crimeRating"][0]
+	#history = {}
+	#for i in range(2009, 2015):
+		#history[i] = crime_data["crimeRatingYear"][i-2009]
+	#output["history"] = crime_data["crimeRatingYear"]
+	return jsonify(crime_data)
 	
 
 
