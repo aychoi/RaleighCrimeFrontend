@@ -1,5 +1,5 @@
 // Now we've configured RequireJS, we can load our dependencies and start
-define([ 'ractive', 'rv!../ractive/summaryTemplate', 'crimeIndex'], function ( Ractive, html, crimeIndexRactive) {
+define([ 'ractive', 'rv!../ractive/summaryTemplate', 'crimeIndex', 'jquery', 'velocity'], function ( Ractive, html, crimeIndexRactive, $, Velocity) {
 
     var searchRactive = undefined;
     require(['searchbar'], function( object ){
@@ -40,6 +40,23 @@ define([ 'ractive', 'rv!../ractive/summaryTemplate', 'crimeIndex'], function ( R
 
       this.set('selectedYear', 5);
       console.log("selected year reset to 5");
+    });
+
+
+
+    var summaryPlacememt = 0;
+    var summarydivs = document.querySelectorAll("#summary");
+
+    summaryRactive.on( 'moveSummary', function( event, num ) {
+      if (summaryPlacememt == 0) {
+            Velocity(document.querySelectorAll("#summary"), { translateY: "+=185" }, 300);
+            document.getElementById('hideSummary').style.visibility="visible";
+            summaryPlacememt = 1;
+        } else if (summaryPlacememt == 1) {
+            Velocity(document.querySelectorAll("#summary"), { translateY: "-=185" }, 300);
+            document.getElementById('hideSummary').style.visibility="visible";
+            summaryPlacememt = 0;
+        }
     });
 
     return summaryRactive;

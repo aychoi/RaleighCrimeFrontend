@@ -2,9 +2,12 @@
     <div id='summary' class='rightBox floatBox boxTitle sourceSansBold shadow animated fadeIn'> 
     SUMMARY
     <div id='crimeIndexHistory'>
+        <div class='visible-xs'>
+            <div   on-click="moveSummary"  id='hideSummary' class='fa fa-angle-down' style='visibility:visible;'></div>
+        </div>
         <table class="tg">
           <tr>
-            <th><img id='crimeIndexLabels' src='./static/img/graphlabel.png'/></th>
+            <th on-click="moveSummary"><img id='crimeIndexLabels' src='./static/img/graphlabel.png'/></th>
             {{#summary:i}}
                 <th class='crimeIndexMonthContainer'><div class="crimeIndexMonth {{ i === selectedYear ? 'crimeIndexMonthActive' : '' }}" style='height:{{ summary[i] }}px;' on-click="changeYear:{{i}}"></div></th>
             {{/summary}}
