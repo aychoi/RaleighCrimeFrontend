@@ -23,14 +23,22 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity'], f
 
     var datePlacement = 0;
     var crimePlacement = 0;
-    var legendPlacement = 0;
-    var legenddivs = document.querySelectorAll("#legendContainer");
+    var legendPlacement = 1;
+    var legenddivs = document.querySelectorAll("#legend");
     var datedivs = document.querySelectorAll("#filterDates");
     var crimedivs = document.querySelectorAll("#filterCrimes");
 
     crimeIndexRactive.on( 'moveLegend', function( event, object )  {
         if (crimePlacement == 0) {
-            Velocity(document.querySelectorAll("#addresses"), { translateX: "+=10" }, 300);
+            Velocity(document.querySelectorAll("#legend"), { translateX: "+=235" }, 300);
+            document.getElementById('closeFilterLegend').style.visibility="visible";
+            document.getElementById('openFilterLegend').style.visibility="hidden";
+            crimePlacement = 1;
+        } else if (crimePlacement == 1) {
+            Velocity(document.querySelectorAll("#legend"), { translateX: "-=235" }, 300);
+            document.getElementById('closeFilterLegend').style.visibility="hidden";
+            document.getElementById('openFilterLegend').style.visibility="visible";
+            crimePlacement = 0;
         }
     });
 

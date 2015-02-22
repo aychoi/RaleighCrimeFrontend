@@ -1,6 +1,6 @@
 from flask import Flask, render_template, abort, request, jsonify, g
 import sqlite3
-#import rpy2.robjects as robjects
+import rpy2.robjects as robjects
 import math
 import json
 from crimemap import crime_map

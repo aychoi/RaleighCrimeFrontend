@@ -5,12 +5,11 @@
     </div>
 
 
-    <div id="legendContainer">
-        <div id="legend" class="floatBox shadow animated flipInY"> 
-            <img src="./static/img/legend.png"/>
-            <div id='closeFilterLegend' on-click="moveLegend" class='fa fa-angle-left'></div> 
-        </div>
-    </div>
+            <div id='legend'  class="floatBox shadow">
+                <img src="./static/img/legend.png"/>
+                <div id='closeFilterLegend' on-click="moveLegend" class='fa fa-angle-left' style='visibility:hidden;'></div>
+                <div id='openFilterLegend' on-click="moveLegend" class='fa fa-angle-right'  style='visibility:visible;'></div>
+            </div> 
     
     <div id='filterCrimes' class='hoverBox floatBox shadow-down'>
     <div id='closeFilter' on-click="bringDownCrime" class='fa fa-times'></div>
