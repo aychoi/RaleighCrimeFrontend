@@ -16,8 +16,14 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity'], f
 
     var datePlacement = 0;
     var crimePlacement = 0;
+    var legendPlacement = 0;
+    var legenddivs = document.querySelectorAll("#legendContainer");
     var datedivs = document.querySelectorAll("#filterDates");
     var crimedivs = document.querySelectorAll("#filterCrimes");
+
+    crimeIndexRactive.on( 'moveLegend', function( event, object )  {
+        Velocity(legenddivs, { translateX: "+=80" }, 3090);
+    });
 
     crimeIndexRactive.on( 'bringDownDate', function( event, object )  {
     	    /* Animate all divs at once. */
@@ -51,12 +57,12 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity'], f
                 document.getElementById('dates').style.backgroundColor="white";
             }
             crimePlacement = 1;
-            Velocity(crimedivs, { translateY: "+=80" }, 300); // Velocity
+            Velocity(crimedivs, { translateY: "+=450" }, 300); // Velocity
             document.getElementById('crimes').style.color="white";
             document.getElementById('crimes').style.backgroundColor="skyblue";
         } 
         else if (crimePlacement==1) {
-	        Velocity(crimedivs, { translateY: "-=80" }, 300); // Velocity
+	        Velocity(crimedivs, { translateY: "-=450" }, 300); // Velocity
 	        crimePlacement = 0;
 	        document.getElementById('crimes').style.color="skyblue";
 	        document.getElementById('crimes').style.backgroundColor="white";
