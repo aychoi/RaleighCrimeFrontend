@@ -37,6 +37,7 @@ define([ 'ractive', 'rv!../ractive/summaryTemplate', 'crimeIndex'], function ( R
     });
 
     summaryRactive.observe('summary', function(newValue, oldValue, keypath) {
+
       this.set('selectedYear', 5);
       console.log("selected year reset to 5");
     });

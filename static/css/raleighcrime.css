@@ -345,6 +345,10 @@ div#crimeIndex > span {
 	display:inline;
 }
 
+body.bodyExport {
+	overflow: auto;
+}
+
 /***** MOBILE SPECIFIC CSS *******/
 @media screen and (max-width: 768px) {   
     #searchAddresses {

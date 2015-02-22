@@ -82,7 +82,7 @@ crimes = length(which(distancetoPoint < crimeRadius))
 
 crimeRating = ecdf(crimeIndex[,8])(crimes) * 100;
 
-cat(crimeRating)
+#cat(crimeRating)
 
 #4. Creating the summary 
 

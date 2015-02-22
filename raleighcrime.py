@@ -38,6 +38,17 @@ def home_page():
 def export_page():
     return render_template('export.html')
 
+@app.route('/<lat>,<lng>')
+def export_new(lat,lng):
+	points = []
+	points.append([lat,lng])
+	indexes = []
+	summaries = []
+	for point in points:
+		indexes.append(r_find_index(point[0], point[1]))
+		summaries.append(r_get_summary(point[0], point[1]))
+	return render_template('export.html', points = points, indexes = indexes, summaries = summaries)
+
 @app.route('/crimes/<lat>,<lng>,<startDate>,<endDate>')
 def find_crimes(lat, lng, startDate, endDate):
 	max_lat = float(lat) + MODULATION_LAT
@@ -60,9 +71,7 @@ def find_crimes(lat, lng, startDate, endDate):
 	
 	return jsonify(geojson = geojson)
 
-
-@app.route('/crimeIndex/<lat>,<lng>')
-def find_index(lat, lng):
+def r_find_index(lat,lng):
 	#do python stuff 
 	r=robjects.r
 	r.source("./CrimeIndexSummary.R")
@@ -76,7 +85,21 @@ def find_index(lat, lng):
 	#for i in range(2009, 2015):
 		#history[i] = crime_data["crimeRatingYear"][i-2009]
 	#output["history"] = crime_data["crimeRatingYear"]
-	return jsonify(crime_data)
+	return crime_data
+
+def r_get_summary(lat,lng):
+	r=robjects.r
+	r.source("./CrimeIndexWrittenSummary.R")
+	full_result = str(r.CrimeWrittenSummary("{\"latitude\": \""+lat+"\", \"longitude\": \""+lng+"\"}"))
+	json_data = full_result[4:]
+	summary = json.loads(json_data)
+	summary = json.loads(summary)
+	#output = {}
+	return summary
+
+@app.route('/crimeIndex/<lat>,<lng>')
+def find_index(lat, lng):
+	return jsonify(r_find_index(lat,lng))
 	
 
 

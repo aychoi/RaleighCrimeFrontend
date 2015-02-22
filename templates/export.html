@@ -16,137 +16,54 @@
 
 </head>
 
-<body>
+<body class="bodyExport">
 
 <div class='headerLogo'><img src='/static/img/anylytics_logo.png'/></div>
 
-<div class="container">
-    <table class="table exportTable table-bordered">
-        <thead>
-        <tr>
-            <th style='min-width:150px;'></th>
-            <th>Address 1</th>
-            <th>Address 2</th>
-            <th>Address 3</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Overall Crime Index</td>
-            <td class="crimeIndex-export" style="color:red;">99</td>
-            <td class="crimeIndex-export" style="color:green;">32</td>
-            <td class="crimeIndex-export" style="color:orange;">49</td>
-        </tr>
-        <tr>
+<div id="exportContainer" class="container">
+<table class="table exportTable table-bordered">
+    <thead>
+    <tr>
+        <th style='min-width:150px;'></th>
+        <th>Selection 1</th>
+        <th>Selection 2</th>
+        <th>Selection 3</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Overall Crime Index</td>
+        {% for index in indexes %}
+            <td class="crimeIndex-export" style="color:black;">{{index['crimeRating'][0]}}</td>
+        {% endfor %}
+      
+    </tr>
+    <tr id="locations">
             <td>Location</td>
-            <td class="check"><img src='/static/img/mapSnap.png'/></br>106 Jersey Ridge Road</br>Cary, NC 27518</td>
-            <td class="check"><img src='/static/img/mapSnap.png'/></td>
-            <td class="check"><img src='/static/img/mapSnap.png'/></td>
-        </tr>
-        <tr>
-            <td>Synopsis</td>
-            <td>This neighborhood has a very <em class='orange'>high</em> incidence of <span class='categoryCallOut-export'>Driving Crimes</span> and a relatively <em class='green'>low</em> index of <span class='categoryCallOut-export'>Violent Crimes</span>. </td>
-            <td>This neighborhood has a very <em class='orange'>high</em> incidence of <span class='categoryCallOut-export'>Driving Crimes</span> and a relatively <em class='green'>low</em> index of <span class='categoryCallOut-export'>Violent Crimes</span>. </td>
-            <td>This neighborhood has a very <em class='orange'>high</em> incidence of <span class='categoryCallOut-export'>Driving Crimes</span> and a relatively <em class='green'>low</em> index of <span class='categoryCallOut-export'>Violent Crimes</span>. </td>
-        </tr>
-        <tr>
-            <td style="text-align:right;">
-                <b>Advanced Statistics</b> </br>
-                <span class='subCatLabel-export'>Categories         </span></br>
-                <span class='numIndex-export'>Violent Crime      </span></br>
-                <span class='numIndex-export'>Drugs/Alcohol      </span></br>
-                <span class='numIndex-export'>Theft/Burglary     </span></br>
-                <span class='numIndex-export'>Property Damage    </span></br>
-                <span class='numIndex-export'>Vehicular          </span></br>
-                <span class='numIndex-export'>Sexual Offense     </span></br>
-                <span class='numIndex-export'>Miscellaneous      </span></br>
-                <span class='numIndex-export'>All                </span></br>
-            </td>
-            <td>
-                <table class='advanced-export'>
-                    <tr>
-                        <td colspan='6'># Crimes || Index</td>
-                    </tr>
-                    <tr>
-                        <td>2010</td>
-                        <td>2011</td>
-                        <td>2012</td>
-                        <td>2013</td>
-                        <td>2014</td>
-                        <td>2015</td>
-                    </tr>
-                    <tr>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                    </tr>
-                    <tr>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                    </tr>
-                    <tr>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                    </tr>
-                    <tr>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                    </tr>
-                    <tr>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                    </tr>
-                    <tr>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                    </tr>
-                    <tr>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32   </td>
-                        <td class='numIndex-export'>443 || 32</td>
-                    </tr>
-                    <tr>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                        <td class='numIndex-export'>443 || 32</td>
-                    </tr>
-                </table>
-            </td>
-            <td></td>
-            <td></td>
-        </tr>
-        </tbody>
-    </table>
+            <td class="check"><img src='/static/img/mapSnap.png'/><br></td>
+            <td class="check"><img src='/static/img/mapSnap.png'/><br></td>
+            <td class="check"><img src='/static/img/mapSnap.png'/><br></td>
+    </tr>
+    <tr id= "synopsys">
+        <td>Synopsis</td>
+        {% for summary in summaries %}
+            <td>{{summary}}</td>
+        {% endfor %}
+        
+        <td>This neighborhood has a very <em class='orange'>high</em> incidence of <span class='categoryCallOut-export'>Driving Crimes</span> and a relatively <em class='green'>low</em> index of <span class='categoryCallOut-export'>Violent Crimes</span>. </td>
+        <td>This neighborhood has a very <em class='orange'>high</em> incidence of <span class='categoryCallOut-export'>Driving Crimes</span> and a relatively <em class='green'>low</em> index of <span class='categoryCallOut-export'>Violent Crimes</span>. </td>
+    </tr>
+   
+    </tbody>
+</table>
 </div>
+
+    <script>
+        points = {{points|tojson}}
+    </script>
+    <!-- RequireJS means we use this plugin to load everything else! -->
+    <!-- See main.js -->
+    <script data-main="./static/js/mainexport" src="./static/js/lib/require.js"></script>
 
 
 </body>

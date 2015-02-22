@@ -18,9 +18,24 @@ define([ 'ractive', 'rv!../ractive/recentSearchesTemplate'], function ( Ractive,
         formattedCrimeIndex: function (crimeIndex) {
             //return (crimeIndex).toFixed(2);
             return Math.round(crimeIndex);
+        },
+        hasSearch: function(object) {
+          var x;
+          var searches = recentSearchesRactive.get('searches');
+          var isSame = false;
+          for (x in searches) {
+            var rs = searches[x];
+            if (rs["name"][0] == object["name"][0]) {
+              isSame = true;
+            }
+          }
+          return isSame;
         }
       }
     });
+
+
+
 
     return recentSearchesRactive;
 

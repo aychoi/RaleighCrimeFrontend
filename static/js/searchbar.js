@@ -19,7 +19,11 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     {
     	var newlatlng = { "lat": result.geometry.location.k, "lng": result.geometry.location.D};
     	var address = result.formatted_address;
+    	console.log(address);
     	var main_name = address.split("Raleigh")[0].split(",");
+    	if (main_name[0].length == 0)
+    		return;
+
     	main_name.pop();
     	var object = {'name': main_name, 'geo': newlatlng};
     	updateMap(object);
@@ -41,7 +45,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 
 			        locale.setIcon(L.icon({
 					  iconUrl: './static/img/'+prop.icon,
-					  iconSize: [50, 50],
+					  iconSize: [25, 25],
 					  iconAnchor: [25, 25],
 					  popupAnchor: [0, -34]
 					}));
@@ -77,7 +81,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	    var endDate = "20151231";
 	    lastSearch = object;
 		populateMap(object, startDate, endDate);
-
+		
 	    $.ajax({
 	        url: "./crimeIndex/"+object["geo"]["lat"]+","+object["geo"]["lng"],
 	        dataTye: "json",
@@ -87,7 +91,11 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	            summaryRactive.set("summary", json["crimeRatingYear"]);
 
 	            object["index"] = json["crimeRatingYear"][5];
-	            recentSearchesRactive.unshift('searches', object);
+	            var isSame = recentSearchesRactive.get("hasSearch")(object);
+	            if (isSame == false) 
+	            	recentSearchesRactive.unshift('searches', object);
+	            
+	            
 
 	        }
 	    });
