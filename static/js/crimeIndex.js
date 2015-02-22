@@ -10,9 +10,16 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity'], f
         formattedCrimeIndex: function (crimeIndex) {
             //return (crimeIndex).toFixed(2);
             return Math.round(crimeIndex);
-        }
+        },
+        isNextLine: function (i) {
+            if (i==2 || i==4) return true
+            return false
+        },
+        filters: ["Driving", "Drugs/Alcohol", "Theft/Burglary", "Property Damage", "Violent Crimes", "Sexual Offense", "Miscellaneous"]
       }
     });
+
+    crimeIndexRactive.set('selectedFilters', crimeIndexRactive.get('filters'));
 
     var datePlacement = 0;
     var crimePlacement = 0;

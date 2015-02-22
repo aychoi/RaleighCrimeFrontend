@@ -8,6 +8,7 @@
 #Some comments will be for Nitin's local computer testings
 
 #Loading required packages
+
 require(rjson); require(RSQLite); require(lubridate);
 require(geosphere)
 
@@ -19,6 +20,8 @@ require(geosphere)
 
 CrimeIndex <- function(args){
 
+  
+  
 #args <- commandArgs(trailingOnly=TRUE);
 #args = '{\"latitude\": \"35.784519\", \"longitude\": \"-78.682733\"}'
 #cat(args)
@@ -31,6 +34,16 @@ latitude = as.numeric(locationData$latitude)
 #latitude = 35.784519 
 #longitude = -78.652733
 point = c(longitude, latitude);
+
+cat.driving = c("DRIVING", "VEHICLE")
+cat.drugs = c("DRUGS","ALCOHOL")
+cat.theft = c("BURGLARY", "ROBBERY", "FRAUD", "LARCENY", "FORGERY", "STOLEN PROPERTY", "EMBEZZLEMENT")
+cat.property = c("DAMAGE PROPERTY")
+cat.violent = c("ASSAULT", "WEAPONS", "KIDNAPPING", "HUMAN TRAFFICKING", "HOMICIDE")
+cat.sexual = c("SEX OFFENSE", "PROSTITUTION", "PORNOGRAPHY")
+cat.misc = c("MISC", "HUMANE", "CHILD", "FAMILY", "JUVENILE", "DISORDERLY", "EXTORTION", "GAMBLING", "ALL", "NOISE")
+
+
 
 #2. Querying neccessary rows from PoliceIncidents.sqlite into localData ----
 firstDate = "2014-01-01"
@@ -58,16 +71,16 @@ nothing = dbDisconnect(con)
 crimeRadius = 0.3*1609.344
 
 #First I need to import the scale.
-days = as.Date(lastDate) - as.Date(firstDate)
-crimeIndex <- read.table("crimeIndexFiles/crimeIndexUniform2014.csv",sep=",",header=TRUE)
+days = as.Date(lastDate) - as.Date(firstDate) + 1
+crimeIndex <- read.table("crimeIndexFiles/crimeIndexUniformGroup2014.csv",sep=",",header=TRUE)
 crimeIndex$X <- NULL
 locations <- data.frame(localData$longitude,localData$latitude);
 locationMatrix <- data.matrix(locations,rownames.force = FALSE)
 
 distancetoPoint = distHaversine(point,locationMatrix);
 crimes = length(which(distancetoPoint < crimeRadius))
-crimesPerDay = crimes/as.numeric(days)
-crimeRating = ecdf(crimeIndex$x)(crimes) * 100;
+
+crimeRating = ecdf(crimeIndex[,8])(crimes) * 100;
 
 cat(crimeRating)
 
@@ -76,8 +89,8 @@ cat(crimeRating)
 
 
 #5. Making the score timeline ----
-latDiff = 0.0149;
-lonDiff = 0.0038;
+latDiff = 0.006;
+lonDiff = 0.006;
 upperBoundLat = latitude + latDiff; lowerBoundLat = latitude - latDiff;
 upperBoundLon = longitude + lonDiff; lowerBoundLon = longitude - lonDiff;
 con <- dbConnect(dbDriver("SQLite"), dbname = "PoliceIncidents.sqlite")
@@ -93,13 +106,21 @@ nothing = dbDisconnect(con)
 
 
 years = 2010:2015
+
+crimeRatingYear_driving = 0
+crimeRatingYear_drugs = 0
+crimeRatingYear_misc = 0
+crimeRatingYear_property = 0 
+crimeRatingYear_sexual = 0
+crimeRatingYear_theft = 0
+crimeRatingYear_violent = 0
 crimeRatingYear = 0
-#setwd("crimeIndexFiles")
+
 for (i in years){
-  fname = paste("./crimeIndexFiles/crimeIndexUniform",i,".csv",sep="")
+  fname = paste("crimeIndexFiles/crimeIndexUniformGroup",i,".csv",sep="")
   
   crimeIndex <- read.table(fname,sep=",",header=TRUE)
-  crimeIndex <- crimeIndex$x
+  crimeIndex$X <-NULL
   localData <- localDataAllYears[which(localDataAllYears$year==i),]
   
   days = 365
@@ -115,19 +136,37 @@ for (i in years){
   
   locationMatrix = as.matrix(data.frame(localData$longitude,localData$latitude));
   distancetoPoint = distHaversine(point,locationMatrix);
+  
   crimes = length(which(distancetoPoint < crimeRadius));
+  crimes_driving = length(which(distancetoPoint < crimeRadius & localData$groupName%in%cat.driving));
+  crimes_drugs = length(which(distancetoPoint < crimeRadius & localData$groupName%in%cat.drugs));
+  crimes_misc = length(which(distancetoPoint < crimeRadius & localData$groupName%in%cat.misc));
+  crimes_property = length(which(distancetoPoint < crimeRadius & localData$groupName%in%cat.property));
+  crimes_sexual = length(which(distancetoPoint < crimeRadius & localData$groupName%in%cat.sexual));
+  crimes_theft = length(which(distancetoPoint < crimeRadius & localData$groupName%in%cat.theft));
+  crimes_violent = length(which(distancetoPoint < crimeRadius & localData$groupName%in%cat.violent));
+  
   
   crimesPerDay = crimes/as.numeric(days)  
   
-  crimeIndex = (crimeIndex[which(crimeIndex<quantile(crimeIndex,0.9))])
-  
-  crimeRatingYear[i-2009] = ecdf(crimeIndex)(crimes) * 100;
+  #crimeIndex = (crimeIndex[which(crimeIndex<quantile(crimeIndex,0.9))])
+  crimeRatingYear_driving[i-2009] = ecdf(crimeIndex[,1])(crimes_driving) * 100;
+  crimeRatingYear_drugs[i-2009] = ecdf(crimeIndex[,2])(crimes_drugs) * 100
+  crimeRatingYear_misc[i-2009] = ecdf(crimeIndex[,3])(crimes_misc) * 100
+  crimeRatingYear_property[i-2009] = ecdf(crimeIndex[,4])(crimes_property) * 100
+  crimeRatingYear_sexual[i-2009] = ecdf(crimeIndex[,5])(crimes_sexual) * 100
+  crimeRatingYear_theft[i-2009] = ecdf(crimeIndex[,6])(crimes_theft) * 100
+  crimeRatingYear_violent[i-2009] = ecdf(crimeIndex[,7])(crimes_violent) * 100
+  crimeRatingYear[i-2009] = ecdf(crimeIndex[,8])(crimes) * 100;
   
   
 }
 
+crimeRatingYears = data.frame(crimeRatingYear_driving,crimeRatingYear_drugs,crimeRatingYear_misc,
+                         crimeRatingYear_property,crimeRatingYear_sexual,crimeRatingYear_theft,
+                         crimeRatingYear_violent,crimeRatingYear)
 
-outputJ = data.frame(crimeRating,crimeRatingYear)
+outputJ = data.frame(crimeRating,crimeRatingYears)
 
 return(toJSON(outputJ))
 
