@@ -36,7 +36,7 @@ define([ 'ractive', 'rv!../ractive/recentSearchesTemplate'], function ( Ractive,
 
 
     recentSearchesRactive.on( 'export', function( event )  {
-      var win = window.open("http://localhost:3000/35.8082629,-78.64130499999999,35.794904,-78.649558,35.840196,-78.666232", '_blank');
+      var win = window.open("http://anylytics.io/raleighcrime/35.8082629,-78.64130499999999,35.794904,-78.649558,35.840196,-78.666232", '_blank');
     });
 
 
