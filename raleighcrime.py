@@ -38,10 +38,12 @@ def home_page():
 def export_page():
     return render_template('export.html')
 
-@app.route('/<lat>,<lng>')
-def export_new(lat,lng):
+@app.route('/<lat>,<lng>,<lat2>,<lng2>,<lat3>,<lng3>')
+def export_new(lat,lng, lat2, lng2, lat3, lng3):
 	points = []
 	points.append([lat,lng])
+	points.append([lat2,lng2])
+	points.append([lat3,lng3])
 	indexes = []
 	summaries = []
 	for point in points:

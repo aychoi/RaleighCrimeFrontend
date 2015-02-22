@@ -1,7 +1,7 @@
 
     <div>
         <div class='boxTitle sourceSansBold'>Recent Searches</div>
-                    <div id='exportButton' class='hidden-xs sourceSansBold'>EXPORT</div>
+                    <div id='exportButton' class='hidden-xs sourceSansBold' on-click="export">EXPORT</div>
         <div class='cardHolder'>
             {{#searches}}
                 <div class='card' on-click= "select:{{this}}">
