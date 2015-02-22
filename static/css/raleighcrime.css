@@ -126,16 +126,16 @@
 }
 
 #legend {
-    width:200px;
-    height:398px;
-    margin-left:-210px;
+    width:400px;
+    height:262px;
+    margin-left:-407px;
     position:absolute;
     z-index:5;
 }
 
 #legend img {
-    width:200px;
-    height:398px;
+    width:393px;
+    height:262px;
 }
 
 
@@ -228,7 +228,7 @@
 }
 
 #addresses {
-	margin-top:280px;
+	margin-top:180px;
 	z-index:3;
 	height:200px;
 	text-align:left;
@@ -277,7 +277,7 @@ div#crimeIndex > span {
 }
 
 
-#crimes, #dates {
+#crimes, #dates, #legendTrigger {
 	color:skyblue;
 	cursor:pointer;
 	padding:5px;
@@ -292,6 +292,7 @@ div#crimeIndex > span {
 	text-align: center;
 	font-size:1.5em;
 	color:#54A148;
+	width:100%;
 }
 
 .crimeIndexMonthContainer {
@@ -377,15 +378,15 @@ div#crimeIndex > span {
 	}
 
 	#legend {
-	    width:200px;
-	    height:398px;
-	    margin-left:-210px;
+	    width:400px;
+	    height:262px;
+	    max-height:85%;
 	    margin-top:-55px;
 	}
 
 	#legend img {
-	    width:200px;
-	    height:398px;
+	    width:393px;
+	    height:262px;
 	}
 
 	#addresses {

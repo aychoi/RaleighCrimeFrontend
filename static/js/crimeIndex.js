@@ -23,22 +23,26 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity'], f
 
     var datePlacement = 0;
     var crimePlacement = 0;
-    var legendPlacement = 1;
+    var legendPlacement = 0;
     var legenddivs = document.querySelectorAll("#legend");
     var datedivs = document.querySelectorAll("#filterDates");
     var crimedivs = document.querySelectorAll("#filterCrimes");
 
     crimeIndexRactive.on( 'moveLegend', function( event, object )  {
-        if (crimePlacement == 0) {
-            Velocity(document.querySelectorAll("#legend"), { translateX: "+=235" }, 300);
+        if (legendPlacement == 0) {
+            Velocity(document.querySelectorAll("#legend"), { translateX: "+=365" }, 300);
             document.getElementById('closeFilterLegend').style.visibility="visible";
             document.getElementById('openFilterLegend').style.visibility="hidden";
-            crimePlacement = 1;
-        } else if (crimePlacement == 1) {
-            Velocity(document.querySelectorAll("#legend"), { translateX: "-=235" }, 300);
+                document.getElementById('legendTrigger').style.color="white";
+                document.getElementById('legendTrigger').style.backgroundColor="skyblue";
+            legendPlacement = 1;
+        } else if (legendPlacement == 1) {
+            Velocity(document.querySelectorAll("#legend"), { translateX: "-=365" }, 300);
             document.getElementById('closeFilterLegend').style.visibility="hidden";
             document.getElementById('openFilterLegend').style.visibility="visible";
-            crimePlacement = 0;
+                document.getElementById('legendTrigger').style.color="skyblue";
+                document.getElementById('legendTrigger').style.backgroundColor="white";
+            legendPlacement = 0;
         }
     });
 
