@@ -13,8 +13,8 @@ CrimeWrittenSummary <- function(args){
   latitude = as.numeric(locationData$latitude)
   
   
-  latitude = 35.784519 
-  longitude = -78.672733
+  #latitude = 35.784519 
+  #longitude = -78.672733
   point = c(longitude, latitude);
   
   crimeRadius = 0.3*1609.344  
@@ -156,13 +156,23 @@ message3 = paste(". Over the past five years, there has been a",addition,sign,"t
 if (sign == "positive"){
   message3 = paste(message3,"implying that it has been getting slowly more dangerous");
 }
-if (sign == "negative"){s
+if (sign == "negative"){
   message3 = paste(message3,"meaning that it is getting safer each year")  
 }
 
 #Sentence four - 
 
-message = paste(message1,message2,message3)
+localData <- localDataAllYears[which(localDataAllYears$year==2014),];
+locationMatrix = as.matrix(data.frame(localData$longitude,localData$latitude));
+distancetoPoint = distHaversine(point,locationMatrix);
+crimes = length(which(distancetoPoint < crimeRadius));
+crimesNight = length(which(distancetoPoint < crimeRadius & (localData$hour>21 | localData$hour < 4) ));
+nightPercent = crimesNight/crimes * 100;
+modifier = "large"; if (nightPercent < 60){modifier = "good"}; if (nightPercent < 45){modifier = "fair"}; if (nightPercent <30){modifier = "small"}
+message4 = paste(". Finally, a",modifier,"amount of crimes,",round(nightPercent),"percent, happen in the night from 9:00pm to 4:00am")
+
+#Full message
+message = paste(message1," ",message2,message3,message4,sep="")
 
 
 return(toJSON(message))
