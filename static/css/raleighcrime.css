@@ -178,6 +178,23 @@
 	height:190px;
 }
 
+#exportButton {
+	position:absolute;
+	top:0px;
+	right:0px;
+	padding:5px;
+	margin:5px;
+	color:white;
+	background-color:#54A148;
+	border-radius:2px;
+	cursor:pointer;
+}
+
+#exportButton:hover {
+	background-color:white;
+	color:#54A148;
+}
+
 #closeFilter {
 	position:absolute;
 	top:2px;
