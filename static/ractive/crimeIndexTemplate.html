@@ -1,5 +1,5 @@
     <div id='crimeIndex' class='rightBox floatBox shadow'>
-        <div class='boxTitle sourceSansBold'>Crime Index<div class="fa fa-question questionIcon" data-toggle="tooltip" data-placement="left" title="This number is a calculated representation of the relative rate of crime in this area as compared to the greater Raleigh area"></div></div>
+        <div class='boxTitle sourceSansBold'>Crime Index<div class="fa fa-question questionIcon" data-toggle="modal" data-target="#explainModal"></div></div>
         <p>{{formattedCrimeIndex(crimeIndex)}}</p>
         <span class='boxTitle fullWidth sourceSansBold'> <span id='crimes' on-click="bringDownCrime">CRIMES</span>  &nbsp; &nbsp; &nbsp;   <span id='legendTrigger' on-click="moveLegend">LEGEND</span>  &nbsp; &nbsp; &nbsp;  </span>
     </div>
@@ -61,3 +61,22 @@
         {{/filters}}-->
     </div>
 
+
+<div id="explainModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Raleigh Crime Explorer</h4>
+      </div>
+      <div class="modal-body">
+        <p>Welcome to the Raleigh Crime Explorer web application! Getting started is easy -- simply type a Raleigh address into the searchbar!</p>
+        <img id='searchImg' src="/static/img/searchBar.png"/>
+        <p>This dataset comes from the Raleigh Open Data portal, under the Master Police Incidents data set. Through this data, we are provided with a full lists of geo-tagged crimes from 2006. Although knowing the number of crimes in an area is useful, we have used that data to calculate a crime index. An index will allow for easy comparisons of different locations. <br><br>To compute the index, we take a very large sample of addresses from Raleigh and tabulate the amount and types of crimes in each area. This gives us an accurate distribution of crimes in Raleigh. For any address that you type in, we compare it to the distribution to find where that address ranks in comparison to the rest of Raleigh.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

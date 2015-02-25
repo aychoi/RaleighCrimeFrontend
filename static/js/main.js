@@ -9,7 +9,8 @@ require.config({
         jqueryui: 'lib/jquery_ui',
         velocity: 'lib/velocity.min',
         ractive_events_keys: 'lib/ractive-events-keys.min',
-        async: 'lib/async'
+        async: 'lib/async',
+        bootstrap: 'lib/bootstrap.min'
     },
     shim: {
         "velocity": {

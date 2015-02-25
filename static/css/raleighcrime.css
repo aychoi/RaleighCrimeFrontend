@@ -111,6 +111,15 @@
 	display:inline-block;
 }
 
+img#searchImg {
+	text-align:center;
+	max-width:100%;
+	width:300px;
+	left:0px;
+	right:0px;
+	margin:auto;
+}
+
 
 #searchBtn {
 	background-color:#456942;
@@ -127,7 +136,7 @@
 
 #legend {
     width:400px;
-    height:262px;
+    height:auto;
     margin-left:-407px;
     position:absolute;
     z-index:5;
@@ -135,7 +144,7 @@
 
 #legend img {
     width:393px;
-    height:262px;
+    height:auto;
 }
 
 
@@ -168,6 +177,7 @@
 	color:white;
 	position:absolute;
 	top:0;
+	cursor: pointer;
 	right:0;
 	margin:5px;
 }
@@ -176,6 +186,7 @@
 	margin-top:90px;
 	z-index:10;
 	height:190px;
+	max-width:100%;
 }
 
 #exportButton {
@@ -243,7 +254,10 @@
 	position:fixed;
 	width:350px;
 	top:-300px;
-	left:calc(50% - 175px);
+	//left:calc(50% - 175px);
+	left:0px;
+	right:0px;
+	margin:auto;
 }
 
 #filterTable {
@@ -429,15 +443,15 @@ body.bodyExport {
 	}
 
 	#legend {
-	    width:400px;
-	    height:262px;
+	    width:300px;
+	    height:200px;
 	    max-height:85%;
 	    margin-top:-55px;
 	}
 
 	#legend img {
-	    width:393px;
-	    height:262px;
+	    width:293px;
+	    height:195px;
 	}
 
 	#addresses {
