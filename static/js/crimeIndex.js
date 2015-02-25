@@ -60,7 +60,7 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'b
             Velocity(datedivs, { translateY: "+=51" }, 300); // Velocity
             document.getElementById('dates').style.color="white";
             document.getElementById('dates').style.backgroundColor="skyblue";
-        } 
+        }
         else if (datePlacement==1) {
                 Velocity(datedivs, { translateY: "-=51" }, 300); // Velocity
                 datePlacement = 0;
@@ -82,7 +82,7 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'b
             Velocity(crimedivs, { translateY: "+=450" }, 300); // Velocity
             document.getElementById('crimes').style.color="white";
             document.getElementById('crimes').style.backgroundColor="skyblue";
-        } 
+        }
         else if (crimePlacement==1) {
 	        Velocity(crimedivs, { translateY: "-=450" }, 300); // Velocity
 	        crimePlacement = 0;
@@ -90,7 +90,7 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'b
 	        document.getElementById('crimes').style.backgroundColor="white";
         }
 	});
-	
+
 
     return crimeIndexRactive;
 
