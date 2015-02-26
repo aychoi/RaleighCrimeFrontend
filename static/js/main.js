@@ -15,6 +15,9 @@ require.config({
     shim: {
         "velocity": {
             deps: [ "jquery" ]
+        },
+        "bootstrap": {
+            deps: [ "jquery" ]
         }
     }
 });
