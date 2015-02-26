@@ -102,6 +102,19 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     	populateMap(lastSearch, startDate, endDate);
     });
 
+    searchRactive.on( 'currentLocation', function(event) {
+    	if (navigator.geolocation) {
+        	navigator.geolocation.getCurrentPosition(function (position) {
+        		console.log(position);
+        		var output = { "geometry": {"location": {"k": position.coords.latitude, "D": position.coords.longitude}}, "formatted_address": "Your Current Location"};
+        		processResult(output);
+        	});
+	    } else {
+	        alert("Your browser does not support GeoLocation");
+    	}
+    });
+
+
 	searchRactive.on( 'submit', function( event, address )  {
 	  	geocoder.geocode( { 'address': address, 'componentRestrictions': {'country': 'United States', 'locality': 'Raleigh'}}, function(results, status) {
 	    if (status == google.maps.GeocoderStatus.OK) {
