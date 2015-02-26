@@ -1,8 +1,6 @@
 // Now we've configured RequireJS, we can load our dependencies and start
 define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'bootstrap'], function ( Ractive, html, $, Velocity, bootstrap) {
 
-
-
     var crimeIndexRactive = new Ractive({
       el: 'crimeIndexDiv',
       template: html,
@@ -19,6 +17,27 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'b
         filters: ["Driving", "Drugs/Alcohol", "Theft/Burglary", "Property Damage", "Violent Crimes", "Sexual Offense", "Miscellaneous"]
       }
     });
+
+
+    /*   Cookies   */
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+        }
+        return "";
+    }
+    
+    var firstTime = getCookie("visited");;
+    
+    if (firstTime==false) {
+        $('#explainModal').modal('show');
+    }
+    document.cookie="visited=true";   
 
     crimeIndexRactive.set('selectedFilters', crimeIndexRactive.get('filters'));
 
