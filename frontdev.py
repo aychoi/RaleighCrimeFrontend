@@ -1,6 +1,6 @@
 from flask import Flask, render_template, abort, request, jsonify, g
 import sqlite3
-import rpy2.robjects as robjects
+#import rpy2.robjects as robjects
 import math
 import json
 from crimemap import crime_map
@@ -38,24 +38,18 @@ def home_page():
 def export_page():
     return render_template('export.html')
 
-@app.route('/<search_query>,')
-def export_new(search_query):
-	searches = search_query.split(',');
-	if (len(searches) % 3 == 0):
-		points = []
-		names = []
-		it = iter(searches)
-		for p in it:
-			names.append(p);
-			points.append([next(it),next(it)])
-		indexes = []
-		summaries = []
-		for point in points:
-			indexes.append(r_find_index(point[0], point[1]))
-			summaries.append(r_get_summary(point[0], point[1]))
-		return render_template('export.html', points = points, indexes = indexes, summaries = summaries, names = names)
-	else:
-		return abort(500)
+@app.route('/<lat>,<lng>,<lat2>,<lng2>,<lat3>,<lng3>')
+def export_new(lat,lng, lat2, lng2, lat3, lng3):
+	points = []
+	points.append([lat,lng])
+	points.append([lat2,lng2])
+	points.append([lat3,lng3])
+	indexes = []
+	summaries = []
+	for point in points:
+		indexes.append(r_find_index(point[0], point[1]))
+		summaries.append(r_get_summary(point[0], point[1]))
+	return render_template('export.html', points = points, indexes = indexes, summaries = summaries)
 
 @app.route('/crimes/<lat>,<lng>,<startDate>,<endDate>')
 def find_crimes(lat, lng, startDate, endDate):
