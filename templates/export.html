@@ -25,14 +25,14 @@
     <thead>
     <tr>
         <th style='min-width:150px;'></th>
-        <th>Selection 1</th>
-        <th>Selection 2</th>
-        <th>Selection 3</th>
+        {% for index in indexes %}
+            <th>Selection {{loop.index}}</th>
+        {% endfor %}
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td>Overall Crime Index</td>
+        <td>Overall Crime Index (2014)</td>
         {% for index in indexes %}
             <td class="crimeIndex-export" style="color:black;">{{index['crimeRating'][0]}}</td>
         {% endfor %}
@@ -40,9 +40,9 @@
     </tr>
     <tr id="locations">
             <td>Location</td>
-            <td class="check"><img src='/static/img/addy1.png'/><br></td>
-            <td class="check"><img src='/static/img/addy2.png'/><br></td>
-            <td class="check"><img src='/static/img/addy3.png'/><br></td>
+            {% for name in names %}
+                <td class="check"><div id="export{{loop.index}}"></div><br>{{name}}</td>
+            {% endfor %}
     </tr>
     <tr id= "synopsys">
         <td>Synopsis</td>
@@ -57,6 +57,7 @@
 
     <script>
         points = {{points|tojson}}
+        names = {{names|tojson}}
     </script>
     <!-- RequireJS means we use this plugin to load everything else! -->
     <!-- See main.js -->

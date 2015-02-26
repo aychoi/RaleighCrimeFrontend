@@ -26,6 +26,7 @@
 }
 
 .exportTable {
+	position: static;
 }
 
 .green {
@@ -386,6 +387,13 @@ div#crimeIndex > span {
 body.bodyExport {
 	overflow: auto;
 }
+
+#export1, #export2, #export3 {
+	position: relative;
+	width: 100%;
+	height: 200px;
+}
+
 
 /***** MOBILE SPECIFIC CSS *******/
 @media screen and (max-width: 768px) {   

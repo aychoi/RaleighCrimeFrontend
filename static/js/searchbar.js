@@ -19,13 +19,12 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     {
     	var newlatlng = { "lat": result.geometry.location.k, "lng": result.geometry.location.D};
     	var address = result.formatted_address;
-    	console.log(address);
     	var main_name = address.split("Raleigh")[0].split(",");
     	if (main_name[0].length == 0)
     		return;
 
     	main_name.pop();
-    	var object = {'name': main_name, 'geo': newlatlng};
+    	var object = {'name': main_name, 'geo': newlatlng, 'isChecked': false};
     	updateMap(object);
     }
 
@@ -36,7 +35,6 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	        url: "./crimes/"+object["geo"]["lat"]+","+object["geo"]["lng"]+","+startDate+","+endDate,
 	        success: function(json) {
 	            geojson = json["geojson"]
-	            console.log(geojson);
 	            locations.setGeoJSON(geojson);
 	            locations.eachLayer(function(locale) {
 			        // Iterate over each marker.
@@ -86,7 +84,6 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	        url: "./crimeIndex/"+object["geo"]["lat"]+","+object["geo"]["lng"],
 	        dataTye: "json",
 	        success: function(json) {
-	            console.log(json);
 	            crimeIndexRactive.set("crimeIndex", json["crimeRatingYear"][5]);
 	            summaryRactive.set("summary", json["crimeRatingYear"]);
 
@@ -125,6 +122,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	      }
 	      //Found No Results
 
+	      alert("Unable to find address. Please enter an exact location in Raleigh, NC");
 	  	  //
 	  	  
 	  	  //
