@@ -4,15 +4,17 @@
                     <div id='exportButton' class='hidden-xs sourceSansBold' on-click="export:{{exported}}">EXPORT</div>
         <div class='cardHolder'>
             {{#searches}}
-                <div class='card' on-click= "select:{{this}}">
-                    {{#name}}
-                        {{this}}<br>
-                    {{/name}}
+                <div class='card'>
+                    <div on-click="select:{{this}}">
+                        {{#name}}
+                            {{this}}<br>
+                        {{/name}}
+                    </div>
                     <!--<div class='cardIndex' style='background-color:{{findColor(index)}};'>{{formattedCrimeIndex(index)}}</div>-->
-                </div>
                     <div class='cardIndex'>
                         <input type="checkbox" on-click="addToExport:{{this}}" checked='{{this.isChecked}}'>
                     </div>
+                </div>
             {{/searches}}
         </div>
     </div>
