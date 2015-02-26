@@ -23,4 +23,4 @@ require.config({
 });
 
 
-require(["map", "searchbar", "recentSearches", "crimeIndex"]);
+require(["map", "searchbar", "recentSearches", "crimeIndex", "analytics"]);

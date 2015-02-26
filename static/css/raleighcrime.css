@@ -329,6 +329,7 @@ div#crimeIndex > span {
 	padding:5px;
 }
 
+#crimes {display:none;}
 
 #crimes:hover, #dates:hover {
 	color:#456942;
@@ -395,7 +396,8 @@ div#crimeIndex > span {
 }
 
 .pickLocation {
-	display:inline;
+	//display:inline;
+	display:none;
 }
 
 body.bodyExport {
