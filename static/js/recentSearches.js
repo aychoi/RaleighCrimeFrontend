@@ -37,6 +37,10 @@ define([ 'ractive', 'rv!../ractive/recentSearchesTemplate'], function ( Ractive,
 
 
     recentSearchesRactive.on( 'export', function( event, exported )  {
+      if (exported.length == 0) {
+        alert("You must select at least one location to export");
+        return;
+      }
       var searchQuery = "./";
       for (index in exported) {
         searchQuery+=exported[index].name[0]+","+exported[index].geo.lat+","+exported[index].geo.lng+",";

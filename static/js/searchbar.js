@@ -130,7 +130,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	      	{
 	      		//Legit Result! 
 	      		processResult(results[i]);
-	      		break;
+	      		return;
 	      	}
 	      }
 	      //Found No Results
