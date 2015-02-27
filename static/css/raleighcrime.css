@@ -395,8 +395,8 @@ div#crimeIndex > span {
 }
 
 #crimeIndexHistory {
-    margin-top:35px;   
-    margin-left:10px;   
+    margin-top:35px;
+    margin-left:10px;
 }
 
 #crimeIndexLabels {
@@ -437,8 +437,22 @@ body.bodyExport {
 }
 
 
+#logo {
+	position:fixed;
+	height:25px;
+	bottom:0px;
+	right:0px;
+	opacity: 0.6;
+	margin:30px;
+}
+
+#logo:hover {
+	opacity:1;
+}
+
+
 /***** MOBILE SPECIFIC CSS *******/
-@media screen and (max-width: 768px) {   
+@media screen and (max-width: 768px) {
     #searchAddresses {
     	margin-left:0px;
     	margin-top:0px;
@@ -500,4 +514,4 @@ body.bodyExport {
 		margin-top:45px;
 	}
 
-} 
+}

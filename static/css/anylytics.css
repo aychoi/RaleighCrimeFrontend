@@ -63,16 +63,6 @@ html, body {
 
 /******* TOP MENU ********/
 
-#logo {
-	padding-top:5px;
-	height:30px;
-	opacity: 0.6;
-}
-
-#logo:hover {
-	opacity:1;
-}
-
 .headButton {
 	padding-top:5px;
 	height:30px;
@@ -379,5 +369,3 @@ div#call_107PM {
 	z-index:1307;
 	left:10%;
 }
-
-
