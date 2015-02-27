@@ -115,8 +115,9 @@
 img#searchImg {
 	text-align:center;
 	max-width:100%;
-	width:300px;
+	width:400px;
 	left:0px;
+	padding-bottom:15px;
 	right:0px;
 	margin:auto;
 }
@@ -181,6 +182,7 @@ img#searchImg {
 	cursor: pointer;
 	right:0;
 	margin:5px;
+	-webkit-animation-delay: 1.2s;
 }
 
 #filterCrimes {
@@ -349,6 +351,12 @@ div#crimeIndex > span {
 	color:#54A148;
 }
 
+.modalTitle {
+	font-size:1.2em;
+	color:#54A148;
+	font-weight:bold;
+}
+
 .fullWidth {
 	width:100%;
 }
@@ -357,6 +365,7 @@ div#crimeIndex > span {
     position:relative;
     width:50px;
     padding:2px;
+    -webkit-transition: height:0.8s;
 }
 
 .crimeIndexMonth {

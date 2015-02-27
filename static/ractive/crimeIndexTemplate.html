@@ -1,5 +1,5 @@
     <div id='crimeIndex' class='rightBox floatBox shadow'>
-        <div class='boxTitle sourceSansBold'>Crime Index<div class="fa fa-question questionIcon" data-toggle="modal" data-target="#explainModal"></div></div>
+        <div class='boxTitle sourceSansBold'>Crime Index<div class="fa fa-question questionIcon animated wobble" data-toggle="modal" data-target="#explainModal"></div></div>
         <p>{{formattedCrimeIndex(crimeIndex)}}</p>
         <span class='boxTitle fullWidth sourceSansBold'> <span id='crimes' on-click="bringDownCrime">CRIMES</span>  &nbsp; &nbsp; &nbsp;   <span id='legendTrigger' on-click="moveLegend">LEGEND</span>  &nbsp; &nbsp; &nbsp;  </span>
     </div>
@@ -70,10 +70,30 @@
         <h4 class="modal-title">Raleigh Crime Explorer</h4>
       </div>
       <div class="modal-body">
-        <p>Welcome to the Raleigh Crime Explorer web application! Getting started is easy -- simply type a Raleigh address into the searchbar!</p>
-        <img id='searchImg' src="./static/img/searchBar.png"/>
-        <p>This dataset comes from the Raleigh Open Data portal, under the Master Police Incidents data set. Through this data, we are provided with a full lists of geo-tagged crimes from 2006. Although knowing the number of crimes in an area is useful, we have used that data to calculate a crime index. An index will allow for easy comparisons of different locations. <br><br>To compute the index, we take a very large sample of addresses from Raleigh and tabulate the amount and types of crimes in each area. This gives us an accurate distribution of crimes in Raleigh. For any address that you type in, we compare it to the distribution to find where that address ranks in comparison to the rest of Raleigh.</p><br>
-        <p>For an analytical look at this data, take a look at our <a href="./whitepaper.pdf">whitepaper</a> on whether criminals in Raleigh take time off.</p>
+        <p style="font-size:1.4em; text-align:center;">Welcome to the Raleigh Crime Explorer web application! <u>Getting started is easy -- simply type a Raleigh address into the search bar!</u></p>
+        <div style="width:100%; text-align:center;"><img id='searchImg' src="./static/img/searchBar.png"/></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-7">The <span class="modalTitle">Crime Index</span> box will display a pre-calculated number that represents the relative danger level of the searched location, relative to the rest of raleigh. Higher numbers indicate a higher danger level. A crime index of 50, <u>for example, indicates that the searched location falls in the 50th percentile of most dangerous places in Raleigh</u></div>
+                <div class="col-md-5" style="text-align:center;"><img style="width:200px;" id='searchImg' src="./static/img/crimeIndex.png"/></div>
+            </div><br>
+        </div>
+        <div class="container-fluid hidden-xs">
+            <div class="row">
+                <div class="col-md-5" style="text-align:center;"><img style="width:150px;" id='searchImg' src="./static/img/recentSearches.png"/></div>
+                <div class="col-md-7">The <span class="modalTitle">Recent Searches</span> box will keep a history of your searches for easy access. Additionally, you may check off up to <b>three</b> locations for comparision by selecting the locations you would like to compare, and clicking the green export button.</div>
+            </div><br>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-7">By default, the current year's crimes will be shown when searching. You can also use the <span class="modalTitle">Summary</span> box to analyze how a certain location's crime has been trending over the years. Clicking a particular year will display the crimes from that year.</div>
+                <div class="col-md-5" style="text-align:center;"><img style="width:150px;" id='searchImg' src="./static/img/summary.png"/></div>
+            </div>
+        </div>
+        <hr>
+        <p>This dataset comes from the Raleigh Open Data portal, under the Master Police Incidents data set. Through this data, we are provided with a full lists of geo-tagged crimes from 2006. Although knowing the number of crimes in an area is useful, we have used that data to calculate a crime index. An index will allow for easy comparisons of different locations. <br></p>
+        <p>To compute the index, we take a very large sample of addresses from Raleigh and tabulate the amount and types of crimes in each area. This gives us an accurate distribution of crimes in Raleigh. For any address that you type in, we compare it to the distribution to find where that address ranks in comparison to the rest of Raleigh.</p><br>
+        <!--<p>For an analytical look at this data, take a look at our <a href="./whitepaper.pdf">whitepaper</a> on whether criminals in Raleigh take time off.</p>-->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
