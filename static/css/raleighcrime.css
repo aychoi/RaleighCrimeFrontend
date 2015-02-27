@@ -182,7 +182,11 @@ img#searchImg {
 	cursor: pointer;
 	right:0;
 	margin:5px;
-	-webkit-animation-delay: 1.2s;
+    -webkit-animation-delay: height:0.8s;
+    -moz-animation-delay: height:0.8s;
+    -ms-animation-delay: height:0.8s;
+    -o-animation-delay: height:0.8s;
+    animation-delay: height:0.8s;
 }
 
 #filterCrimes {
@@ -366,6 +370,10 @@ div#crimeIndex > span {
     width:50px;
     padding:2px;
     -webkit-transition: height:0.8s;
+    -moz-transition: height:0.8s;
+    -ms-transition: height:0.8s;
+    -o-transition: height:0.8s;
+    transition: height:0.8s;
 }
 
 .crimeIndexMonth {
@@ -375,6 +383,7 @@ div#crimeIndex > span {
     bottom:0px;
     color:white;
     font-size:0.8em;
+    -webkit-transition: height 0.5s;
 }
 
 .crimeIndexMonth:hover {
