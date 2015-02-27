@@ -276,7 +276,7 @@ img#searchImg {
 #addresses {
 	margin-top:180px;
 	z-index:3;
-	height:200px;
+	height:240px;
 	text-align:left;
 }
 
@@ -306,9 +306,17 @@ img#searchImg {
 }
 
 #summary {
-	margin-top:390px;
+	margin-top:430px;
 	z-index:4;
 	height:200px;
+}
+
+.exportBtn {
+	background-color:#54A148;
+	color:white;
+	border-radius:2px;
+	padding:3px;
+	font-size:.7em;
 }
 
 div#crimeIndex > p {
