@@ -182,11 +182,11 @@ img#searchImg {
 	cursor: pointer;
 	right:0;
 	margin:5px;
-    -webkit-animation-delay: height:0.8s;
-    -moz-animation-delay: height:0.8s;
-    -ms-animation-delay: height:0.8s;
-    -o-animation-delay: height:0.8s;
-    animation-delay: height:0.8s;
+    -webkit-animation-delay: 0.8s;
+    -moz-animation-delay: 0.8s;
+    -ms-animation-delay: 0.8s;
+    -o-animation-delay: 0.8s;
+    animation-delay: 0.8s;
 }
 
 #filterCrimes {
