@@ -135,7 +135,8 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	      }
 	      //Found No Results
 
-	      alert("Unable to find address. Please enter an exact location in Raleigh, NC");
+	      //alert("Unable to find address. Please enter an exact location in Raleigh, NC");
+	      $('#searchesModal').modal();
 	  	  //
 	  	  
 	  	  //

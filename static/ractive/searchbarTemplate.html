@@ -6,3 +6,25 @@
                 <button class="btn btn-default shadow currentLocation" type="button" on-click="currentLocation"><div class="fa fa-dot-circle-o"></div></button>
           </span>
 </div>
+
+<div id="searchesModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content" id='searchesModalContent'>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">No results found...</h4>
+      </div>
+      <div class="modal-body">
+      	<p>We're sorry, we didn't find any exact matches to your search... do any of these results sound familiar?</p>
+      	<div class='searchResult'>
+      		<div class="fa fa-search"></div><span class='searchResultName'>Enloe High School</span>
+      	</div>
+      	<div class='searchResult'>
+      		<div class="fa fa-search"></div><span class='searchResultName'>Carnage Junior High School</span>
+      	</div>
+      	<div class='searchResult'>
+      		<div class="fa fa-search"></div><span class='searchResultName'>Broughton High School</span>
+      	</div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

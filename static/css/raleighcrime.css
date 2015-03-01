@@ -108,8 +108,27 @@
 	z-index:1;
 }
 
+#searchesModalContent {
+	height:335px;
+	overflow-y:auto;
+}
+
 #searchContainer {
 	display:inline-block;
+}
+
+.searchResult {
+	padding:20px;
+	margin:5px;
+	cursor:pointer;
+}
+
+.searchResult:hover {
+	background-color:whitesmoke;
+}
+
+.searchResultName {
+	padding-left:10px;
 }
 
 img#searchImg {

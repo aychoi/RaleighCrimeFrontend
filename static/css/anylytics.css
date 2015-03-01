@@ -103,6 +103,19 @@ html, body {
 	box-shadow: 1px 1px 4px #888888;
 }
 
+#anyBolt {
+  -webkit-animation: hideshow 10s ease infinite;
+}
+
+
+@keyframes hideshow {
+  0% { opacity: 1; }
+  10% { opacity: 1; }
+  15% { opacity: 0; }
+  100% { opacity: 0; }
+} 
+
+
 /******* CONTENT ********/
 
 #mainarea {
