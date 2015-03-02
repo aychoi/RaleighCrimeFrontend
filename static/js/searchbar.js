@@ -203,8 +203,8 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	});
 
 	map.on('click', function(e) {
-		showUI();
 		if (searchRactive.get('clickMode') === true) {
+			showUI();
 			searchRactive.set('clickMode', false);
 			var latlng = new google.maps.LatLng(e.latlng.lat, e.latlng.lng);
 			geoCodeQuery(latlng);
