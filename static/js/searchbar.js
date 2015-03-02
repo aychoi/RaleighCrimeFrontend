@@ -65,11 +65,10 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     function showUI () {
 
     	$('.leaflet-container').css('cursor','');
-    	$('#crimeIndexDiv').velocity("fadeIn", { duration: 1000 })
-    	$('#addresses').velocity("fadeIn", { duration: 1000 })
-    	$('#summaryDiv').velocity("fadeIn", { duration: 1000 })
-
-    	$('#searchContainer').velocity("fadeIn", { duration: 1000 })
+    	$('#crimeIndexDiv').velocity("fadeIn", { duration: 1000 });
+    	$('#addresses').velocity("fadeIn", { duration: 1000 });
+    	$('#summaryDiv').velocity("fadeIn", { duration: 1000 });
+    	$('#searchContainer').velocity("fadeIn", { duration: 1000 });
 
     }
 
