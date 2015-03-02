@@ -1,8 +1,8 @@
 <div class="input-group" id="searchAddresses">
-      <input type="text" class="form-control shadow" placeholder="Search for..." value='{{searchquery}}' on-enter='submit:{{searchquery}}'> 
+      <input type="text" class="form-control shadow die" placeholder="Search for..." value='{{searchquery}}' on-enter='submit:{{searchquery}}'>
           <span class="input-group-btn">
-                <button class="btn btn-default shadow" type="button" on-click="submit:{{searchquery}}" title='Search'><div class="fa fa-search"></div></button>
-                <button class="btn btn-default shadow pickLocation {{ clickMode == true ? 'pickActive' : '' }}" type="button" on-click='clickLocation' title='Use this button to manually pick a location on the map'><div class="fa fa-neuter"></div></button>
+                <button class="btn btn-default shadow die" type="button" on-click="submit:{{searchquery}}" title='Search'><div class="fa fa-search"></div></button>
+                <button class="btn btn-default shadow die" type="button" on-click='clickLocation' title='Use this button to manually pick a location on the map'><div class="fa fa-neuter"></div></button>
                 <button class="btn btn-default shadow currentLocation" type="button" on-click="currentLocation"><div class="fa fa-dot-circle-o"></div></button>
           </span>
 </div>

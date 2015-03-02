@@ -54,7 +54,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     }
 
     function hideUI () {
-    	$('#crimeIndex, #addresses, #summary, #legend').velocity("fadeOut", { delay: 0, duration: 800 });
+    	$('#crimeIndex, #addresses, #summary, #legend, .die').velocity("fadeOut", { delay: 0, duration: 800 });
     	$('.leaflet-container').css('cursor', 'url(./static/img/cursorPick.png),auto');
     	//$('#addresses').css('display', 'none');
     }
@@ -63,7 +63,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 
     	$('.leaflet-container').css('cursor','');
 
-    	$('#crimeIndex, #addresses, #summary, #legend').velocity("fadeIn", { delay: 0, duration: 800 });
+    	$('#crimeIndex, #addresses, #summary, #legend, .die').velocity("fadeIn", { delay: 0, duration: 800 });
 
     }
 
