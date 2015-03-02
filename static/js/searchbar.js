@@ -15,9 +15,9 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
       }
     });
 
-    $(function() {
+    /*$(function() {
 	    $( "#draggableButton" ).draggable();
-	  });
+	  });*/
 
 
     
