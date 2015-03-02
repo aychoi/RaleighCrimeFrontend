@@ -115,6 +115,7 @@ crimeRatingYear_sexual = 0
 crimeRatingYear_theft = 0
 crimeRatingYear_violent = 0
 crimeRatingYear = 0
+emptyCheck = 0
 
 for (i in years){
   fname = paste("crimeIndexFiles/crimeIndexUniformGroup",i,".csv",sep="")
@@ -122,20 +123,29 @@ for (i in years){
   crimeIndex <- read.table(fname,sep=",",header=TRUE)
   crimeIndex$X <-NULL
   localData <- localDataAllYears[which(localDataAllYears$year==i),]
-  
+  emptyCheck = 0;
   days = 365
+  
+  locationMatrix = as.matrix(data.frame(localData$longitude,localData$latitude));
+  
   if (i%%4 == 0){
     days = 366
   }
-  if (i==2015){
+  if (i==2015 & dim(locationMatrix)[1]!=0){
     nD = max(localData$dates); fD= min(localData$dates);
     final = paste(substr(nD,1,4),"-",substr(nD,5,6),"-",substr(nD,7,8),sep="")
     first = paste(substr(fD,1,4),"-",substr(fD,5,6),"-",substr(fD,7,8),sep="")     
     days = as.Date(final) - as.Date(first)
   }
   
-  locationMatrix = as.matrix(data.frame(localData$longitude,localData$latitude));
-  distancetoPoint = distHaversine(point,locationMatrix);
+  
+  
+  if (dim(locationMatrix)[1]!=0){      
+    distancetoPoint = distHaversine(point,locationMatrix);      
+  }
+  if (dim(locationMatrix)[1]==0){
+    emptyCheck = 1
+  }
   
   crimes = length(which(distancetoPoint < crimeRadius));
   crimes_driving = length(which(distancetoPoint < crimeRadius & localData$groupName%in%cat.driving));
@@ -163,11 +173,17 @@ for (i in years){
 }
 
 crimeRatingYears = data.frame(crimeRatingYear_driving,crimeRatingYear_drugs,crimeRatingYear_misc,
-                         crimeRatingYear_property,crimeRatingYear_sexual,crimeRatingYear_theft,
-                         crimeRatingYear_violent,crimeRatingYear)
+                              crimeRatingYear_property,crimeRatingYear_sexual,crimeRatingYear_theft,
+                              crimeRatingYear_violent,crimeRatingYear)
+
 
 outputJ = data.frame(crimeRating,crimeRatingYears)
 
+if (emptyCheck==1){
+  outputJ = "notRaleigh"
+}
+
 return(toJSON(outputJ))
+
 
 }
