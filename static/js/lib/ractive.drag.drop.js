@@ -7,7 +7,7 @@
  * @author  Nijiko Yonskai
  * @copyright  2013
  */
-Ractive.eventDefinitions.dragndrop = function ( node, fire ) {
+Ractive.events.dragndrop = function ( node, fire ) {
   var foreach = function (n, next) {
     if (n.length) Array.prototype.forEach.call(n, next);
   };

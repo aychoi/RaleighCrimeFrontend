@@ -1,5 +1,5 @@
 // Now we've configured RequireJS, we can load our dependencies and start
-define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'bootstrap'], function ( Ractive, html, $, Velocity, bootstrap) {
+define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'jqueryui', 'velocity', 'bootstrap'], function ( Ractive, html, $, jqueryui, Velocity, bootstrap) {
 
     var crimeIndexRactive = new Ractive({
       el: 'crimeIndexDiv',

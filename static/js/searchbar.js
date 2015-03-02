@@ -1,5 +1,5 @@
 // Now we've configured RequireJS, we can load our dependencies and start
-define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'geocoder', 'map', 'recentSearches', 'crimeIndex', 'summary', 'jquery', 'velocity'], function ( Ractive, events, html, geocoder, map, recentSearchesRactive, crimeIndexRactive, summaryRactive, $, Velocity) {
+define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'geocoder', 'map', 'recentSearches', 'crimeIndex', 'summary', 'jquery', 'velocity', 'drag_drop'], function ( Ractive, events, html, geocoder, map, recentSearchesRactive, crimeIndexRactive, summaryRactive, $, Velocity, drag_drop) {
 
 	animationID = 0;
 	locations = L.mapbox.featureLayer().addTo(map);
@@ -14,6 +14,8 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
         partialMatches: undefined
       }
     });
+
+    $( "#testing" ).draggable();
 
     
     function processResult(result) 
@@ -162,6 +164,10 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 
 	map.on('click', function(e) {
 		console.log("HELLO");
+	});
+
+	recentSearchesRactive.on('dragndrop-items', function (event) {
+	  console.log(event);
 	});
 
 	
