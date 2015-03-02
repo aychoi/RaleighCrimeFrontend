@@ -109,7 +109,7 @@
 }
 
 #searchesModalContent {
-	height:335px;
+	max-height:90%;
 	overflow-y:auto;
 }
 
