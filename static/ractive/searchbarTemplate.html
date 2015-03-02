@@ -2,7 +2,7 @@
       <input type="text" class="form-control shadow" placeholder="Search for..." value='{{searchquery}}' on-enter='submit:{{searchquery}}'> 
           <span class="input-group-btn">
                 <button class="btn btn-default shadow" type="button" on-click="submit:{{searchquery}}"><div class="fa fa-search"></div></button>
-                <button id="testing" class="btn btn-default shadow pickLocation" type="button" proxy-dragndrop='dragndrop-items'><div class="fa fa-neuter"></div></button>
+                <button class="btn btn-default shadow pickLocation" type="button" on-click='clickLocation'><div class="fa fa-neuter"></div></button>
                 <button class="btn btn-default shadow currentLocation" type="button" on-click="currentLocation"><div class="fa fa-dot-circle-o"></div></button>
           </span>
 </div>
