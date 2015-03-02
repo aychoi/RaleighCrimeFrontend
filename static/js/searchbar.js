@@ -58,13 +58,13 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     }
 
     function hideUI () {
-    	document.getElementById("p2").style.cursor='url(../img/cursorPick.png),auto;';
+    	$('.leaflet-container').css('cursor', 'url(./static/img/cursorPick.png),auto');
 
     }
 
     function showUI () {
 
-    	document.getElementById("p2").style.cursor='auto;';
+    	$('.leaflet-container').css('cursor','');
 
     }
 
@@ -180,6 +180,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	});
 
 	map.on('click', function(e) {
+		showUI();
 		if (searchRactive.get('clickMode') === true) {
 			searchRactive.set('clickMode', false);
 			var latlng = new google.maps.LatLng(e.latlng.lat, e.latlng.lng);
