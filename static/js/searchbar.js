@@ -57,6 +57,17 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	    });
     }
 
+    function hideUI () {
+    	$('#map').css('cursor','url(../img/cursorPick.png),auto;');
+
+    }
+
+    function showUI () {
+
+    	$('#map').css('auto;');
+
+    }
+
     function updateMap(object)
     {
     	map.setView(object["geo"], 16);
