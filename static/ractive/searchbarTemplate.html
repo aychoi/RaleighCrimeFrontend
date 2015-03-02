@@ -15,11 +15,7 @@
         <h4 class="modal-title">No results found...</h4>
       </div>
       <div class="modal-body">
-        {{#if partialMatches}}
-      	 <p>We're sorry, we didn't find any exact matches to your search... do any of these results sound familiar?</p>
-        {{else}}
-          <p>We're sorry, we didn't find any exact or partial matches to your search. Currently we only support locations in Raleigh, North Carolina. Try putting in an address (128 Clarendon Crescent) or name (Enloe High School) of a location.</p>
-        {{/if}}
+      	<p>{{modalText}}</p>
         {{#partialMatches}}
         	<div class='searchResult' data-dismiss="modal" on-click="submitSuggested:{{this}}">
         		<div class="fa fa-search"></div><span class='searchResultName'>{{formatted_address}}</span>

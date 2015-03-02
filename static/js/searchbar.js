@@ -11,13 +11,10 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
       template: html,
       data: {
         searchquery: "",
-        partialMatches: undefined
+        partialMatches: undefined,
+        modalText: undefined
       }
     });
-
-    /*$(function() {
-	    $( "#draggableButton" ).draggable();
-	  });*/
 
 
     
@@ -127,6 +124,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 
 	searchRactive.on( 'submit', function( event, address )  {
 		searchRactive.set('partialMatches', undefined);
+		searchRactive.set('modalText', undefined);
 	  	geocoder.geocode( { 'address': address, 'componentRestrictions': {'country': 'United States', 'locality': 'Raleigh', 'administrativeArea': 'NC' }}, function(results, status) {
 	    if (status == google.maps.GeocoderStatus.OK) {
 	      for (var i = 0; i<results.length; i++)
@@ -146,7 +144,11 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	      }
 	      //Found No Results
 	      if (results[0].formatted_address != "Raleigh, NC, USA") {
+	      	searchRactive.set('modalText', "We're sorry, we didn't find any exact matches to your search... do any of these results sound familiar?");
 	      	searchRactive.set('partialMatches', results);
+	      }
+	      else {
+	      	searchRactive.set('modalText', "We're sorry, we didn't find any exact or partial matches to your search. Currently we only support locations in Raleigh, North Carolina. Try putting in an address (128 Clarendon Crescent) or name (Enloe High School) of a location.");
 	      }
 	      //alert("Unable to find address. Please enter an exact location in Raleigh, NC");
 	      $('#searchesModal').modal();
@@ -154,6 +156,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	  	  
 	  	  //
 	    } else {
+	    	searchRactive.set('modalText', "Uh Oh! An error occured! Would you please email us at hello@anylytics.io and let us know that you're experiencing problems with our app? Thank you!")
 	    	$('#searchesModal').modal();
 	      //Error Occurred
 	      //alert('Geocode was not successful for the following reason: ' + status);
@@ -166,11 +169,29 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	});
 
 	map.on('click', function(e) {
-		console.log("HELLO");
+		if (searchRactive.get('clickMode') === true) {
+			searchRactive.set('clickMode', false);
+			var latlng = new google.maps.LatLng(e.latlng.lat, e.latlng.lng);
+			geocoder.geocode( { 'latLng': latlng }, function(results, status) {
+			    if (status == google.maps.GeocoderStatus.OK) {
+			    	if (results[1]) {
+			    		if (results[1].formatted_address.indexOf("Raleigh, NC") > -1) {
+			    			var output = { "geometry": {"location": {"k": e.latlng.lat, "D": e.latlng.lng}}, "formatted_address": "Custom Location"};
+        					processResult(output);
+        					return;
+			    		}
+			    	}  
+			    }
+		 	});	
+		 	//Something went wrong
+		 	searchRactive.set('modalText', "Unfortuantely we only support Raleigh, North Carolina right now. Please try searching inside city limits");
+	    	$('#searchesModal').modal();
+		}
 	});
 
-	recentSearchesRactive.on('dragndrop-items', function (event) {
-	  console.log(event);
+	searchRactive.on('clickLocation', function (event) {
+		console.log("HERE");
+	  	searchRactive.set('clickMode', true);
 	});
 
 	
