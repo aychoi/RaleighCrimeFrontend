@@ -15,7 +15,10 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
       }
     });
 
-    $( "#testing" ).draggable();
+    $(function() {
+	    $( "#draggableButton" ).draggable();
+	  });
+
 
     
     function processResult(result) 
@@ -174,5 +177,8 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 
 	
     return searchRactive;
+
+
+
 
 });
