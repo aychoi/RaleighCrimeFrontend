@@ -22,11 +22,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     {
     	var newlatlng = { "lat": result.geometry.location.k, "lng": result.geometry.location.D};
     	var address = result.formatted_address;
-    	var main_name = address.split("Raleigh")[0].split(",");
-    	if (main_name[0].length == 0)
-    		return;
-
-    	main_name.pop();
+    	var main_name = address.split(",").slice(0,2);
     	var object = {'name': main_name, 'geo': newlatlng, 'isChecked': false};
     	updateMap(object);
     }
@@ -112,6 +108,24 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	    });
     }
 
+    function geoCodeQuery(latlng) {
+    	geocoder.geocode( { 'latLng': latlng }, function(results, status) {
+		    if (status == google.maps.GeocoderStatus.OK) {
+		    	if (results[1]) {
+		    		if (results[1].formatted_address.indexOf("Raleigh, NC") > -1) {
+		    			console.log(results[1]);
+		    			//var output = { "geometry": {"location": {"k": e.latlng.lat, "D": e.latlng.lng}}, "formatted_address": };
+						processResult(results[1]);
+						return;
+		    		}
+		    	}  
+		    }
+		    //Something went wrong
+	 		searchRactive.set('modalText', "Unfortuantely we only support Raleigh, North Carolina right now. Please try searching inside city limits.");
+			$('#searchesModal').modal();
+	 	});	
+    }
+
     searchRactive.on( 'repopulateMap', function(event, startDate, endDate) {
     	populateMap(lastSearch, startDate, endDate);
     });
@@ -120,8 +134,8 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     	if (navigator.geolocation) {
         	navigator.geolocation.getCurrentPosition(function (position) {
         		console.log(position);
-        		var output = { "geometry": {"location": {"k": position.coords.latitude, "D": position.coords.longitude}}, "formatted_address": "Your Current Location"};
-        		processResult(output);
+        		var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+				geoCodeQuery(latlng);
         	});
 	    } else {
 	        alert("Your browser does not support GeoLocation");
@@ -184,21 +198,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 		if (searchRactive.get('clickMode') === true) {
 			searchRactive.set('clickMode', false);
 			var latlng = new google.maps.LatLng(e.latlng.lat, e.latlng.lng);
-			geocoder.geocode( { 'latLng': latlng }, function(results, status) {
-			    if (status == google.maps.GeocoderStatus.OK) {
-			    	if (results[1]) {
-			    		if (results[1].formatted_address.indexOf("Raleigh, NC") > -1) {
-			    			console.log(results[1]);
-			    			var output = { "geometry": {"location": {"k": e.latlng.lat, "D": e.latlng.lng}}, "formatted_address": "Custom Location"};
-        					processResult(output);
-        					return;
-			    		}
-			    	}  
-			    }
-			    //Something went wrong
-		 		searchRactive.set('modalText', "Unfortuantely we only support Raleigh, North Carolina right now. Please try searching inside city limits");
-	    		$('#searchesModal').modal();
-		 	});	
+			geoCodeQuery(latlng);
 		 	
 		}
 	});
