@@ -54,21 +54,16 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     }
 
     function hideUI () {
+    	$('#crimeIndex, #addresses, #summary, #legend').velocity("fadeOut", { delay: 0, duration: 800 });
     	$('.leaflet-container').css('cursor', 'url(./static/img/cursorPick.png),auto');
-    	$('#crimeIndexDiv').velocity("fadeOut", { delay: 0, duration: 1000 });
     	//$('#addresses').css('display', 'none');
-    	$('#addresses').velocity("fadeOut", { delay: 0, duration: 1000 });
-    	$('#summaryDiv').velocity("fadeOut", { delay: 0, duration: 1000 });
-    	$('#searchContainer').velocity("fadeOut", { delay: 0, duration: 1000 });
     }
 
     function showUI () {
 
     	$('.leaflet-container').css('cursor','');
-    	$('#crimeIndexDiv').velocity("fadeIn", { duration: 1000 });
-    	$('#addresses').velocity("fadeIn", { duration: 1000 });
-    	$('#summaryDiv').velocity("fadeIn", { duration: 1000 });
-    	$('#searchContainer').velocity("fadeIn", { duration: 1000 });
+
+    	$('#crimeIndex, #addresses, #summary, #legend').velocity("fadeIn", { delay: 0, duration: 800 });
 
     }
 
