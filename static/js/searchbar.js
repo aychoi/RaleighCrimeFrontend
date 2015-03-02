@@ -115,7 +115,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     	geocoder.geocode( { 'latLng': latlng }, function(results, status) {
 		    if (status == google.maps.GeocoderStatus.OK) {
 		    	if (results[1]) {
-		    		if (results[1].formatted_address.indexOf("Raleigh, NC") > -1) {
+		    		if (results[1].formatted_address.indexOf("Raleigh, NC") > -1 && results[1].formatted_address != "Raleigh, NC 27607, USA") {
 		    			console.log(results[1]);
 		    			//var output = { "geometry": {"location": {"k": e.latlng.lat, "D": e.latlng.lng}}, "formatted_address": };
 						processResult(results[1]);
