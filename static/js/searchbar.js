@@ -187,21 +187,23 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 			    if (status == google.maps.GeocoderStatus.OK) {
 			    	if (results[1]) {
 			    		if (results[1].formatted_address.indexOf("Raleigh, NC") > -1) {
+			    			console.log(results[1]);
 			    			var output = { "geometry": {"location": {"k": e.latlng.lat, "D": e.latlng.lng}}, "formatted_address": "Custom Location"};
         					processResult(output);
         					return;
 			    		}
 			    	}  
 			    }
+			    //Something went wrong
+		 		searchRactive.set('modalText', "Unfortuantely we only support Raleigh, North Carolina right now. Please try searching inside city limits");
+	    		$('#searchesModal').modal();
 		 	});	
-		 	//Something went wrong
-		 	searchRactive.set('modalText', "Unfortuantely we only support Raleigh, North Carolina right now. Please try searching inside city limits");
-	    	$('#searchesModal').modal();
+		 	
 		}
 	});
 
 	searchRactive.on('clickLocation', function (event) {
-		console.log("HERE");
+		hideUI();
 	  	searchRactive.set('clickMode', true);
 	});
 
