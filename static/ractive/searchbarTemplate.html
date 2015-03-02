@@ -15,16 +15,20 @@
         <h4 class="modal-title">No results found...</h4>
       </div>
       <div class="modal-body">
-      	<p>We're sorry, we didn't find any exact matches to your search... do any of these results sound familiar?</p>
-      	<div class='searchResult'>
-      		<div class="fa fa-search"></div><span class='searchResultName'>Enloe High School</span>
-      	</div>
-      	<div class='searchResult'>
-      		<div class="fa fa-search"></div><span class='searchResultName'>Carnage Junior High School</span>
-      	</div>
-      	<div class='searchResult'>
-      		<div class="fa fa-search"></div><span class='searchResultName'>Broughton High School</span>
-      	</div>
+        {{#if partialMatches}}
+      	 <p>We're sorry, we didn't find any exact matches to your search... do any of these results sound familiar?</p>
+        {{else}}
+          <p>We're sorry, we didn't find any exact or partial matches to your search. Currently we only support locations in Raleigh, North Carolina. Try putting in an address (128 Clarendon Crescent) or name (Enloe High School) of a location.</p>
+        {{/if}}
+        {{#partialMatches}}
+        	<div class='searchResult' data-dismiss="modal" on-click="submitSuggested:{{this}}">
+        		<div class="fa fa-search"></div><span class='searchResultName'>{{formatted_address}}</span>
+        	</div>
+      	{{/partialMatches}}
+      </div> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

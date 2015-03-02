@@ -10,7 +10,8 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
       el: 'searchContainer',
       template: html,
       data: {
-        searchquery: ""
+        searchquery: "",
+        partialMatches: undefined
       }
     });
 
@@ -114,9 +115,14 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     	}
     });
 
+    searchRactive.on( 'submitSuggested', function(event, result) {
+    	processResult(result);
+    });
+
 
 	searchRactive.on( 'submit', function( event, address )  {
-	  	geocoder.geocode( { 'address': address, 'componentRestrictions': {'country': 'United States', 'locality': 'Raleigh'}}, function(results, status) {
+		searchRactive.set('partialMatches', undefined);
+	  	geocoder.geocode( { 'address': address, 'componentRestrictions': {'country': 'United States', 'locality': 'Raleigh', 'administrativeArea': 'NC' }}, function(results, status) {
 	    if (status == google.maps.GeocoderStatus.OK) {
 	      for (var i = 0; i<results.length; i++)
 	      {
@@ -134,13 +140,16 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	      	}
 	      }
 	      //Found No Results
-
+	      if (results[0].formatted_address != "Raleigh, NC, USA") {
+	      	searchRactive.set('partialMatches', results);
+	      }
 	      //alert("Unable to find address. Please enter an exact location in Raleigh, NC");
 	      $('#searchesModal').modal();
 	  	  //
 	  	  
 	  	  //
 	    } else {
+	    	$('#searchesModal').modal();
 	      //Error Occurred
 	      //alert('Geocode was not successful for the following reason: ' + status);
 	    }
