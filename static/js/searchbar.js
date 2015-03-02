@@ -58,13 +58,13 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     }
 
     function hideUI () {
-    	$('#map').css('cursor','url(../img/cursorPick.png),auto;');
+    	document.getElementById("p2").style.cursor='url(../img/cursorPick.png),auto;';
 
     }
 
     function showUI () {
 
-    	$('#map').css('auto;');
+    	document.getElementById("p2").style.cursor='auto;';
 
     }
 
