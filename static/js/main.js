@@ -10,7 +10,8 @@ require.config({
         velocity: 'lib/velocity.min',
         ractive_events_keys: 'lib/ractive-events-keys.min',
         async: 'lib/async',
-        bootstrap: 'lib/bootstrap.min'
+        bootstrap: 'lib/bootstrap.min',
+        drag_drop: 'lib/ractive.drag.drop'
     },
     shim: {
         "velocity": {
@@ -18,6 +19,9 @@ require.config({
         },
         "bootstrap": {
             deps: [ "jquery" ]
+        },
+        "drag_drop": {
+            deps: [ "ractive" ]
         }
     }
 });

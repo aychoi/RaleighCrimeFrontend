@@ -88,11 +88,6 @@ def r_find_index(lat,lng):
 	crime_data = json.loads(json_data)
 	crime_data = json.loads(crime_data)
 	output = {}
-	#output["index"] = crime_data["crimeRating"][0]
-	#history = {}
-	#for i in range(2009, 2015):
-		#history[i] = crime_data["crimeRatingYear"][i-2009]
-	#output["history"] = crime_data["crimeRatingYear"]
 	return crime_data
 
 def r_get_summary(lat,lng):
@@ -107,7 +102,10 @@ def r_get_summary(lat,lng):
 
 @app.route('/crimeIndex/<lat>,<lng>')
 def find_index(lat, lng):
-	return jsonify(r_find_index(lat,lng))
+	try:
+		return jsonify(r_find_index(lat,lng))
+	except ValueError:
+		return jsonify({}), 403
 
 
 

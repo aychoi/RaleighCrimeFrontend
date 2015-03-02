@@ -160,6 +160,9 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 		updateMap(object);
 	});
 
+	map.on('click', function(e) {
+		console.log("HELLO");
+	});
 
 	
 
