@@ -441,8 +441,7 @@ div#crimeIndex > span {
 }
 
 .pickLocation {
-	//display:inline;
-	display:none;
+	display:inline;
 }
 
 body.bodyExport {
