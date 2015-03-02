@@ -59,12 +59,19 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 
     function hideUI () {
     	$('.leaflet-container').css('cursor', 'url(./static/img/cursorPick.png),auto');
-
+    	$('#crimeIndexDiv').css('display', 'none');
+    	$('#addresses').css('display', 'none');
+    	$('#summaryDiv').css('display', 'none');
+    	$('#searchContainer').css('display', 'none');
     }
 
     function showUI () {
 
     	$('.leaflet-container').css('cursor','');
+    	$('#crimeIndexDiv').css('display', 'inline');
+    	$('#addresses').css('display', 'inline');
+    	$('#summaryDiv').css('display', 'inline');
+    	$('#searchContainer').css('display', 'inline');
 
     }
 
