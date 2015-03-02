@@ -55,19 +55,21 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 
     function hideUI () {
     	$('.leaflet-container').css('cursor', 'url(./static/img/cursorPick.png),auto');
-    	$('#crimeIndexDiv').css('display', 'none');
-    	$('#addresses').css('display', 'none');
-    	$('#summaryDiv').css('display', 'none');
-    	$('#searchContainer').css('display', 'none');
+    	$('#crimeIndexDiv').velocity("fadeOut", { delay: 0, duration: 1000 });
+    	//$('#addresses').css('display', 'none');
+    	$('#addresses').velocity("fadeOut", { delay: 0, duration: 1000 });
+    	$('#summaryDiv').velocity("fadeOut", { delay: 0, duration: 1000 });
+    	$('#searchContainer').velocity("fadeOut", { delay: 0, duration: 1000 });
     }
 
     function showUI () {
 
     	$('.leaflet-container').css('cursor','');
-    	$('#crimeIndexDiv').css('display', 'inline');
-    	$('#addresses').css('display', 'inline');
-    	$('#summaryDiv').css('display', 'inline');
-    	$('#searchContainer').css('display', 'inline');
+    	$('#crimeIndexDiv').velocity("fadeIn", { duration: 1000 })
+    	$('#addresses').velocity("fadeIn", { duration: 1000 })
+    	$('#summaryDiv').velocity("fadeIn", { duration: 1000 })
+
+    	$('#searchContainer').velocity("fadeIn", { duration: 1000 })
 
     }
 
