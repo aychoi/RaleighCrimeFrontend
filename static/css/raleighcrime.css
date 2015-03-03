@@ -218,6 +218,19 @@ img#searchImg {
 .iconImg {
 	height:25px;
 	margin:5px;
+	cursor:pointer;
+	opacity:0.5;
+	-webkit-transition: opacity 0.2s;
+		 -moz-transition: opacity 0.2s;
+		  -ms-transition: opacity 0.2s;
+			 -o-transition: opacity 0.2s;
+					transition: opacity 0.2s;
+}
+
+.iconImg:hover, .iconImgActive {
+	height:32px;
+	margin:1px;
+	opacity:1;
 }
 
 #exportButton {
@@ -366,7 +379,6 @@ div#crimeIndex > span {
 
 #crimes, #dates, #legendTrigger {
 	color:skyblue;
-	cursor:pointer;
 	padding:5px;
 }
 

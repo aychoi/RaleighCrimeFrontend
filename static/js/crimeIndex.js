@@ -31,13 +31,13 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'b
         }
         return "";
     }
-    
+
     var firstTime = getCookie("visited");;
-    
+
     if (firstTime==false) {
         $('#explainModal').modal('show');
     }
-    document.cookie="visited=true";   
+    document.cookie="visited=true";
 
     crimeIndexRactive.set('selectedFilters', crimeIndexRactive.get('filters'));
 
@@ -53,15 +53,13 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'b
             Velocity(document.querySelectorAll("#legend"), { translateX: "+=365" }, 300);
             document.getElementById('closeFilterLegend').style.visibility="visible";
             document.getElementById('openFilterLegend').style.visibility="hidden";
-                document.getElementById('legendTrigger').style.color="white";
-                document.getElementById('legendTrigger').style.backgroundColor="skyblue";
+            $("#legendTrigger img").addClass("iconImgActive");
             legendPlacement = 1;
         } else if (legendPlacement == 1) {
             Velocity(document.querySelectorAll("#legend"), { translateX: "-=365" }, 300);
             document.getElementById('closeFilterLegend').style.visibility="hidden";
             document.getElementById('openFilterLegend').style.visibility="visible";
-                document.getElementById('legendTrigger').style.color="skyblue";
-                document.getElementById('legendTrigger').style.backgroundColor="white";
+            $("#legendTrigger img").removeClass("iconImgActive");
             legendPlacement = 0;
         }
     });
@@ -94,19 +92,16 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'b
             if (datePlacement==1) {
                 datePlacement=0;
                 Velocity(datedivs, { translateY: "-=51" }, 300); // Velocity
-                document.getElementById('dates').style.color="skyblue";
-                document.getElementById('dates').style.backgroundColor="white";
+                $("#dates").removeClass("iconImgActive");
             }
             crimePlacement = 1;
             Velocity(crimedivs, { translateY: "+=450" }, 300); // Velocity
-            document.getElementById('crimes').style.color="white";
-            document.getElementById('crimes').style.backgroundColor="skyblue";
+            $("#crimes img").addClass("iconImgActive");
         }
         else if (crimePlacement==1) {
 	        Velocity(crimedivs, { translateY: "-=450" }, 300); // Velocity
 	        crimePlacement = 0;
-	        document.getElementById('crimes').style.color="skyblue";
-	        document.getElementById('crimes').style.backgroundColor="white";
+          $("#crimes img").removeClass("iconImgActive");
         }
 	});
 
