@@ -1,7 +1,17 @@
     <div id='crimeIndex' class='rightBox floatBox shadow'>
         <div class='boxTitle sourceSansBold'>Crime Index<div class="fa fa-question questionIcon animated wobble" data-toggle="modal" data-target="#explainModal"></div></div>
         <p>{{formattedCrimeIndex(crimeIndex)}}</p>
-        <span class='boxTitle fullWidth sourceSansBold'> <span id='crimes' on-click="bringDownCrime">CRIMES</span>  &nbsp; &nbsp; &nbsp;   <span id='legendTrigger' on-click="moveLegend">LEGEND</span>  &nbsp; &nbsp; &nbsp;  </span>
+        <span class='boxTitle fullWidth sourceSansBold'> 
+
+            <span id='crimes' on-click="bringDownCrime"><img class='iconImg' src='./static/img/filter.png'/></span>  &nbsp; &nbsp; &nbsp;   
+
+            <span id='legendTrigger' on-click="moveLegend"><img class='iconImg'  src='./static/img/map.png'/></span>   &nbsp; &nbsp; &nbsp;   
+
+            <span><img class='iconImg'  src='./static/img/sun.png'/></span> &nbsp; &nbsp; &nbsp;   
+
+            <span><img class='iconImg'  src='./static/img/moon.png'/></span>  
+
+        </span>
     </div>
 
 

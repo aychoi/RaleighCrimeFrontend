@@ -215,6 +215,10 @@ img#searchImg {
 	max-width:100%;
 }
 
+.iconImg {
+	height:25px;
+}
+
 #exportButton {
 	position:absolute;
 	top:0px;
@@ -365,7 +369,7 @@ div#crimeIndex > span {
 	padding:5px;
 }
 
-#crimes {display:none;}
+//#crimes {display:none;}
 
 #crimes:hover, #dates:hover {
 	color:#456942;
