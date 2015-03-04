@@ -34,8 +34,8 @@ latitude = as.numeric(locationData$latitude)
 #longitude = -78.504000
 
 #Raleigh Example
-#latitude = 35.784519 
-#longitude = -78.652733
+latitude = 35.784519 
+longitude = -78.652733
 
 point = c(longitude, latitude);
 cat.driving = c("DRIVING", "VEHICLE")
@@ -48,49 +48,10 @@ cat.misc = c("MISC", "HUMANE", "CHILD", "FAMILY", "JUVENILE", "DISORDERLY", "EXT
 
 
 
-#2. Querying neccessary rows from PoliceIncidents.sqlite into localData ----
-firstDate = "2014-01-01"
-lastDate = "2014-12-31"
-
-firstDateN = as.numeric(paste(substr(firstDate,1,4),substr(firstDate,6,7),substr(firstDate,9,10),sep=""));
-lastDateN = as.numeric(paste(substr(lastDate,1,4),substr(lastDate,6,7),substr(lastDate,9,10),sep=""))
-firstTime = 0;
-lastTime = 24;
-if (firstTime > lastTime){
-  temp = firstTime; firstTime = lastTime; lastTime = temp;
-}
-
-con <- dbConnect(dbDriver("SQLite"), dbname = "PoliceIncidents.sqlite")
-sqlcmd <- paste("Select * from PoliceIncidents where (dates <= ",lastDateN," and dates >=",firstDateN,
-                " and hour <= ",lastTime," and hour >= ",firstTime,
-                ")",sep="")
-
-localData = dbGetQuery(con, sqlcmd)
-
-nothing = dbDisconnect(con)
-
-
-#3. Using the localData, I will create a crime index ----
-crimeRadius = 0.3*1609.344
-
-#First I need to import the scale.
-days = as.Date(lastDate) - as.Date(firstDate) + 1
-crimeIndex <- read.table("crimeIndexFiles/crimeIndexUniformGroup2014.csv",sep=",",header=TRUE)
-crimeIndex$X <- NULL
-locations <- data.frame(localData$longitude,localData$latitude);
-locationMatrix <- data.matrix(locations,rownames.force = FALSE)
-
-distancetoPoint = distHaversine(point,locationMatrix);
-crimes = length(which(distancetoPoint < crimeRadius))
-
-crimeRating = ecdf(crimeIndex[,8])(crimes) * 100;
-
-cat(crimeRating)
-
 #4. Creating the summary 
 
 
-
+crimeRadius = 0.3*1609.344
 #5. Making the score timeline ----
 latDiff = 0.006;
 lonDiff = 0.006;
