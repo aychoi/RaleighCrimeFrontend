@@ -7,9 +7,12 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	nightCrimes = L.mapbox.featureLayer().addTo(map);
 	circleLayer = L.mapbox.featureLayer().addTo(map);
 	filters = crimeIndexRactive.get("filters");
+	dayCount = 0;
+	nightCount = 0;
 
 	dayFilter = function(f) {
 		if (f.properties["hour"] >= 4 &&  f.properties["hour"] < 20) {
+			dayCount++;
 			return filters[f.properties["filter"]].checked;
 		}
 		return false;
@@ -18,6 +21,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 
 	nightFilter = function(f) {
 		if (f.properties["hour"] < 4 ||  f.properties["hour"] >= 20) {
+			nightCount++;
 			return filters[f.properties["filter"]].checked;
 		}
 		return false;
@@ -75,11 +79,15 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	        dataType: "json",
 	        url: "./crimes/"+object["geo"]["lat"]+","+object["geo"]["lng"]+","+startDate+","+endDate,
 	        success: function(json) {
+	        	nightCount = 0;
+	        	dayCount = 0;
 	            geojson = json["geojson"]
 	            dayCrimes.setGeoJSON(geojson);
 	            styleLayer(dayCrimes);
 			    nightCrimes.setGeoJSON(geojson);
 	            styleLayer(nightCrimes);
+
+	            crimeIndexRactive.set("indexRatio", nightCount/(nightCount + dayCount)*100);
 
 	            crimeIndexRactive.set("categoryCount", json["categoryCount"]);
 	            console.log(json["categoryCount"]);
@@ -133,8 +141,8 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	        dataTye: "json",
 	        success: function(json) {
 	            crimeIndexRactive.set("crimeIndex", json["crimeRatingYear"][5]);
-	            var indexRatio = json["crimeRatingYear_night"][5] / (json["crimeRatingYear_day"][5] + json["crimeRatingYear_night"][5]) * 100;
-	            crimeIndexRactive.set("indexRatio", indexRatio);
+	            //var indexRatio = json["crimeRatingYear_night"][5] / (json["crimeRatingYear_day"][5] + json["crimeRatingYear_night"][5]) * 100;
+	            //crimeIndexRactive.set("indexRatio", indexRatio);
 
 
 	            summaryRactive.set("summary", json["crimeRatingYear"]);

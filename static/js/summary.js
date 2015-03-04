@@ -33,12 +33,12 @@ define([ 'ractive', 'rv!../ractive/summaryTemplate', 'crimeIndex', 'jquery', 've
       var startYear = 2010 + num;
       var endYear = 2010 + num;
       var index = this.get('summary')[num];
-      var indexRatio = this.get('night')[num] / (this.get('day')[num] + this.get('night')[5]) * 100;
-      console.log(indexRatio);
+      //var indexRatio = this.get('night')[num] / (this.get('day')[num] + this.get('night')[5]) * 100;
+      //console.log(indexRatio);
       console.log("selected year now ", num);
       searchRactive.fire("repopulateMap", null, startYear+"0101", endYear+"1231");
       crimeIndexRactive.set("crimeIndex", index);
-      crimeIndexRactive.set("indexRatio", indexRatio);
+      //crimeIndexRactive.set("indexRatio", indexRatio);
     });
 
     summaryRactive.observe('summary', function(newValue, oldValue, keypath) {
