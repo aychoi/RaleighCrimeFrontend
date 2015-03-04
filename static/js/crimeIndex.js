@@ -6,7 +6,7 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'b
       template: html,
       data: {
         crimeIndex: " ",
-        indexRatio: " ",
+        indexRatio: 50,
         formattedCrimeIndex: function (crimeIndex) {
             //return (crimeIndex).toFixed(2);
             return Math.round(crimeIndex);
@@ -14,6 +14,9 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'b
         isNextLine: function (i) {
             if (i==2 || i==4) return true
             return false
+        },
+        calcIndexRatio: function(index) {
+            return index*92 / 100;
         },
         filters: ["Driving", "Drugs/Alcohol", "Theft/Burglary", "Property Damage", "Violent Crimes", "Sexual Offense", "Miscellaneous"]
       }

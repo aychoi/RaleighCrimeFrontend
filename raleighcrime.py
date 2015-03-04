@@ -57,6 +57,12 @@ def export_new(search_query):
 	else:
 		return abort(500)
 
+def find_filter(icon):
+	if (icon == "ASSAULT.png" or icon == "KILL.png" or icon == "GUN.png"):
+		return "VIOLENT"
+	else:
+		return "MISC"
+
 @app.route('/crimes/<lat>,<lng>,<startDate>,<endDate>')
 def find_crimes(lat, lng, startDate, endDate):
 	max_lat = float(lat) + MODULATION_LAT
@@ -66,11 +72,12 @@ def find_crimes(lat, lng, startDate, endDate):
 
 	c = get_db().cursor()
 	features = []
+	filters = {"VIOLENT": 0, "MISC": 0}
 	for row in c.execute('SELECT * FROM PoliceIncidents where ( (latitude > ? AND latitude < ?) AND (longitude > ? AND longitude < ?) AND (dates > ? and dates < ?))', [min_lat, max_lat, min_long, max_long, startDate, endDate]):
 		geometry = { "type": "Point", "coordinates": [row[8], row[7]] }
 		minutes = "%02d" % (row[16],)
 		description = row[2]+"<br>"+row[12]+"-"+str(row[11])+"-"+str(row[14]) + " " + str(row[15]%12)+":"+ minutes + " " + row[17]
-		feature = {"type": "Feature", "geometry": geometry, "properties": {"desc": description, "icon" : crime_map[row[20]] }}
+		feature = {"type": "Feature", "geometry": geometry, "properties": {"desc": description, "icon" : crime_map[row[20]], "filter": find_filter(crime_map[row[20]]) }}
 		features.append(feature)
 		#print row[20]
 		#crimes.append({'geo': {'lat': , 'lng': row[8]}})

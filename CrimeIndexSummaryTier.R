@@ -34,8 +34,8 @@ latitude = as.numeric(locationData$latitude)
 #longitude = -78.504000
 
 #Raleigh Example
-latitude = 35.784519 
-longitude = -78.652733
+#latitude = 35.784519 
+#longitude = -78.652733
 
 point = c(longitude, latitude);
 cat.driving = c("DRIVING", "VEHICLE")
@@ -93,9 +93,9 @@ for (i in years){
   }
   if (i==2015 & dim(locationMatrix)[1]!=0){
     nD = max(localData$dates); fD= min(localData$dates);
-    #final = paste(substr(nD,1,4),"-",substr(nD,5,6),"-",substr(nD,7,8),sep="")
-    #first = paste(substr(fD,1,4),"-",substr(fD,5,6),"-",substr(fD,7,8),sep="")     
-    days = as.Date(nD) - as.Date(fD)
+    final = paste(substr(nD,1,4),"-",substr(nD,5,6),"-",substr(nD,7,8),sep="")
+    first = paste(substr(fD,1,4),"-",substr(fD,5,6),"-",substr(fD,7,8),sep="")     
+    days = as.Date(final) - as.Date(first)
   }
   
  
