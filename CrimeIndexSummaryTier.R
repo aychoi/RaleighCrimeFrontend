@@ -34,8 +34,8 @@ latitude = as.numeric(locationData$latitude)
 #longitude = -78.504000
 
 #Raleigh Example
-latitude = 35.784519 
-longitude = -78.652733
+#latitude = 35.784519 
+#longitude = -78.652733
 
 point = c(longitude, latitude);
 cat.driving = c("DRIVING", "VEHICLE")
