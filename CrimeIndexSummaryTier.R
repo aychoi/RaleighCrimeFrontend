@@ -37,6 +37,10 @@ latitude = as.numeric(locationData$latitude)
 #latitude = 35.784519 
 #longitude = -78.652733
 
+#NCSU example
+#latitude = 35.7846633
+#longitude = -78.68209460000003
+
 point = c(longitude, latitude);
 cat.driving = c("DRIVING", "VEHICLE")
 cat.drugs = c("DRUGS","ALCOHOL")
@@ -106,16 +110,19 @@ for (i in years){
   if (dim(locationMatrix)[1]==0){
     emptyCheck = 1
   }
-  
-  crimes = tierMult * length(which(distancetoPoint < crimeRadius & localData$tier1 == 1)) + 
-                               length(which(distancetoPoint < crimeRadius & localData$tier1 == 0));
+  dummy = localData[which(distancetoPoint < crimeRadius),]
+  dummyNight = dummy[which(dummy$hour>=20|dummy$hour<4),]
+  dummyDay = dummy[which(dummy$hour<20&dummy$hour>=4),]
+  crimes = tierMult * length(which(dummy$tier1 == 1)) + 
+                               length(which(dummy$tier1 == 0));
                                       
-  crimes_night = tierMult * length(which(distancetoPoint < crimeRadius & localData$tier1 == 1 & localData$hour24 < 4 | localData$hour24>=20)) + 
-                        length(which(distancetoPoint < crimeRadius & localData$tier1 == 0 & localData$hour24 < 4 | localData$hour24>=20));
-           
-  crimes_day = tierMult * length(which(distancetoPoint < crimeRadius & localData$tier1 == 1 & localData$hour24 >= 4 & localData$hour24<20)) + 
-                        length(which(distancetoPoint < crimeRadius & localData$tier1 == 0 & localData$hour24 >= 4 & localData$hour24<20));
-        
+  crimes_night = tierMult * length(which(dummyNight$tier1 == 1)) + 
+                      length(which(dummyNight$tier1 == 0));
+  
+  crimes_day = tierMult * length(which(dummyDay$tier1 == 1)) + 
+                      length(which(dummyDay$tier1 == 0));
+  
+  
   #Scaling day and night crimes appropriately                              
   crimes_day = crimes_day * 3/2;
   crimes_night = crimes_night * 3;                             
