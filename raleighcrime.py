@@ -57,11 +57,19 @@ def export_new(search_query):
 	else:
 		return abort(500)
 
-def find_filter(icon):
-	if (icon == "ASSAULT.png" or icon == "KILL.png" or icon == "GUN.png"):
-		return "VIOLENT"
-	else:
-		return "MISC"
+def find_filter(mytype):
+	types = { "Violent Crimes":["ASSAULT", "WEAPONS", "KIDNAPPING", "HUMAN TRAFFICKING", "HOMICIDE"],
+		"Driving": ["DRIVING", "VEHICLE"],
+		"Drugs/Alcohol": ["DRUGS","ALCOHOL"],
+		"Theft/Burglary": ["BURGLARY", "ROBBERY", "FRAUD", "LARCENY", "FORGERY", "STOLEN PROPERTY", "EMBEZZLEMENT"],
+		"Property Damage": ["DAMAGE PROPERTY"],
+		"Sexual Offense": ["SEX OFFENSE", "PROSTITUTION", "PORNOGRAPHY"],
+		"Miscellaneous": ["MISC", "HUMANE", "CHILD", "FAMILY", "JUVENILE", "DISORDERLY", "EXTORTION", "GAMBLING", "ALL", "NOISE"] }
+
+	for key, value in types.iteritems():
+		if mytype in value:
+			return key
+	return "Miscellaneous"
 
 @app.route('/crimes/<lat>,<lng>,<startDate>,<endDate>')
 def find_crimes(lat, lng, startDate, endDate):
@@ -72,19 +80,24 @@ def find_crimes(lat, lng, startDate, endDate):
 
 	c = get_db().cursor()
 	features = []
-	filters = {"VIOLENT": 0, "MISC": 0}
+	categoryCount = { "Violent Crimes": 0, "Driving": 0, "Drugs/Alcohol": 0, "Theft/Burglary":0, "Property Damage": 0, "Sexual Offense": 0, "Miscellaneous": 0 }
+	totalCount = 0 
 	for row in c.execute('SELECT * FROM PoliceIncidents where ( (latitude > ? AND latitude < ?) AND (longitude > ? AND longitude < ?) AND (dates > ? and dates < ?))', [min_lat, max_lat, min_long, max_long, startDate, endDate]):
 		geometry = { "type": "Point", "coordinates": [row[8], row[7]] }
 		minutes = "%02d" % (row[16],)
 		description = row[2]+"<br>"+row[12]+"-"+str(row[11])+"-"+str(row[14]) + " " + str(row[15]%12)+":"+ minutes + " " + row[17]
-		feature = {"type": "Feature", "geometry": geometry, "properties": {"desc": description, "icon" : crime_map[row[20]], "filter": find_filter(crime_map[row[20]]) }}
+		feature = {"type": "Feature", "geometry": geometry, "properties": {"desc": description, "icon" : crime_map[row[20]], "filter": find_filter(row[20]), "type1": row[26], "hour": row[15] }}
+		categoryCount[find_filter(row[20])] += 1
+		totalCount += 1
 		features.append(feature)
 		#print row[20]
 		#crimes.append({'geo': {'lat': , 'lng': row[8]}})
 	geojson = {"type": "FeatureCollection", "features": features}
 
+	for key in categoryCount.iterkeys():
+		categoryCount[key] = float(categoryCount[key])/float(totalCount) * 100
 
-	return jsonify(geojson = geojson)
+	return jsonify(geojson = geojson, categoryCount = categoryCount)
 
 def r_find_index(lat,lng):
 	#do python stuff

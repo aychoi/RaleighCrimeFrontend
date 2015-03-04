@@ -7,9 +7,17 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'b
       data: {
         crimeIndex: " ",
         indexRatio: 50,
+        dayActive: true,
+        nightActive: true,
         formattedCrimeIndex: function (crimeIndex) {
             //return (crimeIndex).toFixed(2);
             return Math.round(crimeIndex);
+        },
+        formattedFilter: function (value) {
+            if (value == undefined) {
+                return "--";
+            }
+            return Math.round(value*100)/100 + "%";
         },
         isNextLine: function (i) {
             if (i==2 || i==4) return true
@@ -18,7 +26,14 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'b
         calcIndexRatio: function(index) {
             return index*92 / 100;
         },
-        filters: ["Driving", "Drugs/Alcohol", "Theft/Burglary", "Property Damage", "Violent Crimes", "Sexual Offense", "Miscellaneous"]
+        filters: { "Driving": {name: "Driving", checked: true}, 
+                    "Drugs/Alcohol": {name:"Drugs/Alcohol", checked: true}, 
+                    "Theft/Burglary": {name:"Theft/Burglary", checked: true}, 
+                    "Property Damage": {name:"Property Damage", checked: true}, 
+                    "Violent Crimes": {name:"Violent Crimes", checked: true}, 
+                    "Sexual Offense": {name:"Sexual Offense", checked: true}, 
+                    "Miscellaneous": {name:"Miscellaneous", checked: true} },
+        categoryCount: {}
       }
     });
 
@@ -43,7 +58,7 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'b
     }
     document.cookie="visited=true";
 
-    crimeIndexRactive.set('selectedFilters', crimeIndexRactive.get('filters'));
+    //crimeIndexRactive.set('selectedFilters', ["Driving", "Drugs/Alcohol", "Theft/Burglary", "Property Damage", "Violent Crimes", "Sexual Offense", "Miscellaneous"]);
 
     var datePlacement = 0;
     var crimePlacement = 0;

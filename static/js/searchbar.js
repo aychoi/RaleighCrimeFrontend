@@ -2,8 +2,31 @@
 define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'geocoder', 'map', 'recentSearches', 'crimeIndex', 'summary', 'jquery', 'jqueryui', 'velocity', 'drag_drop'], function ( Ractive, events, html, geocoder, map, recentSearchesRactive, crimeIndexRactive, summaryRactive, $, jqueryui, Velocity, drag_drop) {
 
 	animationID = 0;
-	locations = L.mapbox.featureLayer().addTo(map);
+	//------------Setup Mapbox / Leaflet ---------\\
+	dayCrimes = L.mapbox.featureLayer().addTo(map);
+	nightCrimes = L.mapbox.featureLayer().addTo(map);
 	circleLayer = L.mapbox.featureLayer().addTo(map);
+	filters = crimeIndexRactive.get("filters");
+
+	dayFilter = function(f) {
+		if (f.properties["hour"] >= 4 &&  f.properties["hour"] < 20) {
+			return filters[f.properties["filter"]].checked;
+		}
+		return false;
+	};
+	dayCrimes.setFilter(dayFilter);
+
+	nightFilter = function(f) {
+		if (f.properties["hour"] < 4 ||  f.properties["hour"] >= 20) {
+			return filters[f.properties["filter"]].checked;
+		}
+		return false;
+	};
+	nightCrimes.setFilter(nightFilter);
+
+	//-------------Done--------------------------\\
+
+
 	lastSearch = undefined;
 
     var searchRactive = new Ractive({
@@ -27,6 +50,25 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     	updateMap(object);
     }
 
+    function styleLayer(layer)
+    {
+    	layer.eachLayer(function(locale) {
+	        // Iterate over each marker.
+	        var prop = locale.feature.properties;
+	        //console.log(locale);
+	        var appendClass = prop.type1 == 1 ? "tier1" : "";
+	        locale.setIcon(L.icon({
+			  iconUrl: './static/img/'+prop.icon,
+			  iconSize: [25, 25],
+			  iconAnchor: [25, 25],
+			  popupAnchor: [0, -34],
+			  className: appendClass
+			}));
+			$(locale._icon).addClass('animated fadeIn');
+	        locale.bindPopup(prop.desc);
+	    });
+    }
+
     function populateMap(object, startDate, endDate)
     {
     	$.ajax({
@@ -34,21 +76,13 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	        url: "./crimes/"+object["geo"]["lat"]+","+object["geo"]["lng"]+","+startDate+","+endDate,
 	        success: function(json) {
 	            geojson = json["geojson"]
-	            locations.setGeoJSON(geojson);
-	            locations.eachLayer(function(locale) {
-			        // Iterate over each marker.
-			        var prop = locale.feature.properties;
-			        //console.log(locale);
+	            dayCrimes.setGeoJSON(geojson);
+	            styleLayer(dayCrimes);
+			    nightCrimes.setGeoJSON(geojson);
+	            styleLayer(nightCrimes);
 
-			        locale.setIcon(L.icon({
-					  iconUrl: './static/img/'+prop.icon,
-					  iconSize: [25, 25],
-					  iconAnchor: [25, 25],
-					  popupAnchor: [0, -34]
-					}));
-					$(locale._icon).addClass('animated fadeIn');
-			        locale.bindPopup(prop.desc);
-			    });
+	            crimeIndexRactive.set("categoryCount", json["categoryCount"]);
+	            console.log(json["categoryCount"]);
 	        }
 	    });
     }
@@ -84,7 +118,8 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 		    else
 		    	window.clearInterval(animationID);
 		}, 5);
-	    locations.clearLayers();
+	    dayCrimes.clearLayers();
+	    nightCrimes.clearLayers();
 	    circleLayer.clearLayers();
 	    circle.addTo(circleLayer);
 		
@@ -98,7 +133,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	        dataTye: "json",
 	        success: function(json) {
 	            crimeIndexRactive.set("crimeIndex", json["crimeRatingYear"][5]);
-	            var indexRatio = json["crimeRatingYear_day"][5] / (json["crimeRatingYear_day"][5] + json["crimeRatingYear_night"][5]) * 100;
+	            var indexRatio = json["crimeRatingYear_night"][5] / (json["crimeRatingYear_day"][5] + json["crimeRatingYear_night"][5]) * 100;
 	            crimeIndexRactive.set("indexRatio", indexRatio);
 
 
@@ -134,6 +169,37 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 			$('#searchesModal').modal();
 	 	});	
     }
+
+    crimeIndexRactive.on('updateFilters', function(event,filters) {
+	    console.log(filters);
+	    dayCrimes.setFilter(dayFilter);
+	    nightCrimes.setFilter(nightFilter);
+	    styleLayer(dayCrimes);
+	    styleLayer(nightCrimes);
+	    //updateFilters();
+	});
+
+    crimeIndexRactive.on( 'dayButton', function(event) {
+    	var dayActive = !crimeIndexRactive.get("dayActive");
+    	crimeIndexRactive.set("dayActive", dayActive);
+    	if (dayActive) {
+    		map.addLayer(dayCrimes);
+    	}
+    	else {
+    		map.removeLayer(dayCrimes);
+    	}
+    });
+
+    crimeIndexRactive.on( 'nightButton', function(event) {
+    	var nightActive = !crimeIndexRactive.get("nightActive");
+    	crimeIndexRactive.set("nightActive", nightActive);
+    	if (nightActive) {
+    		map.addLayer(nightCrimes);
+    	}
+    	else {
+    		map.removeLayer(nightCrimes);
+    	}
+    });
 
     searchRactive.on( 'repopulateMap', function(event, startDate, endDate) {
     	populateMap(lastSearch, startDate, endDate);
@@ -216,6 +282,8 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 		hideUI();
 	  	searchRactive.set('clickMode', true);
 	});
+
+
 
 	
 

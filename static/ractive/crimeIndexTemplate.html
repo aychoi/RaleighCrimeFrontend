@@ -11,11 +11,11 @@
 
                 <tr>
 
-                    <td id='day'><img class='iconImgSlide'  src='./static/img/sun.png'/></td> 
+                    <td id='day'><img class="iconImgSlide {{ dayActive ? 'iconImgSlideActive' : '' }}"  src='./static/img/sun.png' on-click="dayButton"/></td> 
 
                     <td id='slide' data-toggle="tooltip" data-placement="top" title="Day/Night Skew"><img src='./static/img/scale.png'/><div id='slider' style='left:{{calcIndexRatio(indexRatio)}}px;'></div></td>
 
-                    <td id='night'><img class='iconImgSlide'  src='./static/img/moon.png'/></td>  
+                    <td id='night'><img class="iconImgSlide {{ nightActive ? 'iconImgSlideActive' : '' }}"  src='./static/img/moon.png' on-click="nightButton"/></td>  
 
                 </tr>
 
@@ -37,43 +37,15 @@
         <tr>
             <th class='indexVal'>Display</th>
             <th class='categoryCol'>Category</th>
-            <th class='indexVal'>Crime Index</th>
+            <th class='indexVal'>Crime Percentage</th>
         </tr>
-        <tr>
-            <td class='indexVal'><input type="checkbox" name="filterCrime" value="violent" checked></td>
-            <td class='categoryCol'>Violent Crime</td>
-            <td class='indexVal'>48</td>
-        </tr>
-        <tr>
-            <td class='indexVal'><input type="checkbox" name="filterCrime" value="drugs" checked></td>
-            <td class='categoryCol'>Drugs/Alcohol</td>
-            <td class='indexVal'>48</td>
-        </tr>
-        <tr>
-            <td class='indexVal'><input type="checkbox" name="filterCrime" value="theft" checked></td>
-            <td class='categoryCol'>Theft/Burglary</td>
-            <td class='indexVal'>48</td>
-        </tr>
-        <tr>
-            <td class='indexVal'><input type="checkbox" name="filterCrime" value="property" checked></td>
-            <td class='categoryCol'>Property Damage</td>
-            <td class='indexVal'>48</td>
-        </tr>
-        <tr>
-            <td class='indexVal'><input type="checkbox" name="filterCrime" value="drive" checked></td>
-            <td class='categoryCol'>Vehicular</td>
-            <td class='indexVal'>48</td>
-        </tr>
-        <tr>
-            <td class='indexVal'><input type="checkbox" name="filterCrime" value="sex" checked></td>
-            <td class='categoryCol'>Sexual Offense</td>
-            <td class='indexVal'>48</td>
-        </tr>
-        <tr>
-            <td class='indexVal'><input type="checkbox" name="filterCrime" value="misc" checked></td>
-            <td class='categoryCol'>Miscellaneous</td>
-            <td class='indexVal'>48</td>
-        </tr>
+        {{#filters: i}}
+            <tr>
+                <td class='indexVal'><input type="checkbox" value="{{name}}" checked='{{checked}}' on-click="updateFilters:{{filters}}"></td>
+                <td class='categoryCol'>{{name}}</td>
+                <td class='indexVal'>{{formattedFilter(categoryCount[name])}}</td>
+            </tr>
+        {{/filters}}
     </table>
     <!--<div id='filterCrimes' class='rightBox floatBox shadow-down'>
         {{#filters:i}}
