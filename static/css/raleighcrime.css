@@ -230,6 +230,28 @@ img#searchImg {
     animation-delay: 0.8s;
 }
 
+.shareIconTwitter {
+	position:absolute;
+	bottom:40px;
+	right:10px;
+	cursor:pointer;
+}
+
+.shareIconFacebook {
+	position:absolute;
+	bottom:70px;
+	right:10px;
+	cursor:pointer;
+}
+
+.fa-twitter-square {
+	color:#4099FF;	
+}
+
+.fa-facebook-square {
+	color:#3B5998;	
+}
+
 #filterCrimes {
 	margin-top:90px;
 	z-index:10;
