@@ -2,6 +2,11 @@
         <div class='boxTitle sourceSansBold'>Crime Index<div class="fa fa-question questionIcon animated wobble" data-toggle="modal" data-target="#explainModal"></div></div>
         <p>{{formattedCrimeIndex(crimeIndex)}}</p>
         <span class='boxTitle fullWidth sourceSansBold'> 
+        <div class="fa fa-twitter-square shareIconTwitter" style="font-size:2em;"></div>
+
+        <a href="http://twitter.com/share?url=http://anylytics.io/raleighcrime&text=My neighborhood scored a {{formattedCrimeIndex(crimeIndex)}} on the @any_lytics crime app, how about yours?&hashtags=opendata" target="_blank"><div class="fa fa-twitter-square shareIconTwitter" style="font-size:2em;"></div></a>
+
+        <a href="http://www.facebook.com/sharer.php?u=http://anylytics.io/raleighcrime" target="_blank"><div class="fa fa-facebook-square shareIconFacebook" style="font-size:2em;"></div></a>
 
             <span id='crimes' data-toggle="modal" data-target="#filterModal"><img class='iconImg' src='./static/img/filter.png'/></span>  
 
