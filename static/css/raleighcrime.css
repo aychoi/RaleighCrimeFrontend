@@ -230,6 +230,18 @@ img#searchImg {
     animation-delay: 0.8s;
 }
 
+.socialDisabled {
+	opacity:0.1;
+}
+
+.shareIconTwitter-export {
+	cursor:pointer;
+}
+
+.shareIconFacebook-export {
+	cursor:pointer;
+}
+
 .shareIconTwitter {
 	position:absolute;
 	bottom:40px;
