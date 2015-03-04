@@ -161,26 +161,55 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     }
 
     function geoCodeQuery(latlng) {
-    	geocoder.geocode( { 'latLng': latlng }, function(results, status) {
-		    if (status == google.maps.GeocoderStatus.OK) {
-		    	if (results[1]) {
-		    		if (results[1].formatted_address.indexOf("Raleigh, NC") > -1 && results[1].formatted_address.slice(0,11) != "Raleigh, NC") {
-		    			console.log(latlng);
-		    			console.log(results[1]);
-		    			results[1].geometry.location.k = latlng.k;
-		    			results[1].geometry.location.D = latlng.D;
-		    			//var newlatlng = { "lat": result.geometry.location.k, "lng": result.geometry.location.D};
-    	
-		    			//var output = { "geometry": {"location": {"k": e.latlng.lat, "D": e.latlng.lng}}, "formatted_address": };
-						processResult(results[1]);
-						return;
-		    		}
-		    	}  
-		    }
-		    //Something went wrong
+    	var raleighCoords = [
+	    	new google.maps.LatLng(35.715785, -78.526610),
+			new google.maps.LatLng(35.743655, -78.740156),
+			new google.maps.LatLng(35.785999, -78.754576),
+			new google.maps.LatLng(35.820526, -78.738096),
+			new google.maps.LatLng(35.852812, -78.793715),
+			new google.maps.LatLng(35.908447, -78.824614),
+			new google.maps.LatLng(35.943477, -78.738096),
+			new google.maps.LatLng(35.915121, -78.681105),
+			new google.maps.LatLng(35.903442, -78.617933),
+			new google.maps.LatLng(35.977935, -78.553389),
+			new google.maps.LatLng(35.909559, -78.521803),
+			new google.maps.LatLng(35.715785, -78.526610)
+		];
+
+		var raleighPolygon = new google.maps.Polygon({
+		    paths: raleighCoords
+		});
+
+		if (google.maps.geometry.poly.containsLocation(latlng, raleighPolygon)) {
+		    geocoder.geocode( { 'latLng': latlng }, function(results, status) {
+			    if (status == google.maps.GeocoderStatus.OK) {
+			    	if (results[1]) {
+			    		if (results[1].formatted_address.indexOf("Raleigh, NC") > -1 && results[1].formatted_address.slice(0,11) != "Raleigh, NC") {
+			    			results[1].geometry.location.k = latlng.k;
+			    			results[1].geometry.location.D = latlng.D;
+			    			//var newlatlng = { "lat": result.geometry.location.k, "lng": result.geometry.location.D};
+	    	
+			    			//var output = { "geometry": {"location": {"k": e.latlng.lat, "D": e.latlng.lng}}, "formatted_address": };
+							processResult(results[1]);
+							return;
+			    		}
+			    	}  
+			    }
+			    //Google Wasn't Able to GeoCode, so we'll manually geocode
+			    var output = { "geometry": {"location": {"k": latlng.k, "D": latlng.D}}, "formatted_address": "Custom Search, Raleigh"};
+			    processResult(output);
+			    return;
+			});	
+		}
+		else {
+			//Something went wrong
 	 		searchRactive.set('modalText', "Unfortuantely we only support Raleigh, North Carolina right now. Please try searching inside city limits.");
+			searchRactive.set('partialMatches', undefined);
 			$('#searchesModal').modal();
-	 	});	
+			return;
+		}
+
+    	
     }
 
     crimeIndexRactive.on('updateFilters', function(event,filters) {
@@ -285,7 +314,6 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 		if (searchRactive.get('clickMode') === true) {
 			showUI();
 			searchRactive.set('clickMode', false);
-			console.log(e.latlng);
 			var latlng = new google.maps.LatLng(e.latlng.lat, e.latlng.lng);
 			geoCodeQuery(latlng);
 		 	
