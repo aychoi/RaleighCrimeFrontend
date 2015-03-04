@@ -114,6 +114,7 @@ define([ 'ractive', 'rv!../ractive/crimeIndexTemplate', 'jquery', 'velocity', 'b
                 $("#dates").removeClass("iconImgActive");
             }
             crimePlacement = 1;
+            $('#filterModal').modal()
             Velocity(crimedivs, { translateY: "+=450" }, 300); // Velocity
             $("#crimes img").addClass("iconImgActive");
         }

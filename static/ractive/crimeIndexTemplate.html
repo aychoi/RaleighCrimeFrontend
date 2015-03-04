@@ -3,7 +3,7 @@
         <p>{{formattedCrimeIndex(crimeIndex)}}</p>
         <span class='boxTitle fullWidth sourceSansBold'> 
 
-            <span id='crimes' on-click="bringDownCrime"><img class='iconImg' src='./static/img/filter.png'/></span>  
+            <span id='crimes' data-toggle="modal" data-target="#filterModal"><img class='iconImg' src='./static/img/filter.png'/></span>  
 
             <span id='legendTrigger' on-click="moveLegend"><img class='iconImg'  src='./static/img/map.png'/></span>   
 
@@ -31,7 +31,7 @@
                 <div id='openFilterLegend'class='fa fa-angle-right'  style='visibility:visible;'></div>
             </div> 
     
-    <div id='filterCrimes' class='hoverBox floatBox shadow-down'>
+    <!--<div id='filterCrimes' class='hoverBox floatBox shadow-down'>
     <div id='closeFilter' on-click="bringDownCrime" class='fa fa-times'></div>
     <table id='filterTable'>
         <tr>
@@ -50,8 +50,38 @@
     <!--<div id='filterCrimes' class='rightBox floatBox shadow-down'>
         {{#filters:i}}
             <input type="checkbox" name="{{selectedFilters}}" value="{{.}}" checked> {{.}} &nbsp;&nbsp; {{#isNextLine(i)}}<br> {{/isNextLine}}
-        {{/filters}}-->
-    </div>
+        {{/filters}}
+    </div>-->
+
+<div id="filterModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Filter Crimes By Type</h4>
+      </div>
+          <table id='filterTable'>
+        <tr>
+            <th class='indexVal'>Display</th>
+            <th class='categoryCol'>Category</th>
+            <th class='indexVal'>Crime Percentage</th>
+        </tr>
+        {{#filters: i}}
+            <tr>
+                <td class='indexVal'><input type="checkbox" value="{{name}}" checked='{{checked}}' on-click="updateFilters:{{filters}}"></td>
+                <td class='categoryCol'>{{name}}</td>
+                <td class='indexVal'>{{formattedFilter(categoryCount[name])}}</td>
+            </tr>
+        {{/filters}}
+    </table>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 
 
 <div id="explainModal" class="modal fade">
