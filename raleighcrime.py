@@ -94,8 +94,9 @@ def find_crimes(lat, lng, startDate, endDate):
 		#crimes.append({'geo': {'lat': , 'lng': row[8]}})
 	geojson = {"type": "FeatureCollection", "features": features}
 
-	for key in categoryCount.iterkeys():
-		categoryCount[key] = float(categoryCount[key])/float(totalCount) * 100
+	if totalCount > 0:
+		for key in categoryCount.iterkeys():
+			categoryCount[key] = float(categoryCount[key])/float(totalCount) * 100
 
 	return jsonify(geojson = geojson, categoryCount = categoryCount)
 
@@ -122,10 +123,10 @@ def r_get_summary(lat,lng):
 
 @app.route('/crimeIndex/<lat>,<lng>')
 def find_index(lat, lng):
-	#try:
-	return jsonify(r_find_index(lat,lng))
-	#except ValueError:
-	#	return jsonify({}), 403
+	try:
+		return jsonify(r_find_index(lat,lng))
+	except ValueError:
+		return jsonify({}), 403
 
 
 
