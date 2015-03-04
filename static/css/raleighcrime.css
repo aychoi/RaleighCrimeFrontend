@@ -377,9 +377,49 @@ div#crimeIndex > span {
 }
 
 
-#crimes, #dates, #legendTrigger {
+/*#crimes, #dates, #legendTrigger {
 	color:skyblue;
 	padding:5px;
+}*/
+
+#crimes {
+	position:absolute;
+	left:0px;
+	bottom:70px;
+}
+
+#legendTrigger {
+	position:absolute;
+	left:0px;
+	bottom:25px;
+}
+
+#sliderContainer {
+	margin:auto;
+	position:static;
+	width:300px;
+}
+
+#day {
+	float:right;
+}
+
+#night {
+	float:left;
+}
+
+#slide {
+	width:100px;
+	position:relative;
+}
+
+#slider {
+	height:10px;
+	width:10px;
+	background-color:#54A148;
+	border-radius:50%;
+	position:absolute;
+	bottom:11px;
 }
 
 //#crimes {display:none;}
@@ -547,7 +587,7 @@ body.bodyExport {
 	}
 
 	#crimeIndex {
-		width:170px;
+		width:200px;
 		margin-right:5px;
 		margin-top:45px;
 	}
