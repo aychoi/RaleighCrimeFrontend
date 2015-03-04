@@ -47,7 +47,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     
     function processResult(result) 
     {
-    	var newlatlng = { "lat": result.geometry.k, "lng": result.geometry.D};
+    	var newlatlng = { "lat": result.geometry.location.k, "lng": result.geometry.location.D};
     	var address = result.formatted_address;
     	var main_name = address.split(",").slice(0,2);
     	var object = {'name': main_name, 'geo': newlatlng, 'isChecked': false};
@@ -165,8 +165,10 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 		    if (status == google.maps.GeocoderStatus.OK) {
 		    	if (results[1]) {
 		    		if (results[1].formatted_address.indexOf("Raleigh, NC") > -1 && results[1].formatted_address.slice(0,11) != "Raleigh, NC") {
-		    			results[1].geometry.k = latlng.k;
-		    			results[1].geometry.D = latlng.D;
+		    			console.log(latlng);
+		    			console.log(results[1]);
+		    			results[1].geometry.location.k = latlng.k;
+		    			results[1].geometry.location.D = latlng.D;
 		    			//var newlatlng = { "lat": result.geometry.location.k, "lng": result.geometry.location.D};
     	
 		    			//var output = { "geometry": {"location": {"k": e.latlng.lat, "D": e.latlng.lng}}, "formatted_address": };
