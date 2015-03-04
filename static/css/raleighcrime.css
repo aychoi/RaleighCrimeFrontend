@@ -155,6 +155,28 @@ img#searchImg {
 	color:white;
 }
 
+.pickLocation:hover {
+	background-color:white;
+}
+
+.pickLocation img {
+
+	-webkit-transition: transform 0.2s;
+		 -moz-transition: transform 0.2s;
+		  -ms-transition: transform 0.2s;
+			 -o-transition: transform 0.2s;
+					transition: transform 0.2s;
+
+}
+
+.pickLocation:hover img {
+	-webkit-transform: rotate(15deg);
+		 -moz-transform: rotate(15deg);
+		  -ms-transform: rotate(15deg);
+			 -o-transform: rotate(15deg);
+					transform: rotate(15deg);
+}
+
 #legend {
     width:400px;
     height:auto;
@@ -416,7 +438,7 @@ div#crimeIndex > span {
 #legendTrigger {
 	position:absolute;
 	left:0px;
-	bottom:25px;
+	bottom:35px;
 }
 
 #sliderContainer {

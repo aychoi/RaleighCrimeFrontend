@@ -13,8 +13,8 @@ CrimeWrittenSummary <- function(args){
   latitude = as.numeric(locationData$latitude)
   
   
-  #latitude = 35.784519 
-  #longitude = -78.672733
+  latitude = 35.784519 
+  longitude = -78.672733
   point = c(longitude, latitude);
   
   crimeRadius = 0.3*1609.344  
@@ -87,11 +87,11 @@ CrimeWrittenSummary <- function(args){
     
     
     crimesPerDay = crimes/as.numeric(days)  
-    #for (j in 1:8){
-      #dummy = crimeIndex[,j];
-      #dummy = dummy[which(dummy<quantile(dummy,0.9))]
-      #crimeIndex[,j] = dummy
-    #}
+    for (j in 1:8){
+      dummy = crimeIndex[,j];
+      dummy = dummy[which(dummy<quantile(dummy,0.9))]
+      crimeIndex[,j] = dummy
+    }
     crimeRatingYear_driving[i-2009] = ecdf(crimeIndex[,1])(crimes_driving) * 100;
     crimeRatingYear_drugs[i-2009] = ecdf(crimeIndex[,2])(crimes_drugs) * 100
     crimeRatingYear_misc[i-2009] = ecdf(crimeIndex[,3])(crimes_misc) * 100
