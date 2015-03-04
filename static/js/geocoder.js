@@ -1,5 +1,5 @@
 // Now we've configured RequireJS, we can load our dependencies and start
-define(['async!https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true'], function (  ) {
+define(['async!https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=geometry'], function (  ) {
 
   var geocoder;
   
