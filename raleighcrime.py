@@ -82,7 +82,7 @@ def find_crimes(lat, lng, startDate, endDate):
 def r_find_index(lat,lng):
 	#do python stuff
 	r=robjects.r
-	r.source("./CrimeIndexSummary.R")
+	r.source("./CrimeIndexSummaryTier.R")
 	full_result = str(r.CrimeIndex("{\"latitude\": \""+lat+"\", \"longitude\": \""+lng+"\"}"))
 	json_data = full_result.split(" ")[1]
 	crime_data = json.loads(json_data)
@@ -102,10 +102,10 @@ def r_get_summary(lat,lng):
 
 @app.route('/crimeIndex/<lat>,<lng>')
 def find_index(lat, lng):
-	try:
-		return jsonify(r_find_index(lat,lng))
-	except ValueError:
-		return jsonify({}), 403
+	#try:
+	return jsonify(r_find_index(lat,lng))
+	#except ValueError:
+	#	return jsonify({}), 403
 
 
 

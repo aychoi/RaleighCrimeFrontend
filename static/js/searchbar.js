@@ -98,7 +98,12 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	        dataTye: "json",
 	        success: function(json) {
 	            crimeIndexRactive.set("crimeIndex", json["crimeRatingYear"][5]);
+	            var indexRatio = json["crimeRatingYear_day"][5] / (json["crimeRatingYear_day"][5] + json["crimeRatingYear_night"][5]);
+	            crimeIndexRactive.set("indexRatio", indexRatio);
+
 	            summaryRactive.set("summary", json["crimeRatingYear"]);
+	            summaryRactive.set("day", json["crimeRatingYear_day"]);
+	            summaryRactive.set("night", json["crimeRatingYear_night"]);
 
 	            object["index"] = json["crimeRatingYear"][5];
 	            var isSame = recentSearchesRactive.get("hasSearch")(object);

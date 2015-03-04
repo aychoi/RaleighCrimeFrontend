@@ -13,6 +13,8 @@ define([ 'ractive', 'rv!../ractive/summaryTemplate', 'crimeIndex', 'jquery', 've
         selectedSummary: undefined,
         selectedYear: 5,
         summary: [],
+        day: [],
+        night: [],
         hasSummary: function(summary) {
         	return summary.length > 0;
         },
