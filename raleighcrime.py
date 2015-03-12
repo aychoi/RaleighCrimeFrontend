@@ -73,32 +73,43 @@ def find_filter(mytype):
 
 @app.route('/crimes/<lat>,<lng>,<startDate>,<endDate>')
 def find_crimes(lat, lng, startDate, endDate):
-	max_lat = float(lat) + MODULATION_LAT
-	min_lat = float(lat) - MODULATION_LAT
-	max_long = float(lng) + MODULATION_LNG
-	min_long = float(lng) - MODULATION_LNG
-
 	c = get_db().cursor()
-	features = []
-	categoryCount = { "Violent Crimes": 0, "Driving": 0, "Drugs/Alcohol": 0, "Theft/Burglary":0, "Property Damage": 0, "Sexual Offense": 0, "Miscellaneous": 0 }
-	totalCount = 0 
-	for row in c.execute('SELECT * FROM PoliceIncidents where ( (latitude > ? AND latitude < ?) AND (longitude > ? AND longitude < ?) AND (dates > ? and dates < ?))', [min_lat, max_lat, min_long, max_long, startDate, endDate]):
-		geometry = { "type": "Point", "coordinates": [row[8], row[7]] }
-		minutes = "%02d" % (row[16],)
-		description = row[2]+"<br>"+row[12]+"-"+str(row[11])+"-"+str(row[14]) + " " + str(row[15]%12)+":"+ minutes + " " + row[17]
-		feature = {"type": "Feature", "geometry": geometry, "properties": {"desc": description, "icon" : crime_map[row[20]], "filter": find_filter(row[20]), "type1": row[26], "hour": row[15] }}
-		categoryCount[find_filter(row[20])] += 1
-		totalCount += 1
-		features.append(feature)
-		#print row[20]
-		#crimes.append({'geo': {'lat': , 'lng': row[8]}})
-	geojson = {"type": "FeatureCollection", "features": features}
+	if lat == 'all':
+		query = 'SELECT latitude, longitude FROM PoliceIncidents WHERE dates between ? and ?'
+		params = [startDate, endDate]
+		crimes = c.execute(query, params).fetchall()
 
-	if totalCount > 0:
-		for key in categoryCount.iterkeys():
-			categoryCount[key] = float(categoryCount[key])/float(totalCount) * 100
+		query = query + ' and tier1 = 1'
+		tier1_crimes = c.execute(query, params).fetchall()
+		crimes = crimes + tier1_crimes + tier1_crimes
+		return jsonify(crimes=crimes)
+	else:
+		max_lat = float(lat) + MODULATION_LAT
+		min_lat = float(lat) - MODULATION_LAT
+		max_long = float(lng) + MODULATION_LNG
+		min_long = float(lng) - MODULATION_LNG
+		query = 'SELECT * FROM PoliceIncidents where ( (latitude > ? AND latitude < ?) AND (longitude > ? AND longitude < ?) AND (dates > ? and dates < ?))'
+		params = [min_lat, max_lat, min_long, max_long, startDate, endDate]
+		features = []
+		categoryCount = { "Violent Crimes": 0, "Driving": 0, "Drugs/Alcohol": 0, "Theft/Burglary":0, "Property Damage": 0, "Sexual Offense": 0, "Miscellaneous": 0 }
+		totalCount = 0 
+		for row in c.execute(query, params):
+			geometry = { "type": "Point", "coordinates": [row[8], row[7]] }
+			minutes = "%02d" % (row[16],)
+			description = row[2]+"<br>"+row[12]+"-"+str(row[11])+"-"+str(row[14]) + " " + str(row[15]%12)+":"+ minutes + " " + row[17]
+			feature = {"type": "Feature", "geometry": geometry, "properties": {"desc": description, "icon" : crime_map[row[20]], "filter": find_filter(row[20]), "type1": row[26], "hour": row[15] }}
+			categoryCount[find_filter(row[20])] += 1
+			totalCount += 1
+			features.append(feature)
+			#print row[20]
+			#crimes.append({'geo': {'lat': , 'lng': row[8]}})
+		geojson = {"type": "FeatureCollection", "features": features}
 
-	return jsonify(geojson = geojson, categoryCount = categoryCount)
+		if totalCount > 0:
+			for key in categoryCount.iterkeys():
+				categoryCount[key] = float(categoryCount[key])/float(totalCount) * 100
+
+		return jsonify(geojson = geojson, categoryCount = categoryCount)
 
 def r_find_index(lat,lng):
 	#do python stuff

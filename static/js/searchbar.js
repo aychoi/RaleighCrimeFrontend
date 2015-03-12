@@ -1,11 +1,12 @@
 // Now we've configured RequireJS, we can load our dependencies and start
-define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'geocoder', 'map', 'recentSearches', 'crimeIndex', 'summary', 'jquery', 'jqueryui', 'velocity', 'drag_drop'], function ( Ractive, events, html, geocoder, map, recentSearchesRactive, crimeIndexRactive, summaryRactive, $, jqueryui, Velocity, drag_drop) {
+define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'geocoder', 'map', 'recentSearches', 'crimeIndex', 'summary', 'jquery', 'jqueryui', 'velocity', 'drag_drop', 'leaflet_heat'], function ( Ractive, events, html, geocoder, map, recentSearchesRactive, crimeIndexRactive, summaryRactive, $, jqueryui, Velocity, drag_drop, leaflet_heat) {
 
 	animationID = 0;
 	//------------Setup Mapbox / Leaflet ---------\\
 	dayCrimes = L.mapbox.featureLayer().addTo(map);
 	nightCrimes = L.mapbox.featureLayer().addTo(map);
 	circleLayer = L.mapbox.featureLayer().addTo(map);
+	heatLayer = L.heatLayer([], {radius:15, max: 0.7}).addTo(map);
 	filters = crimeIndexRactive.get("filters");
 	dayCount = 0;
 	nightCount = 0;
@@ -73,7 +74,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	    });
     }
 
-    function populateMap(object, startDate, endDate)
+    function populateMap(object, startDate, endDate, callback)
     {
     	$.ajax({
 	        dataType: "json",
@@ -86,11 +87,35 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	            styleLayer(dayCrimes);
 			    nightCrimes.setGeoJSON(geojson);
 	            styleLayer(nightCrimes);
+	            console.log(json);
 
 	            crimeIndexRactive.set("indexRatio", nightCount/(nightCount + dayCount)*100);
 
 	            crimeIndexRactive.set("categoryCount", json["categoryCount"]);
 	            console.log(json["categoryCount"]);
+	            callback(object);
+	        }
+	    });
+    }
+
+    function updateIndex(object){
+    	$.ajax({
+	        url: "./crimeIndex/"+object["geo"]["lat"]+","+object["geo"]["lng"],
+	        dataTye: "json",
+	        success: function(json) {
+	            crimeIndexRactive.set("crimeIndex", json["crimeRatingYear"][5]);
+	            //var indexRatio = json["crimeRatingYear_night"][5] / (json["crimeRatingYear_day"][5] + json["crimeRatingYear_night"][5]) * 100;
+	            //crimeIndexRactive.set("indexRatio", indexRatio);
+
+
+	            summaryRactive.set("summary", json["crimeRatingYear"]);
+	            summaryRactive.set("day", json["crimeRatingYear_day"]);
+	            summaryRactive.set("night", json["crimeRatingYear_night"]);
+
+	            object["index"] = json["crimeRatingYear"][5];
+	            var isSame = recentSearchesRactive.get("hasSearch")(object);
+	            if (isSame == false) 
+	            	recentSearchesRactive.unshift('searches', object);
 	        }
 	    });
     }
@@ -134,30 +159,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	    var startDate = "20150101";
 	    var endDate = "20151231";
 	    lastSearch = object;
-		populateMap(object, startDate, endDate);
-		
-	    $.ajax({
-	        url: "./crimeIndex/"+object["geo"]["lat"]+","+object["geo"]["lng"],
-	        dataTye: "json",
-	        success: function(json) {
-	            crimeIndexRactive.set("crimeIndex", json["crimeRatingYear"][5]);
-	            //var indexRatio = json["crimeRatingYear_night"][5] / (json["crimeRatingYear_day"][5] + json["crimeRatingYear_night"][5]) * 100;
-	            //crimeIndexRactive.set("indexRatio", indexRatio);
-
-
-	            summaryRactive.set("summary", json["crimeRatingYear"]);
-	            summaryRactive.set("day", json["crimeRatingYear_day"]);
-	            summaryRactive.set("night", json["crimeRatingYear_night"]);
-
-	            object["index"] = json["crimeRatingYear"][5];
-	            var isSame = recentSearchesRactive.get("hasSearch")(object);
-	            if (isSame == false) 
-	            	recentSearchesRactive.unshift('searches', object);
-	            
-	            
-
-	        }
-	    });
+		populateMap(object, startDate, endDate, updateIndex);
     }
 
     function geoCodeQuery(latlng) {
@@ -212,6 +214,13 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     	
     }
 
+    function dateString(date){
+        var year = date.getFullYear().toString();
+        var month = (M=date.getMonth()+1)<10?('0'+M):M;
+        var day = (D=date.getDate()+1)<10?('0'+D):D;
+        return year+month+day
+    }
+
     crimeIndexRactive.on('updateFilters', function(event,filters) {
 	    console.log(filters);
 	    dayCrimes.setFilter(dayFilter);
@@ -244,7 +253,7 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
     });
 
     searchRactive.on( 'repopulateMap', function(event, startDate, endDate) {
-    	populateMap(lastSearch, startDate, endDate);
+    	populateMap(lastSearch, startDate, endDate, updateIndex);
     });
 
     searchRactive.on( 'currentLocation', function(event) {
@@ -325,9 +334,21 @@ define([ 'ractive', 'ractive_events_keys', 'rv!../ractive/searchbarTemplate', 'g
 	  	searchRactive.set('clickMode', true);
 	});
 
-
-
+	//add heat layer points
 	
+
+	var today = new Date();
+    var heatEndDate = dateString(today);
+    today.setMonth(today.getMonth()-3);
+    var heatStartDate = dateString(today);
+
+    $.ajax({
+        dataType: "json",
+        url: "./crimes/all,1,"+heatStartDate+","+heatEndDate,
+        success: function(json) {
+        	heatLayer.setLatLngs(json['crimes']);
+        }
+	});
 
 	
     return searchRactive;

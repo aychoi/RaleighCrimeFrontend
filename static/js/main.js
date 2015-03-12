@@ -11,7 +11,8 @@ require.config({
         ractive_events_keys: 'lib/ractive-events-keys.min',
         async: 'lib/async',
         bootstrap: 'lib/bootstrap.min',
-        drag_drop: 'lib/ractive.drag.drop'
+        drag_drop: 'lib/ractive.drag.drop',
+        leaflet_heat: 'lib/leaflet-heat'
     },
     shim: {
         "velocity": {
